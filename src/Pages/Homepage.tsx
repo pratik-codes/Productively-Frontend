@@ -11,40 +11,57 @@ import HomePage from "../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
 
 const Homepage: React.FC = () => {
-  const [pageOpen, setPageOpen] = useState("HomePage");
+  const [pageOpen, setPageOpen] = useState("Homepage");
 
   return (
     <>
       <div className="flex align-center justify-center h-5/6">
-        <div className="bg-white w-full  rounded-xl m-5 s  shadow-xl flex ">
+        <div className="bg-white w-full rounded-xl m-5 s  shadow-xl flex ">
           <div className="w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
-            <div onClick={() => setPageOpen("HomePage")}>
-              <SidebarCard title={"Homepage"} imgSrc={homepage} />
+            <div onClick={() => setPageOpen("Homepage")}>
+              <SidebarCard
+                activeTab={pageOpen}
+                title={"Homepage"}
+                imgSrc={homepage}
+              />
             </div>
-            <div onClick={() => setPageOpen("TaskList")}>
-              <SidebarCard title={"Task List"} imgSrc={tasklist} />
+            <div onClick={() => setPageOpen("Task List")}>
+              <SidebarCard
+                activeTab={pageOpen}
+                title={"Task List"}
+                imgSrc={tasklist}
+              />
             </div>
             <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               Learn
             </h1>
-            <div onClick={() => setPageOpen("FlashCard")}>
-              <SidebarCard title={"Flash Cards"} imgSrc={flashcard} />
+            <div onClick={() => setPageOpen("Flash Cards")}>
+              <SidebarCard
+                activeTab={pageOpen}
+                title={"Flash Cards"}
+                imgSrc={flashcard}
+              />
             </div>
             <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               Reflection
             </h1>
-            <div onClick={() => setPageOpen("Journals")}>
-              <SidebarCard title={"Journaling "} imgSrc={Journals} />
+            <div onClick={() => setPageOpen("Journaling")}>
+              <SidebarCard
+                activeTab={pageOpen}
+                title={"Journaling"}
+                imgSrc={Journals}
+              />
             </div>
           </div>
           <div className="w-10/12 h-full">
-            {pageOpen === "HomePage" && <HomePage />}
-            {pageOpen === "TaskList" && <TaskList />}
-            {pageOpen === "FlashCard" && <h1>FlashCard</h1>}
-            {pageOpen === "Journals" && <h1>Journals</h1>}
+            {pageOpen === "Homepage" && <HomePage />}
+            {pageOpen === "Task List" && <TaskList />}
+            {pageOpen === "Flash Cards" && <h1>FlashCard</h1>}
+            {pageOpen === "Journaling" && <h1>Journals</h1>}
           </div>
         </div>
       </div>
+      <br />
       <Footer />
     </>
   );

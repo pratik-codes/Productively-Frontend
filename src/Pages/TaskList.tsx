@@ -171,7 +171,7 @@ const TaskList = () => {
               New
             </button>
           </div>
-          <div className="p-10 h-full w-full grid grid-cols-4 gap-2  overflow-y-auto">
+          <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
             {TaskGroupData.map((taskGroup) => {
               return (
                 <div>

@@ -38,10 +38,10 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
   return (
     <div className="w-6/6 mx-auto">
       <div style={{ background: "#B095F6" }} className="rounded-2xl p-2 m-3">
-        <h1 className="ml-4 pt-3 mb-4 font-sans text-gray-800 text-2xl font-bold">
+        <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
           {title}
         </h1>
-        <h1 className="ml-4 mb-4 font-sans text-gray-800 text-l font-medium">
+        <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
           {description}
         </h1>
         <br></br>

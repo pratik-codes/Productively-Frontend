@@ -30,10 +30,10 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         <div className="flex justify-between">
           <div className="w-5/6">
             {console.log("GroupId", GroupId, "GroupName", GroupName)}
-            <h1 className="text-2xl font-sans font-bold text-gray-700 ml-4 mb-1">
+            <h1 className="text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
               Task Group: {GroupName}
             </h1>
-            <p className="text-xs font-sans w-3/6 text-gray-700 ml-4 mb-4">
+            <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
               {GroupDescription}
             </p>
           </div>
@@ -77,7 +77,7 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
           Task Status: Done ✅
         </h1>
       </div>
-      <div className="p-10 h-full w-full grid grid-cols-4 gap-2  overflow-y-auto">
+      <div className="p-10 w-full grid grid-cols-4 gap-2  overflow-y-auto">
         {Done &&
           Done.map((task) => {
             return (
