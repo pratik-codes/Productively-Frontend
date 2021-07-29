@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Footer from "../Components/Footer";
 import edit from "../Assets/icons/EditButton.png";
 import contact from "../Assets/icons/contact.svg";
-// import Productively from "../Assets/Productively.svg";
+import Productively from "../Assets/Productively.svg";
 
 const Dashboard = () => {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {});
   return (
     <>
-      <div className="bg-white h-5/6 rounded-xl m-5 shadow-xl align-center justify-center">
+      <div
+        style={{ height: "85%" }}
+        className="bg-white rounded-xl m-5 shadow-xl align-center justify-center"
+      >
         <div className="w-full">
-          <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-8xl m-5 p-5 md:text-8xl sm:text-8xl">
+          <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-7xl m-5 p-5 md:text-8xl sm:text-8xl">
             Dashboard
           </h1>
           <div className="w-full flex">
@@ -78,7 +84,12 @@ const Dashboard = () => {
                     alt="contact"
                   />
                 </div>
-                <div className="w-3/6 mx-auto p-10">
+                <div className="text-center w-3/6 mx-auto p-2">
+                  {/* <img
+                    className="mx-auto h-12 w-auto"
+                    src={Productively}
+                    alt="logo"
+                  /> */}
                   <form action="" className=" space-y-6">
                     <div className="rounded-md shadow-sm-space-y-px">
                       <div>
@@ -86,42 +97,27 @@ const Dashboard = () => {
                           Name
                         </label>
                         <input
-                          id="name"
-                          name="name"
-                          type="name"
-                          autoComplete="name"
-                          required
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                          maxLength={100}
+                          type="text"
                           placeholder="Name"
+                          // onChange={(e) => settaskGroupTitle(e.target.value)}
+                          // value={taskGroupTitle}
+                          className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                         />
-                      </div>
-                      <div>
-                        <label htmlFor="email-address" className="sr-only">
-                          Email address
-                        </label>
                         <input
-                          id="email-address"
-                          name="email"
+                          maxLength={100}
                           type="email"
-                          autoComplete="email"
-                          required
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                          placeholder="Email address"
+                          placeholder="Email"
+                          // onChange={(e) => settaskGroupTitle(e.target.value)}
+                          // value={taskGroupTitle}
+                          className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                         />
-                      </div>
-                      <div>
-                        <label htmlFor="email-address" className="sr-only">
-                          Message
-                        </label>
-                        <input
-                          id="email-address"
-                          name="Message"
-                          type="Message"
-                          autoComplete="Message"
-                          required
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                          placeholder="Message"
-                        />
+                        <textarea
+                          className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                          rows={3}
+                          onChange={(e) => setMessage(e.target.value)}
+                          placeholder="Enter message."
+                        ></textarea>
                       </div>
                     </div>
                     <div>
@@ -131,6 +127,7 @@ const Dashboard = () => {
                       >
                         Send
                       </button>
+                      <br />
                     </div>
                   </form>
                 </div>
