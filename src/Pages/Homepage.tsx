@@ -9,13 +9,17 @@ import "../styles/Common.css";
 import Footer from "../Components/Footer";
 import HomePage from "../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
+import Journaling from "./Journaling";
 
 const Homepage: React.FC = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
 
   return (
     <>
-      <div className="flex align-center justify-center h-5/6">
+      <div
+        style={{ height: "90%" }}
+        className="flex align-center justify-center"
+      >
         <div className="bg-white w-full rounded-xl m-5 s  shadow-xl flex ">
           <div className="w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
             <div onClick={() => setPageOpen("Homepage")}>
@@ -56,8 +60,8 @@ const Homepage: React.FC = () => {
           <div className="w-10/12 h-full">
             {pageOpen === "Homepage" && <HomePage />}
             {pageOpen === "Task List" && <TaskList />}
-            {pageOpen === "Flash Cards" && <h1>FlashCard</h1>}
-            {pageOpen === "Journaling" && <h1>Journals</h1>}
+            {pageOpen === "Flash Cards" && <h1>flashcards</h1>}
+            {pageOpen === "Journaling" && <Journaling />}
           </div>
         </div>
       </div>

@@ -136,7 +136,6 @@ const TaskList = () => {
     const groupId = taskListIsOpen;
 
     const groupdata = TaskGroupData.find((task) => task.GroupId === groupId);
-    // const title = groupdata?.title;
 
     const stateData = {
       GroupId: groupdata?.GroupId,
@@ -178,6 +177,7 @@ const TaskList = () => {
                   <TaskGroupCard
                     title={taskGroup.title}
                     description={taskGroup.description}
+                    color="#B095F6"
                     Open={() => setTaskListIsOpen(taskGroup.GroupId)}
                   />
                 </div>
