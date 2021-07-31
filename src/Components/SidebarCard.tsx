@@ -3,19 +3,11 @@ import React from "react";
 interface SideBarCardProps {
   title: string;
   imgSrc: string;
-  activeTab: string;
 }
 
-const SidebarCard: React.FC<SideBarCardProps> = ({
-  title,
-  imgSrc,
-  activeTab,
-}) => {
+const SidebarCard: React.FC<SideBarCardProps> = ({ title, imgSrc }) => {
   return (
-    <div
-      style={{ background: activeTab === title ? "#DDD6FE" : "#E5E7EB" }}
-      className="flex m-5 bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500"
-    >
+    <div className="flex m-5 bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500">
       <div className="flex items-center w-4/10">
         <img
           className="flex justify-center align-middle mx-4 w-7 h-7 text-gray-700"
