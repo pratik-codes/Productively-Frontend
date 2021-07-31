@@ -10,6 +10,7 @@ import Footer from "../Components/Footer";
 import HomePage from "../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
 import Journaling from "./Journaling";
+import FlashCardSection from "./FlashCardSection";
 
 const Homepage: React.FC = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
@@ -60,7 +61,7 @@ const Homepage: React.FC = () => {
           <div className="w-10/12 h-full">
             {pageOpen === "Homepage" && <HomePage />}
             {pageOpen === "Task List" && <TaskList />}
-            {pageOpen === "Flash Cards" && <h1>flashcards</h1>}
+            {pageOpen === "Flash Cards" && <FlashCardSection />}
             {pageOpen === "Journaling" && <Journaling />}
           </div>
         </div>

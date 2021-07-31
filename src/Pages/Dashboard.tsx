@@ -62,7 +62,7 @@ const Dashboard = () => {
               <br></br>
             </div>
             <div className="xl:w-7/12 l:w-9/12 md:w-12/12 sm:w-12/12 bg-white shadow-2xl rounded-2xl mx-auto px-5">
-              <h1 className="font-normal text-transparent bg-clip-text text-black xl:text-5xl m-5 p-5 pb-1 mb-1 md:text-5xl sm:text-3xl">
+              <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-5xl m-5 p-5 pb-1 mb-1 md:text-5xl sm:text-3xl">
                 Contact us!
               </h1>
               <p className=" text-gray-700 text-m ml-5 pl-5">

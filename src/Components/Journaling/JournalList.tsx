@@ -75,7 +75,7 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
           </button>
         </div>
       </div>
-      <div className="mx-auto px-10 py-5 w-full grid grid-cols-1 overflow-y-auto">
+      <div className="mx-auto px-10 py-5 w-full grid grid-cols-2 overflow-y-auto">
         {journals &&
           IsOpenJournal === "" &&
           journals.map((journal) => {

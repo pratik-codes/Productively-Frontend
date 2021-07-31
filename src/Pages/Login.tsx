@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="Aurora flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="bg-white rounded-2xl mt-20 p-7 max-w-md w-full space-y-8 shadow-2xl">
         <div>
           <img className="mx-auto h-12 w-auto" src={Productively} alt="logo" />

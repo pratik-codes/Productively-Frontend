@@ -35,7 +35,6 @@ const Journaling = () => {
           Back={() => setJournalListIsOpen("")}
         />
       )}
-      {console.log(journalListData.journal)}
       {journalListIsOpen === "" && (
         <div className="">
           <div className="flex justify-between w-5/6 mx-auto pt-10 mt-10">
