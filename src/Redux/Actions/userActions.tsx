@@ -9,7 +9,7 @@ import {
   USER_REGISTER_FAIL,
 } from "../Constants/user.constants";
 
-export const baseURL = "http://productively-by-pratik.herokuapp.com/";
+export const baseURL = "https://productively-by-pratik.herokuapp.com/";
 
 export const LoginAction =
   (email: string, password: string) => async (dispatch: Dispatch) => {
