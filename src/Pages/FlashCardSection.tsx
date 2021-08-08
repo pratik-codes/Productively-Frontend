@@ -24,7 +24,6 @@ const FlashCardSection = () => {
         (group) => group.flashCardGroupId === flashCardGroupId
       );
       setisOpenFlashCardGroupData(flashCardGroupData);
-      console.log(flashCardGroupData);
     }
   }, [isOpenFlashCardGroup]);
 

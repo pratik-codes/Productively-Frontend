@@ -1,40 +1,32 @@
 import React, { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-
+import { useToasts } from "react-toast-notifications";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import RemainderComponent from "./RemainderComponent";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "../../Redux/Store";
+import {
+  addRemainder,
+  getRemainders,
+} from "../../Redux/Actions/RemainderActions";
+import {
+  addRemaindersReducers,
+  remainderData,
+  RemainderData,
+} from "../../Redux/Reducers/remainderReducers";
+import { RemainderReduxState } from "../../Interfaces/Interfaces";
+import loader from "../loader";
+import Loader from "../loader";
 
 const Remainder = () => {
   let [isOpen, setIsOpen] = useState(false);
-  const [remaindertitle, setRemaindertitle] = useState("");
-  const [remainderdescription, setRemainderDescription] = useState("");
-  const [remainderdate, setRemainderDate] = useState();
-  const [remainderData, setRemainderData] = useState([
-    {
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      date: "12/12/2021",
-    },
-    {
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      date: "12/12/2021",
-    },
-    {
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      date: "12/12/2021",
-    },
-    {
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      date: "12/12/2021",
-    },
-  ]);
+  const [remainderTitle, setRemaindertitle] = useState("");
+  const [remainderDescription, setRemainderDescription] = useState("");
+  const [remainderDate, setRemainderDate] = useState();
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   function closeModal() {
     setIsOpen(false);
@@ -43,6 +35,34 @@ const Remainder = () => {
   function openModal() {
     setIsOpen(true);
   }
+
+  const Remainders: RemainderReduxState = useSelector(
+    (state: RootStore) => state.remainders
+  );
+
+  const addRemainderHandler = async () => {
+    if (!remainderDescription || !remainderTitle || !remainderDate) {
+      addToast("Title, description or date cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      dispatch(
+        addRemainder(remainderTitle, remainderDescription, remainderDate)
+      );
+      addToast("remainder added successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      dispatch(getRemainders());
+      setRemaindertitle("");
+      setRemainderDescription("");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getRemainders());
+  }, []);
 
   return (
     <div className="rounded-2xl h-full overflow-y-auto">
@@ -105,14 +125,14 @@ const Remainder = () => {
                     <input
                       type="text"
                       maxLength={50}
-                      value={remaindertitle}
+                      value={remainderTitle}
                       onChange={(e) => setRemaindertitle(e.target.value)}
                       placeholder="Remainder Title"
                       className="px-3 py-2 mt-3 mb-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                     />
                     <div className="flex justify-end">
                       <p style={{ fontSize: "0.8rem" }}>
-                        {remaindertitle.length}/50
+                        {remainderTitle.length}/50
                       </p>
                     </div>
                     <input
@@ -120,18 +140,19 @@ const Remainder = () => {
                       placeholder="Description"
                       maxLength={150}
                       onChange={(e) => setRemainderDescription(e.target.value)}
-                      value={remainderdescription}
+                      value={remainderDescription}
                       className="px-3 py-2 mt-3 mb-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                     />
                     <div className="flex justify-end">
                       <p style={{ fontSize: "0.8rem" }}>
-                        {remainderdescription.length}/150
+                        {remainderDescription.length}/150
                       </p>
                     </div>
                     <div className="w-full">
                       <DatePickerComponent
                         id="datepicker"
                         placeholder="Select Date"
+                        onChange={(e: any) => setRemainderDate(e.target.value)}
                         min={new Date()}
                       />
                     </div>
@@ -141,7 +162,10 @@ const Remainder = () => {
                     <button
                       type="button"
                       className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModal}
+                      onClick={() => {
+                        addRemainderHandler();
+                        closeModal();
+                      }}
                     >
                       add!
                     </button>
@@ -158,18 +182,70 @@ const Remainder = () => {
             </div>
           </Dialog>
         </Transition>
+        <br></br>
+        <br></br>
+        <div className="flex justify-between mb-2">
+          <h1 className="text-2xl font-sans font-bold text-black ml-4 mb-4">
+            Upcoming ⏭️
+          </h1>
+          <br />
+        </div>
         <div className="w-full grid grid-cols-2 gap-2">
-          {remainderData.map((remainder) => {
-            return (
-              <div>
-                <RemainderComponent
-                  title={remainder.title}
-                  description={remainder.description}
-                  date={remainder.date}
-                />
+          {!Remainders.data ? (
+            <Loader />
+          ) : Remainders.data.Upcoming.length === 0 ? (
+            <div className="">
+              <br />
+              <h1 className="text-l ml-5 font-bold">No upcoming remainders</h1>
+              <br />
+            </div>
+          ) : (
+            Remainders.data.Upcoming.map((remainder: remainderData) => {
+              return (
+                <div style={{ marginBottom: "2rem" }}>
+                  <RemainderComponent
+                    id={remainder._id}
+                    title={remainder.remainderName}
+                    description={remainder.remainderDescription}
+                    date={remainder.remainderDate}
+                  />
+                </div>
+              );
+            })
+          )}
+        </div>
+        <br></br>
+        <br></br>
+        <div className="mb-2">
+          <h1 className="text-2xl font-sans font-bold text-black ml-4 mb-4">
+            Past 🔙
+          </h1>
+          <br />
+
+          <div className="w-full grid grid-cols-2 gap-4">
+            {!Remainders.data ? (
+              <Loader />
+            ) : Remainders.data.Past.length === 0 ? (
+              <div className="">
+                <br />
+                <h1 className="text-l ml-5 font-bold">No past remainders</h1>
+                <br />
               </div>
-            );
-          })}
+            ) : (
+              Remainders.data.Past.map((remainder: remainderData) => {
+                return (
+                  <div>
+                    <RemainderComponent
+                      id={remainder._id}
+                      title={remainder.remainderName}
+                      description={remainder.remainderDescription}
+                      date={remainder.remainderDate}
+                    />
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>

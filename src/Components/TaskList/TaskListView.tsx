@@ -29,7 +29,6 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
       <div className="p-10 mx-auto pt-10 mt-10">
         <div className="flex justify-between">
           <div className="w-5/6">
-            {console.log("GroupId", GroupId, "GroupName", GroupName)}
             <h1 className="text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
               Task Group: {GroupName}
             </h1>
