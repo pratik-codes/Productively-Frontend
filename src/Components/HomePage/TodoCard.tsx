@@ -1,17 +1,27 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import TodoCardComponent from "./TodoCardComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "../../Redux/Store";
+import { addPriority, getPriority } from "../../Redux/Actions/priorityActions";
+import { useToasts } from "react-toast-notifications";
+import { PrioritiesReduxState } from "../../Interfaces/Interfaces";
+import {
+  addPriorityReducers,
+  PriorityData,
+} from "../../Redux/Reducers/priorityReducers";
+import Loader from "../loader";
 
 const TodoCard: React.FC = () => {
-  const [addPriority, setAddPriority] = useState(false);
+  const [addPriorities, setAddPriorities] = useState("");
   let [isOpen, setIsOpen] = useState(false);
 
-  const [tasks, setTasks] = useState([
-    { task: "Lorem ipsum dolor sit amet consectetur adipisicing elit." },
-    { task: "Lorem ipsum dolor sit amet consectetur adipisicing elit." },
-    { task: "Lorem ipsum dolor sit amet consectetur adipisicing elit." },
-    { task: "Lorem ipsum dolor sit amet consectetur adipisicing elit." },
-  ]);
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
+
+  const Priorities: PrioritiesReduxState = useSelector(
+    (state: RootStore) => state.priorities
+  );
 
   function closeModal() {
     setIsOpen(false);
@@ -21,13 +31,33 @@ const TodoCard: React.FC = () => {
     setIsOpen(true);
   }
 
+  useEffect(() => {
+    dispatch(getPriority());
+  }, []);
+
+  const addPriorityHandler = async () => {
+    if (addPriorities) {
+      await dispatch(addPriority(addPriorities));
+      addToast("priority added successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      dispatch(getPriority());
+    } else {
+      addToast("Priority cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
+
   return (
     <div className="h-full overflow-y-auto">
       <div className=" h-6/6 m-5   ">
         <br />
         <div className="flex justify-between">
           <h1 className="text-2xl font-sans font-bold text-blue-800 ml-4 mb-4">
-            Top 5 Priorities 🌟
+            Top priorities for today 🌟
           </h1>
           <button
             onClick={openModal}
@@ -83,6 +113,7 @@ const TodoCard: React.FC = () => {
                       <input
                         type="text"
                         placeholder="Priority Description"
+                        onChange={(e) => setAddPriorities(e.target.value)}
                         className="px-3 py-2  my-3 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                       />
                     </div>
@@ -91,7 +122,10 @@ const TodoCard: React.FC = () => {
                       <button
                         type="button"
                         className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={closeModal}
+                        onClick={() => {
+                          closeModal();
+                          addPriorityHandler();
+                        }}
                       >
                         add!
                       </button>
@@ -108,13 +142,17 @@ const TodoCard: React.FC = () => {
               </div>
             </Dialog>
           </Transition>
-          {tasks.map((task) => {
-            return (
-              <div>
-                <TodoCardComponent task={task.task} />
-              </div>
-            );
-          })}
+          {!Priorities.data ? (
+            <Loader />
+          ) : (
+            Priorities.data.map((task: PriorityData) => {
+              return (
+                <div>
+                  <TodoCardComponent id={task._id} task={task.priority} />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

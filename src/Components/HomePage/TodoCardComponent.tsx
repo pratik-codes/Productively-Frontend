@@ -1,16 +1,26 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
+import {
+  editPriorityDetails,
+  getPriority,
+} from "../../Redux/Actions/priorityActions";
+import { useToasts } from "react-toast-notifications";
+import { useDispatch } from "react-redux";
 
 interface TodoCardComponentProps {
+  id: string;
   task: string;
 }
 
-const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ task }) => {
-  const [prioritydescription, setPriorityDescription] = useState("");
+const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
+  const [priorityDescription, setPriorityDescription] = useState("");
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   function closeEditModal() {
     setEditIsOpen(false);
@@ -27,6 +37,25 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ task }) => {
     setDeleteIsOpen(true);
   }
 
+  useEffect(() => {
+    setPriorityDescription(task);
+  }, [task]);
+
+  const editPriority = async () => {
+    if (priorityDescription) {
+      await dispatch(editPriorityDetails(id, priorityDescription));
+      dispatch(getPriority());
+      addToast("priority added successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } else {
+      addToast("Priority cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
   return (
     <>
       <div className="bg-blue-100 rounded-2xl my-4 p-4">
@@ -94,12 +123,12 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ task }) => {
                           onChange={(e) =>
                             setPriorityDescription(e.target.value)
                           }
-                          value={prioritydescription}
+                          value={priorityDescription}
                           className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                         />
                         <div className="flex justify-end">
                           <p style={{ fontSize: "0.8rem" }}>
-                            {prioritydescription.length}/50
+                            {priorityDescription.length}/50
                           </p>
                         </div>
                       </div>
@@ -107,7 +136,10 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ task }) => {
                         <button
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeEditModal}
+                          onClick={() => {
+                            closeEditModal();
+                            editPriority();
+                          }}
                         >
                           Edit!
                         </button>

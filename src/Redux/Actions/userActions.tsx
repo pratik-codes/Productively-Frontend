@@ -9,6 +9,8 @@ import {
   USER_REGISTER_FAIL,
 } from "../Constants/user.constants";
 
+export const baseURL = "http://productively-by-pratik.herokuapp.com/";
+
 export const LoginAction =
   (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
@@ -22,7 +24,7 @@ export const LoginAction =
       };
       // hitting login api
       const { data } = await axios.post(
-        "http://localhost:3000/users/signin",
+        `${baseURL}users/signin`,
         { email, password },
         config
       );
@@ -60,7 +62,7 @@ export const RegisterAction =
       };
       // hitting login api
       const { data } = await axios.post(
-        "http://localhost:3000/users/signup",
+        `${baseURL}users/signup`,
         { email, password },
         config
       );

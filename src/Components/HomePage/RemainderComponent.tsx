@@ -1,25 +1,36 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { useDispatch } from "react-redux";
+import {
+  editRemainderDetails,
+  getRemainders,
+} from "../../Redux/Actions/RemainderActions";
+import { useToasts } from "react-toast-notifications";
 
 interface RemainderComponentProps {
+  id: string;
   title: string;
   description: string;
-  date: string;
+  date: Date;
 }
 
 const RemainderComponent: React.FC<RemainderComponentProps> = ({
+  id,
   title,
   description,
   date,
 }) => {
-  const [remaindertitle, setRemaindertitle] = useState("");
-  const [remainderdescription, setRemainderDescription] = useState("");
-  const [remainderdate, setRemainderDate] = useState();
+  const [remainderTitle, setRemainderTitle] = useState("");
+  const [remainderDescription, setRemainderDescription] = useState("");
+  const [remainderDate, setRemainderDate] = useState<Date>();
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   function closeEditModal() {
     setEditIsOpen(false);
@@ -36,9 +47,43 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
     setDeleteIsOpen(true);
   }
 
+  useEffect(() => {
+    if (title) {
+      setRemainderTitle(title);
+      setRemainderDescription(description);
+      setRemainderDate(date);
+    }
+  }, [title, description, date]);
+
+  const EditButtonHandler = () => {
+    if (!remainderTitle || !remainderDescription || !remainderDate) {
+      addToast("Title, description or date cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      dispatch(
+        editRemainderDetails(
+          id,
+          remainderTitle,
+          remainderDescription,
+          remainderDate
+        )
+      );
+      dispatch(getRemainders());
+      addToast("remainder edited successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    }
+  };
+
   return (
-    <div className="w-5/6 mx-auto">
-      <div style={{ background: "#FFCF7D" }} className="rounded-2xl p-2 m-3">
+    <div className="w-5/6 h-full mx-auto">
+      <div
+        style={{ background: "#FFCF7D" }}
+        className="rounded-2xl p-2 m- h-full flex flex-col justify-between"
+      >
         <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
           {title}
         </h1>
@@ -47,7 +92,9 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
         </h1>
         <br></br>
         <div className="flex justify-between">
-          <h1 className="ml-4 mt-6 font-sans text-xs font-bold">{date}</h1>
+          <h1 className="ml-4 mt-6 font-sans text-xs font-bold ">
+            {date.toString().split("T")[0]}
+          </h1>
           <div className="flex">
             <div
               style={{ borderRadius: "100px" }}
@@ -107,13 +154,13 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                           maxLength={50}
                           type="text"
                           placeholder="Remainder Title"
-                          onChange={(e) => setRemaindertitle(e.target.value)}
-                          value={remaindertitle}
+                          onChange={(e) => setRemainderTitle(e.target.value)}
+                          value={remainderTitle}
                           className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                         />
                         <div className="flex justify-end">
                           <p style={{ fontSize: "0.8rem" }}>
-                            {remaindertitle.length}/50
+                            {remainderTitle.length}/50
                           </p>
                         </div>
                         <input
@@ -123,12 +170,12 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                           onChange={(e) =>
                             setRemainderDescription(e.target.value)
                           }
-                          value={remainderdescription}
+                          value={remainderDescription}
                           className="px-3 py-2 mt-3  border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                         />
                         <div className="flex justify-end">
                           <p style={{ fontSize: "0.8rem" }}>
-                            {remainderdescription.length}/150
+                            {remainderDescription.length}/150
                           </p>
                         </div>
 
@@ -137,7 +184,7 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                             id="datepicker"
                             placeholder="Select Date"
                             min={new Date()}
-                            value={remainderdate}
+                            value={remainderDate}
                           />
                         </div>
                       </div>
@@ -145,7 +192,10 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                         <button
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeEditModal}
+                          onClick={() => {
+                            closeEditModal();
+                            EditButtonHandler();
+                          }}
                         >
                           Edit!
                         </button>

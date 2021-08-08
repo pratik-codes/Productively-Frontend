@@ -42,7 +42,6 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
         (journal) => journal.journalId === journalId
       );
       setSelectedJournalData(groupdata);
-      console.log(groupdata);
     }
   });
 
@@ -90,7 +89,6 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
             );
           })}
       </div>
-      {console.log(SelectedJournalData)}
       {SelectedJournalData && IsOpenJournal !== "" && (
         <Journal
           title={SelectedJournalData.journalTitle}

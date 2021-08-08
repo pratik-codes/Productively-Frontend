@@ -19,6 +19,7 @@ type Action = {
   type: string;
   payload?: boolean;
 };
+
 export const userLoginReducer = (
   state = userInitialBasicState,
   action: Action
