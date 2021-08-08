@@ -18,7 +18,6 @@ export default function NavBar() {
   }, [login]);
 
   const logout = () => {
-    console.log("logout");
     window.localStorage.removeItem("accessToken");
     window.location.reload();
   };

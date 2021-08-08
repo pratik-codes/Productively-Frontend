@@ -18,7 +18,6 @@ const Journaling = () => {
       const groupdata = JournalingGroupData.find(
         (journal) => journal.GroupId === journalId
       );
-      console.log(groupdata);
       setJournalListData(groupdata);
     }
   });
