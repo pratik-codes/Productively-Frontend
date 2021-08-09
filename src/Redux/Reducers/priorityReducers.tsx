@@ -5,6 +5,9 @@ import {
   USER_CREATE_PRIORITY_FAIL,
   USER_CREATE_PRIORITY_REQUEST,
   USER_CREATE_PRIORITY_SUCCESS,
+  USER_PRIORITY_DELETE_FAIL,
+  USER_PRIORITY_DELETE_REQUEST,
+  USER_PRIORITY_DELETE_SUCCESS,
   USER_PRIORITY_DETAILS_EDIT_FAIL,
   USER_PRIORITY_DETAILS_EDIT_REQUEST,
   USER_PRIORITY_DETAILS_EDIT_SUCCESS,
@@ -80,6 +83,22 @@ export const editPriorityReducers = (
     case USER_PRIORITY_DETAILS_EDIT_SUCCESS:
       return { loading: false, data: action.payload };
     case USER_PRIORITY_DETAILS_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const deletePriorityReducers = (
+  state = addPriorityInitialState,
+  action: addPriorityAction
+) => {
+  switch (action.type) {
+    case USER_PRIORITY_DELETE_REQUEST:
+      return { loading: true };
+    case USER_PRIORITY_DELETE_SUCCESS:
+      return { loading: false, data: action.payload };
+    case USER_PRIORITY_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

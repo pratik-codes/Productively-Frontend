@@ -138,40 +138,40 @@ export const editRemainderDetails =
     }
   };
 
-// export const deleteRemainder =
-//   (remainderId: string) => async (dispatch: Dispatch) => {
-//     try {
-//       dispatch({
-//         type: USER_REMAINDER_DELETE_REQUEST,
-//       });
-//       const token = localStorage.getItem("accessToken");
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//       };
-//       const Body = {
-//         remainderId: remainderId,
-//       };
-//       // hitting REMAINDER api
-//       const { data } = await Axios.delete(`${baseURL}remainder`, Body, config);
-//       // only make success if the response is success
-//       if (data.statusCode === 200) {
-//         dispatch({
-//           type: USER_REMAINDER_DELETE_SUCCESS,
-//           payload: true,
-//         });
-//         // setting the accesstoken to the local storage
-//         localStorage.setItem("accessToken", data.data.accessToken);
-//       }
-//     } catch (error) {
-//       dispatch({
-//         type: USER_REMAINDER_DELETE_FAIL,
-//         payload:
-//           error.response && error.response.data.message
-//             ? error.response.data.message
-//             : error.message,
-//       });
-//     }
-//   };
+export const deleteRemainder =
+  (remainderId: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_REMAINDER_DELETE_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      // hitting REMAINDER api
+      const { data } = await Axios.delete(
+        `${baseURL}remainder/${remainderId}`,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_REMAINDER_DELETE_SUCCESS,
+          payload: true,
+        });
+        // setting the accesstoken to the local storage
+        localStorage.setItem("accessToken", data.data.accessToken);
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_REMAINDER_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

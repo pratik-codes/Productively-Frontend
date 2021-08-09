@@ -19,3 +19,23 @@ export interface PrioritiesReduxState {
   loading: string;
   data: PriorityData[];
 }
+
+// task list section
+
+export interface TaskListReduxState {
+  loading: boolean;
+  data: TaskGroup[];
+}
+export interface TaskGroup {
+  taskGroupId: string;
+  taskGroupName: string;
+  taskGroupDescription: string;
+  tasks: { Pending: Task[]; Done: Task[] };
+}
+
+export interface Task {
+  taskId: string;
+  taskName: string;
+  taskDescription: string;
+  taskStatus: string;
+}

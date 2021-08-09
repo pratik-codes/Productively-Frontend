@@ -57,7 +57,7 @@ const TodoCard: React.FC = () => {
         <br />
         <div className="flex justify-between">
           <h1 className="text-2xl font-sans font-bold text-blue-800 ml-4 mb-4">
-            Top priorities for today 🌟
+            Today's Priorities 🌟
           </h1>
           <button
             onClick={openModal}
@@ -144,6 +144,12 @@ const TodoCard: React.FC = () => {
           </Transition>
           {!Priorities.data ? (
             <Loader />
+          ) : Priorities.data.length === 0 ? (
+            <div className="">
+              <br />
+              <h1 className="text-l ml-5 font-bold">No priorities</h1>
+              <br />
+            </div>
           ) : (
             Priorities.data.map((task: PriorityData) => {
               return (

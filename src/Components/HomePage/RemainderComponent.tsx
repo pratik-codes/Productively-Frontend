@@ -5,6 +5,7 @@ import deleteIcon from "../../Assets/icons/Delete.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { useDispatch } from "react-redux";
 import {
+  deleteRemainder,
   editRemainderDetails,
   getRemainders,
 } from "../../Redux/Actions/RemainderActions";
@@ -76,6 +77,15 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
         autoDismiss: true,
       });
     }
+  };
+
+  const deleteButtonHandler = async () => {
+    await dispatch(deleteRemainder(id));
+    addToast("Deleted successfully.", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    dispatch(getRemainders());
   };
 
   return (
@@ -274,7 +284,10 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                         <button
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeDeleteModal}
+                          onClick={() => {
+                            closeDeleteModal();
+                            deleteButtonHandler();
+                          }}
                         >
                           delete
                         </button>
