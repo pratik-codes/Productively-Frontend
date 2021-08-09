@@ -1,152 +1,53 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+import Loader from "../Components/loader";
 import TaskGroupCard from "../Components/TaskList/TaskGroupCard";
 import TaskListView, {
   TaskListViewProps,
 } from "../Components/TaskList/TaskListView";
+import { TaskGroup, TaskListReduxState } from "../Interfaces/Interfaces";
+import { getTaskList } from "../Redux/Actions/taskActions";
+import { RootStore } from "../Redux/Store";
 
 const TaskList = () => {
   const [taskListIsOpen, setTaskListIsOpen] = useState("");
-  const [taskListData, setTaskListData] = useState<
-    TaskListViewProps | undefined
-  >();
-  const [TaskGroupData, setTaskGroupData] = useState([
-    {
-      GroupId: "1",
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      tasks: {
-        Pending: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-        ],
-        Done: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "DONE",
-          },
-        ],
-      },
-    },
-    {
-      GroupId: "2",
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      tasks: {
-        Pending: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-        ],
-        Done: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "DONE",
-          },
-        ],
-      },
-    },
-    {
-      GroupId: "3",
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      tasks: {
-        Pending: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-        ],
-        Done: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "DONE",
-          },
-        ],
-      },
-    },
-    {
-      GroupId: "4",
-      title: "Demo title",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint coaxime mollitia,molestiae quas vel sint ",
-      tasks: {
-        Pending: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "PENDING",
-          },
-        ],
-        Done: [
-          {
-            taskTitle: "Demo Title",
-            Description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,mol",
-            Status: "DONE",
-          },
-        ],
-      },
-    },
-  ]);
+  const [taskListData, setTaskListData] = useState<any>();
+
+  const TaskListGroups: TaskListReduxState = useSelector(
+    (state: RootStore) => state.taskListGroups
+  );
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   useEffect(() => {
-    const groupId = taskListIsOpen;
+    dispatch(getTaskList());
+    console.log(TaskListGroups);
+  }, []);
+  useEffect(() => {
+    console.log(TaskListGroups);
+  }, []);
 
-    const groupdata = TaskGroupData.find((task) => task.GroupId === groupId);
+  useEffect(() => {
+    if (taskListIsOpen !== "") {
+      const groupId = taskListIsOpen;
 
-    const stateData = {
-      GroupId: groupdata?.GroupId,
-      GroupName: groupdata?.title,
-      GroupDescription: groupdata?.description,
-      Pending: groupdata?.tasks.Pending,
-      Done: groupdata?.tasks.Done,
-      Back: () => setTaskListIsOpen(""),
-    };
-    setTaskListData(stateData);
-  });
+      const groupdata = TaskListGroups.data.find(
+        (task) => task.taskGroupId === groupId
+      );
+
+      const stateData = {
+        GroupId: groupdata?.taskGroupId,
+        GroupName: groupdata?.taskGroupName,
+        GroupDescription: groupdata?.taskGroupDescription,
+        Pending: groupdata?.tasks.Pending,
+        Done: groupdata?.tasks.Done,
+        Back: () => setTaskListIsOpen(""),
+      };
+      setTaskListData(stateData);
+    }
+  }, [taskListIsOpen]);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -171,18 +72,22 @@ const TaskList = () => {
             </button>
           </div>
           <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
-            {TaskGroupData.map((taskGroup) => {
-              return (
-                <div>
-                  <TaskGroupCard
-                    title={taskGroup.title}
-                    description={taskGroup.description}
-                    color="#B095F6"
-                    Open={() => setTaskListIsOpen(taskGroup.GroupId)}
-                  />
-                </div>
-              );
-            })}
+            {!TaskListGroups.data ? (
+              <Loader />
+            ) : (
+              TaskListGroups.data.map((taskGroup) => {
+                return (
+                  <div>
+                    <TaskGroupCard
+                      title={taskGroup.taskGroupName}
+                      description={taskGroup.taskGroupDescription}
+                      color="#B095F6"
+                      Open={() => setTaskListIsOpen(taskGroup.taskGroupId)}
+                    />
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       )}

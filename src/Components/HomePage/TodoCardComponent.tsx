@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
 import {
+  deletePriority,
   editPriorityDetails,
   getPriority,
 } from "../../Redux/Actions/priorityActions";
@@ -56,6 +57,16 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
       });
     }
   };
+
+  const deletePriorityHandler = async () => {
+    await dispatch(deletePriority(id));
+    addToast("priority deleted successfully.", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    dispatch(getPriority());
+  };
+
   return (
     <>
       <div className="bg-blue-100 rounded-2xl my-4 p-4">
@@ -218,7 +229,10 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
                         <button
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeDeleteModal}
+                          onClick={() => {
+                            closeDeleteModal();
+                            deletePriorityHandler();
+                          }}
                         >
                           delete
                         </button>

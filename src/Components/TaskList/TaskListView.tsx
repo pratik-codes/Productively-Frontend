@@ -1,12 +1,13 @@
 import React from "react";
+import { Task } from "../../Interfaces/Interfaces";
 import TaskCard from "./TaskCard";
 
 export interface TaskListViewProps {
   GroupId: string | undefined;
   GroupName: string | undefined;
   GroupDescription: string | undefined;
-  Pending: TaskList[] | undefined;
-  Done: TaskList[] | undefined;
+  Pending: Task[] | undefined;
+  Done: Task[] | undefined;
   Back: any;
 }
 
@@ -62,8 +63,8 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
             return (
               <div>
                 <TaskCard
-                  title={task.taskTitle}
-                  description={task.Description}
+                  title={task.taskName}
+                  description={task.taskDescription}
                   color="#DBEAFE"
                 />
               </div>
@@ -82,8 +83,8 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
             return (
               <div>
                 <TaskCard
-                  title={task.taskTitle}
-                  description={task.Description}
+                  title={task.taskName}
+                  description={task.taskDescription}
                   color="#E6EE96"
                 />
               </div>
