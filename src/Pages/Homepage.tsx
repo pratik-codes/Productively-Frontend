@@ -67,7 +67,6 @@ const Homepage: React.FC = () => {
         </div>
       </div>
       <br />
-      <Footer />
     </>
   );
 };

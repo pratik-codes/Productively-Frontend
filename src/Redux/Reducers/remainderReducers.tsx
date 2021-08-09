@@ -5,6 +5,9 @@ import {
   USER_CREATE_REMAINDER_FAIL,
   USER_CREATE_REMAINDER_REQUEST,
   USER_CREATE_REMAINDER_SUCCESS,
+  USER_REMAINDER_DELETE_FAIL,
+  USER_REMAINDER_DELETE_REQUEST,
+  USER_REMAINDER_DELETE_SUCCESS,
   USER_REMAINDER_DETAILS_EDIT_FAIL,
   USER_REMAINDER_DETAILS_EDIT_REQUEST,
   USER_REMAINDER_DETAILS_EDIT_SUCCESS,
@@ -83,6 +86,22 @@ export const editRemaindersReducers = (
     case USER_REMAINDER_DETAILS_EDIT_SUCCESS:
       return { loading: false, data: action.payload };
     case USER_REMAINDER_DETAILS_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const deleteRemaindersReducers = (
+  state = addRemainderInitialState,
+  action: addRemainderAction
+) => {
+  switch (action.type) {
+    case USER_REMAINDER_DELETE_REQUEST:
+      return { loading: true };
+    case USER_REMAINDER_DELETE_SUCCESS:
+      return { loading: false, data: action.payload };
+    case USER_REMAINDER_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
