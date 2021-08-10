@@ -56,14 +56,14 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
     }
   }, [title, description, date]);
 
-  const EditButtonHandler = () => {
+  const EditButtonHandler = async () => {
     if (!remainderTitle || !remainderDescription || !remainderDate) {
       addToast("Title, description or date cant be empty.", {
         appearance: "error",
         autoDismiss: true,
       });
     } else {
-      dispatch(
+      await dispatch(
         editRemainderDetails(
           id,
           remainderTitle,
@@ -71,11 +71,11 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
           remainderDate
         )
       );
-      dispatch(getRemainders());
       addToast("remainder edited successfully.", {
         appearance: "success",
         autoDismiss: true,
       });
+      dispatch(getRemainders());
     }
   };
 
@@ -92,7 +92,7 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
     <div className="w-5/6 h-full mx-auto">
       <div
         style={{ background: "#FFCF7D" }}
-        className="rounded-2xl p-2 m- h-full flex flex-col justify-between"
+        className="rounded-2xl p-2 m- h-full flex flex-col justify-between break-words"
       >
         <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
           {title}

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import Loader from "../Components/loader";
@@ -7,10 +8,13 @@ import TaskListView, {
   TaskListViewProps,
 } from "../Components/TaskList/TaskListView";
 import { TaskGroup, TaskListReduxState } from "../Interfaces/Interfaces";
-import { getTaskList } from "../Redux/Actions/taskActions";
+import { addTaskGroup, getTaskList } from "../Redux/Actions/taskActions";
 import { RootStore } from "../Redux/Store";
 
 const TaskList = () => {
+  let [isOpen, setIsOpen] = useState(false);
+  const [addGroupTitle, setaddGroupTitle] = useState("");
+  const [addGroupDescription, setaddGroupDescription] = useState("");
   const [taskListIsOpen, setTaskListIsOpen] = useState("");
   const [taskListData, setTaskListData] = useState<any>();
 
@@ -20,6 +24,32 @@ const TaskList = () => {
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  const addTaskGroupHandler = async () => {
+    if (addGroupDescription || addGroupTitle) {
+      await dispatch(addTaskGroup(addGroupTitle, addGroupDescription));
+      addToast("Task group added successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      dispatch(getTaskList());
+      setaddGroupTitle("");
+      setaddGroupDescription("");
+    } else {
+      addToast("title and description are required.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
 
   useEffect(() => {
     dispatch(getTaskList());
@@ -58,7 +88,8 @@ const TaskList = () => {
           GroupDescription={taskListData?.GroupDescription}
           Pending={taskListData?.Pending}
           Done={taskListData?.Done}
-          Back={() => setTaskListIsOpen("")}
+          // Back={() => setTaskListIsOpen("")}
+          Back={setTaskListIsOpen}
         />
       )}
       {taskListIsOpen === "" && (
@@ -67,9 +98,109 @@ const TaskList = () => {
             <h1 className="text-2xl font-sans font-bold text-purple-700 ml-4 mb-4">
               Task Groups 📝
             </h1>
-            <button className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500">
+            <button
+              onClick={openModal}
+              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500"
+            >
               New
             </button>
+            <Transition appear show={isOpen} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto"
+                onClose={openModal}
+              >
+                <div className=" px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0" />
+                  </Transition.Child>
+
+                  {/* This element is to trick the browser into centering the modal contents. */}
+                  <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                  >
+                    &#8203;
+                  </span>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                      >
+                        Add TaskList Group
+                      </Dialog.Title>
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          maxLength={50}
+                          value={addGroupTitle}
+                          onChange={(e) => setaddGroupTitle(e.target.value)}
+                          placeholder="Group Title"
+                          className="px-3 py-2 mt-3 mb-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                        />
+                        <div className="flex justify-end">
+                          <p style={{ fontSize: "0.8rem" }}>
+                            {addGroupTitle.length}/50
+                          </p>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Description"
+                          maxLength={150}
+                          onChange={(e) =>
+                            setaddGroupDescription(e.target.value)
+                          }
+                          value={addGroupDescription}
+                          className="px-3 py-2 mt-3 mb-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                        />
+                        <div className="flex justify-end">
+                          <p style={{ fontSize: "0.8rem" }}>
+                            {addGroupDescription.length}/150
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-4">
+                        <button
+                          type="button"
+                          className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={() => {
+                            closeModal();
+                            addTaskGroupHandler();
+                          }}
+                        >
+                          add!
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={closeModal}
+                        >
+                          cancel
+                        </button>
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
           </div>
           <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
             {!TaskListGroups.data ? (
@@ -77,8 +208,9 @@ const TaskList = () => {
             ) : (
               TaskListGroups.data.map((taskGroup) => {
                 return (
-                  <div>
+                  <div style={{ marginBottom: "2rem" }}>
                     <TaskGroupCard
+                      id={taskGroup.taskGroupId}
                       title={taskGroup.taskGroupName}
                       description={taskGroup.taskGroupDescription}
                       color="#B095F6"

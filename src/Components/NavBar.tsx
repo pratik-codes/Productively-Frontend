@@ -52,9 +52,10 @@ export default function NavBar() {
             </button>
           </Link>
         </div>
+        {/* for gradient -> bg-gradient-to-r from-purple-400 to-blue-500 */}
         <div className="flex bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl px-2 ">
           <div className="flex flex-wrap content-center">
-            <img className="h-8" src={Productively} alt="logo" />
+            <img className="h-7" src={Productively} alt="logo" />
           </div>
           <div className="grid-cols-8">
             <Link to="/">
@@ -68,13 +69,13 @@ export default function NavBar() {
           {login ? (
             <button
               onClick={logout}
-              className="focus:outline-none border-gray-500 p-3 text-sm font-medium text-gray-300 hover:text-white duration-300"
+              className="focus:outline-none p-3 text-sm font-medium text-gray-300 hover:text-white duration-300"
             >
               LOGOUT
             </button>
           ) : (
             <Link to="/register">
-              <button className="focus:outline-none border-gray-500 p-3 text-sm font-medium text-gray-300 hover:text-white duration-300">
+              <button className="focus:outline-none p-3 text-sm font-medium text-gray-300 hover:text-white duration-300 mt-1">
                 REGISTER
               </button>
             </Link>
