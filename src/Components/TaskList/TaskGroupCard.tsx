@@ -18,6 +18,7 @@ interface RemainderComponentProps {
   description: string;
   color: string;
   Open: any;
+  type: string;
 }
 
 const TaskGroupCard: React.FC<RemainderComponentProps> = ({
@@ -26,6 +27,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
   description,
   color,
   Open,
+  type,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
@@ -56,18 +58,35 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
   }, []);
 
   const editTaskGroupDetailsHandler = async () => {
-    if (!taskGroupTitle || !taskGroupDescription) {
-      addToast("Title, description cant be empty.", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-    } else {
-      await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
-      addToast("remainder edited successfully.", {
-        appearance: "success",
-        autoDismiss: true,
-      });
-      dispatch(getTaskList());
+    if (type === "Tasks") {
+      if (!taskGroupTitle || !taskGroupDescription) {
+        addToast("Title, description cant be empty.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else {
+        await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
+        addToast("remainder edited successfully.", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getTaskList());
+      }
+    }
+    if (type === "Flashcards") {
+      if (!taskGroupTitle || !taskGroupDescription) {
+        addToast("Title, description cant be empty.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else {
+        // await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
+        addToast("Flashcard edited successfully.", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getTaskList());
+      }
     }
   };
 

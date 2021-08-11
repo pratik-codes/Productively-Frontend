@@ -198,13 +198,19 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         </div>
       </div>
       <div className="p-10  mx-auto">
-        <h1 className="text-2xl font-sans font-bold text-gray-600 ml-4 mb-4">
+        <h1 className="text-2xl font-sans text-black ml-4 mb-4">
           Task Status: Pending ⌛
         </h1>
       </div>
       <div className="p-10 w-full grid grid-cols-4 gap-2  overflow-y-auto">
-        {Pending &&
-          Pending.map((task) => {
+        {Pending && Pending.length === 0 ? (
+          <div className="">
+            <br />
+            <h1 className="text-l ml-5 ">No pending tasks</h1>
+            <br />
+          </div>
+        ) : (
+          Pending?.map((task) => {
             return (
               <div>
                 <TaskCard
@@ -213,20 +219,28 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
                   title={task.taskName}
                   description={task.taskDescription}
                   color="#DBEAFE"
+                  back={Back}
                 />
               </div>
             );
-          })}
+          })
+        )}
       </div>
       <br />
       <div className="p-10  mx-auto">
-        <h1 className="text-2xl font-sans font-bold text-gray-600 ml-4 mb-4">
+        <h1 className="text-2xl font-sans text-black ml-4 mb-4">
           Task Status: Done ✅
         </h1>
       </div>
       <div className="p-10 w-full grid grid-cols-4 gap-2  overflow-y-auto">
-        {Done &&
-          Done.map((task) => {
+        {Done && Done.length === 0 ? (
+          <div className="">
+            <br />
+            <h1 className="text-l ml-5 ">No done tasks</h1>
+            <br />
+          </div>
+        ) : (
+          Done?.map((task) => {
             return (
               <div>
                 <TaskCard
@@ -235,10 +249,12 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
                   title={task.taskName}
                   description={task.taskDescription}
                   color="#E6EE96"
+                  back={Back}
                 />
               </div>
             );
-          })}
+          })
+        )}
       </div>
     </>
   );

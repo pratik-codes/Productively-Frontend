@@ -237,11 +237,14 @@ export const deleteTask =
           Authorization: `Bearer ${token}`,
         },
       };
+      console.log(TaskGroupId);
+      console.log(TaskId);
       // hitting REMAINDER api
       const { data } = await Axios.delete(
-        `${baseURL}taskgroup/task${TaskGroupId}${TaskId}`,
+        `${baseURL}taskgroup/task/${TaskGroupId}/${TaskId}`,
         config
       );
+      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 200) {
         dispatch({

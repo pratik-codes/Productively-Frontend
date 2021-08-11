@@ -6,7 +6,7 @@ import Done from "../../Assets/icons/Done.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { useDispatch } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-import { deleteTask } from "../../Redux/Actions/taskActions";
+import { deleteTask, getTaskList } from "../../Redux/Actions/taskActions";
 
 interface RemainderComponentProps {
   title: string;
@@ -14,6 +14,7 @@ interface RemainderComponentProps {
   color: string;
   groupId: string | undefined;
   taskId: string;
+  back: any;
 }
 
 const TaskCard: React.FC<RemainderComponentProps> = ({
@@ -22,6 +23,7 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
   title,
   description,
   color,
+  back,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
@@ -74,6 +76,8 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
       appearance: "error",
       autoDismiss: true,
     });
+    dispatch(getTaskList());
+    back("");
   };
 
   return (

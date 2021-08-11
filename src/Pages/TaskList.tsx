@@ -205,6 +205,12 @@ const TaskList = () => {
           <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
             {!TaskListGroups.data ? (
               <Loader />
+            ) : TaskListGroups.data.length === 0 ? (
+              <div className="">
+                <br />
+                <h1 className="text-l ml-10 ">No taskgroups</h1>
+                <br />
+              </div>
             ) : (
               TaskListGroups.data.map((taskGroup) => {
                 return (
@@ -215,6 +221,7 @@ const TaskList = () => {
                       description={taskGroup.taskGroupDescription}
                       color="#B095F6"
                       Open={() => setTaskListIsOpen(taskGroup.taskGroupId)}
+                      type="Tasks"
                     />
                   </div>
                 );

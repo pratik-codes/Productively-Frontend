@@ -57,6 +57,7 @@ const Journaling = () => {
                     description={journalGroup.description}
                     color="#E6EE96"
                     Open={() => setJournalListIsOpen(journalGroup.GroupId)}
+                    type="journals"
                   />
                 </div>
               );
