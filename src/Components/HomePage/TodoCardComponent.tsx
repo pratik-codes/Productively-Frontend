@@ -69,7 +69,7 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
 
   return (
     <>
-      <div className="bg-blue-100 rounded-2xl my-4 p-4">
+      <div className="bg-blue-100 rounded-2xl my-4 p-4 break-words">
         <h1 className="ml-4 font-sans text-black text-l font-medium">{task}</h1>
         <div className="flex justify-end">
           <div className="flex">

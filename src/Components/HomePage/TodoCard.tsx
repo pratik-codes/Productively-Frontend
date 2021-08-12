@@ -112,12 +112,17 @@ const TodoCard: React.FC = () => {
                     <div className="mt-2">
                       <input
                         type="text"
+                        maxLength={50}
                         placeholder="Priority Description"
                         onChange={(e) => setAddPriorities(e.target.value)}
                         className="px-3 py-2  my-3 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                       />
                     </div>
-
+                    <div className="flex justify-end">
+                      <p style={{ fontSize: "0.8rem" }}>
+                        {addPriorities.length}/50
+                      </p>
+                    </div>
                     <div className="mt-4">
                       <button
                         type="button"

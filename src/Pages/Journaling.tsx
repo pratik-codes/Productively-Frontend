@@ -52,10 +52,12 @@ const Journaling = () => {
               return (
                 <div>
                   <TaskGroupCard
+                    id="this will change later"
                     title={journalGroup.title}
                     description={journalGroup.description}
                     color="#E6EE96"
                     Open={() => setJournalListIsOpen(journalGroup.GroupId)}
+                    type="journals"
                   />
                 </div>
               );

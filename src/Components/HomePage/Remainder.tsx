@@ -47,7 +47,7 @@ const Remainder = () => {
         autoDismiss: true,
       });
     } else {
-      dispatch(
+      await dispatch(
         addRemainder(remainderTitle, remainderDescription, remainderDate)
       );
       addToast("remainder added successfully.", {
@@ -185,7 +185,7 @@ const Remainder = () => {
         <br></br>
         <br></br>
         <div className="flex justify-between mb-2">
-          <h1 className="text-2xl font-sans font-bold text-black ml-4 mb-4">
+          <h1 className="text-2xl font-sans  text-black ml-4 mb-4">
             Upcoming ⏭️
           </h1>
           <br />
@@ -196,7 +196,7 @@ const Remainder = () => {
           ) : Remainders.data.Upcoming.length === 0 ? (
             <div className="">
               <br />
-              <h1 className="text-l ml-5 font-bold">No upcoming remainders</h1>
+              <h1 className="text-l ml-5 ">No upcoming remainders</h1>
               <br />
             </div>
           ) : (
@@ -217,9 +217,7 @@ const Remainder = () => {
         <br></br>
         <br></br>
         <div className="mb-2">
-          <h1 className="text-2xl font-sans font-bold text-black ml-4 mb-4">
-            Past 🔙
-          </h1>
+          <h1 className="text-2xl font-sans text-black ml-4 mb-4">Past 🔙</h1>
           <br />
 
           <div className="w-full grid grid-cols-2 gap-4">
@@ -228,7 +226,7 @@ const Remainder = () => {
             ) : Remainders.data.Past.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 font-bold">No past remainders</h1>
+                <h1 className="text-l ml-5 ">No past remainders</h1>
                 <br />
               </div>
             ) : (
