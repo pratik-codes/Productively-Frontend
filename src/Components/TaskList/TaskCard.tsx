@@ -4,22 +4,34 @@ import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
 import Done from "../../Assets/icons/Done.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { useDispatch } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+import { deleteTask, getTaskList } from "../../Redux/Actions/taskActions";
 
 interface RemainderComponentProps {
   title: string;
   description: string;
   color: string;
+  groupId: string | undefined;
+  taskId: string;
+  back: any;
 }
 
 const TaskCard: React.FC<RemainderComponentProps> = ({
+  groupId,
+  taskId,
   title,
   description,
   color,
+  back,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   function closeEditModal() {
     setEditIsOpen(false);
@@ -35,6 +47,38 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  const editTaskHandler = async () => {
+    if (taskGroupTitle || taskGroupDescription) {
+      console.log("running add");
+      // await dispatch(addTask(TaskName, TaskDescription, "PENDING", GroupId));
+      // dispatch(getTaskList());
+      addToast("Task added successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      settaskGroupTitle("");
+      settaskGroupDescription("");
+    } else {
+      console.log("aborting add");
+
+      addToast("title and description and status are required.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
+
+  const deleteTaskHandler = async () => {
+    await dispatch(deleteTask(groupId, taskId));
+    addToast("deleted successfully.", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    dispatch(getTaskList());
+    back("");
+  };
 
   return (
     <div className="w-6/6 mx-auto">
@@ -229,7 +273,10 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
                           <button
                             type="button"
                             className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={closeDeleteModal}
+                            onClick={() => {
+                              closeDeleteModal();
+                              deleteTaskHandler();
+                            }}
                           >
                             delete
                           </button>

@@ -3,24 +3,39 @@ import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { useDispatch } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+import {
+  deleteTaskGroup,
+  editTaskGroup,
+  getTaskList,
+} from "../../Redux/Actions/taskActions";
+import { useEffect } from "react";
 
 interface RemainderComponentProps {
+  id: string;
   title: string;
   description: string;
   color: string;
   Open: any;
+  type: string;
 }
 
 const TaskGroupCard: React.FC<RemainderComponentProps> = ({
+  id,
   title,
   description,
   color,
   Open,
+  type,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   function closeEditModal() {
     setEditIsOpen(false);
@@ -37,10 +52,61 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
     setDeleteIsOpen(true);
   }
 
+  useEffect(() => {
+    settaskGroupTitle(title);
+    settaskGroupDescription(description);
+  }, []);
+
+  const editTaskGroupDetailsHandler = async () => {
+    if (type === "Tasks") {
+      if (!taskGroupTitle || !taskGroupDescription) {
+        addToast("Title, description cant be empty.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else {
+        await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
+        addToast("remainder edited successfully.", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getTaskList());
+      }
+    }
+    if (type === "Flashcards") {
+      if (!taskGroupTitle || !taskGroupDescription) {
+        addToast("Title, description cant be empty.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else {
+        // await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
+        addToast("Flashcard edited successfully.", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getTaskList());
+      }
+    }
+  };
+
+  const deleteTaskGroupHandler = async () => {
+    console.log("deleting...");
+    await dispatch(deleteTaskGroup(id));
+    addToast("remainder deleted successfully.", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    dispatch(getTaskList());
+  };
+
   return (
-    <div className="w-6/6 mx-auto">
-      <div style={{ background: `${color}` }} className="rounded-2xl p-2 m-3">
-        <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
+    <div className="w-6/6 mx-auto h-full">
+      <div
+        style={{ background: `${color}` }}
+        className="rounded-2xl p-2 m-3 h-full flex flex-col justify-between break-words"
+      >
+        <h1 className="ml-4 pt-3 font-sans text-black text-2xl font-bold">
           {title}
         </h1>
         <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
@@ -145,7 +211,10 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
                           <button
                             type="button"
                             className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={closeEditModal}
+                            onClick={() => {
+                              closeEditModal();
+                              editTaskGroupDetailsHandler();
+                            }}
                           >
                             Edit!
                           </button>
@@ -224,7 +293,10 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
                           <button
                             type="button"
                             className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={closeDeleteModal}
+                            onClick={() => {
+                              closeDeleteModal();
+                              deleteTaskGroupHandler();
+                            }}
                           >
                             delete
                           </button>
