@@ -39,3 +39,19 @@ export interface Task {
   taskDescription: string;
   taskStatus: string;
 }
+
+// flashcard section
+export interface flashcardGroups {
+  flashcard: flashcard[];
+  _id: string;
+  user: string;
+  groupName: string;
+  groupDescription: string;
+}
+
+export interface flashcard {
+  flashcardId: string;
+  flashcardName: string;
+  flashcardDescription: string;
+  data: string;
+}
