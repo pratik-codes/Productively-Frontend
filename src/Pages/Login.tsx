@@ -19,7 +19,7 @@ const Login = () => {
         autoDismiss: true,
       });
       setTimeout(() => {
-        window.location.reload();
+        window.location.href = "/";
       }, 1000);
     }
     if (error) {

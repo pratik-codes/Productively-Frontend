@@ -11,6 +11,11 @@ import {
   getTaskList,
 } from "../../Redux/Actions/taskActions";
 import { useEffect } from "react";
+import {
+  deleteFlashcardGroup,
+  editFlashcardGroup,
+  getFlashcardGroupList,
+} from "../../Redux/Actions/FlashcardActions";
 
 interface RemainderComponentProps {
   id: string;
@@ -80,24 +85,35 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
           autoDismiss: true,
         });
       } else {
-        // await dispatch(editTaskGroup(taskGroupTitle, taskGroupDescription, id));
+        await dispatch(
+          editFlashcardGroup(taskGroupTitle, taskGroupDescription, id)
+        );
         addToast("Flashcard edited successfully.", {
           appearance: "success",
           autoDismiss: true,
         });
-        dispatch(getTaskList());
+        dispatch(getFlashcardGroupList());
       }
     }
   };
 
   const deleteTaskGroupHandler = async () => {
-    console.log("deleting...");
-    await dispatch(deleteTaskGroup(id));
-    addToast("remainder deleted successfully.", {
-      appearance: "error",
-      autoDismiss: true,
-    });
-    dispatch(getTaskList());
+    if (type === "Tasks") {
+      await dispatch(deleteTaskGroup(id));
+      addToast("taskgroup deleted successfully.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      dispatch(getTaskList());
+    }
+    if (type === "Flashcards") {
+      await dispatch(deleteFlashcardGroup(id));
+      addToast("flashcard deleted successfully.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      dispatch(getFlashcardGroupList());
+    }
   };
 
   return (
@@ -175,7 +191,8 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
                           as="h3"
                           className="text-lg font-medium leading-6 text-gray-900"
                         >
-                          Edit Task Group
+                          {type === "Tasks" && "Edit Task Group"}
+                          {type === "Flashcards" && "Edit Flashcard Group"}
                         </Dialog.Title>
                         <div className="mt-2">
                           <input

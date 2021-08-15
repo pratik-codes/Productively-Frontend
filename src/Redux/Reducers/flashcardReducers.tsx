@@ -27,7 +27,7 @@ const FlashcardInitialState = { flashcardGroups: [] };
 
 const addPriorityInitialState = { message: "" };
 
-type getFlashcardAction = {
+export type getFlashcardAction = {
   type: string;
   payload: flashcardGroups[];
 };
