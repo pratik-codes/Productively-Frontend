@@ -53,7 +53,7 @@ export default function NavBar() {
           </Link>
         </div>
         {/* for gradient -> bg-gradient-to-r from-purple-400 to-blue-500 */}
-        <div className="flex bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl px-2 ">
+        <div className="flex bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl px-2 ml-10">
           <div className="flex flex-wrap content-center">
             <img className="h-7" src={Productively} alt="logo" />
           </div>

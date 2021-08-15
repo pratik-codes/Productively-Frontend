@@ -1,31 +1,31 @@
 import { Dispatch } from "redux";
 import Axios from "axios";
-import {
-  USER_ADD_FLASHCARD_FAIL,
-  USER_ADD_FLASHCARD_REQUEST,
-  USER_ADD_FLASHCARD_SUCCESS,
-  USER_CREATE_FLASHCARD_GROUP_FAIL,
-  USER_CREATE_FLASHCARD_GROUP_REQUEST,
-  USER_CREATE_FLASHCARD_GROUP_SUCCESS,
-  USER_FLASHCARD_DELETE_FAIL,
-  USER_FLASHCARD_DELETE_REQUEST,
-  USER_FLASHCARD_DELETE_SUCCESS,
-  USER_FLASHCARD_FAIL,
-  USER_FLASHCARD_GROUP_DELETE_FAIL,
-  USER_FLASHCARD_GROUP_DELETE_REQUEST,
-  USER_FLASHCARD_GROUP_DELETE_SUCCESS,
-  USER_FLASHCARD_GROUP_DETAILS_EDIT_FAIL,
-  USER_FLASHCARD_GROUP_DETAILS_EDIT_REQUEST,
-  USER_FLASHCARD_GROUP_DETAILS_EDIT_SUCCESS,
-  USER_FLASHCARD_REQUEST,
-  USER_FLASHCARD_SUCCESS,
-} from "../Constants/Falshcard.constants";
 import { baseURL } from "./userActions";
+import {
+  USER_ADD_JOURNAL_FAIL,
+  USER_ADD_JOURNAL_REQUEST,
+  USER_ADD_JOURNAL_SUCCESS,
+  USER_CREATE_JOURNAL_GROUP_FAIL,
+  USER_CREATE_JOURNAL_GROUP_REQUEST,
+  USER_CREATE_JOURNAL_GROUP_SUCCESS,
+  USER_JOURNAL_DELETE_FAIL,
+  USER_JOURNAL_DELETE_REQUEST,
+  USER_JOURNAL_DELETE_SUCCESS,
+  USER_JOURNAL_FAIL,
+  USER_JOURNAL_GROUP_DELETE_FAIL,
+  USER_JOURNAL_GROUP_DELETE_REQUEST,
+  USER_JOURNAL_GROUP_DELETE_SUCCESS,
+  USER_JOURNAL_GROUP_DETAILS_EDIT_FAIL,
+  USER_JOURNAL_GROUP_DETAILS_EDIT_REQUEST,
+  USER_JOURNAL_GROUP_DETAILS_EDIT_SUCCESS,
+  USER_JOURNAL_REQUEST,
+  USER_JOURNAL_SUCCESS,
+} from "../Constants/journal.constants";
 
-export const getFlashcardGroupList = () => async (dispatch: Dispatch) => {
+export const getJournalGroupList = () => async (dispatch: Dispatch) => {
   try {
     dispatch({
-      type: USER_FLASHCARD_REQUEST,
+      type: USER_JOURNAL_REQUEST,
     });
     const token = localStorage.getItem("accessToken");
     const config = {
@@ -34,19 +34,19 @@ export const getFlashcardGroupList = () => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await Axios.get(`${baseURL}flashcard`, config);
+    const { data } = await Axios.get(`${baseURL}journal`, config);
     console.log(data);
     // only make success if the response is success
     if (data) {
       console.log("api call done");
       dispatch({
-        type: USER_FLASHCARD_SUCCESS,
+        type: USER_JOURNAL_SUCCESS,
         payload: data,
       });
     }
   } catch (error) {
     dispatch({
-      type: USER_FLASHCARD_FAIL,
+      type: USER_JOURNAL_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -55,12 +55,12 @@ export const getFlashcardGroupList = () => async (dispatch: Dispatch) => {
   }
 };
 
-export const addFlashcardGroup =
+export const addJournalGroup =
   (groupName: string, groupDescription: string) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({
-        type: USER_CREATE_FLASHCARD_GROUP_REQUEST,
+        type: USER_CREATE_JOURNAL_GROUP_REQUEST,
       });
       const token = localStorage.getItem("accessToken");
       const config = {
@@ -74,17 +74,17 @@ export const addFlashcardGroup =
         groupDescription: groupDescription,
       };
       // hitting REMAINDER api
-      const { data } = await Axios.post(`${baseURL}flashcard`, Body, config);
+      const { data } = await Axios.post(`${baseURL}journal`, Body, config);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
-          type: USER_CREATE_FLASHCARD_GROUP_SUCCESS,
+          type: USER_CREATE_JOURNAL_GROUP_SUCCESS,
           payload: data.message,
         });
       }
     } catch (error) {
       dispatch({
-        type: USER_CREATE_FLASHCARD_GROUP_FAIL,
+        type: USER_CREATE_JOURNAL_GROUP_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
@@ -93,17 +93,21 @@ export const addFlashcardGroup =
     }
   };
 
-export const addFlashcard =
+export const addJournal =
   (
-    flashcardName: string,
-    flashcardDescription: string,
-    flashcardData: string,
-    FlashcardGroupId: string | undefined
+    journalName: string,
+    journalDescription: string,
+    journalDate: string,
+    ans1: string,
+    ans2: string,
+    ans3: string,
+    ans4: string,
+    journalGroupId: string | undefined
   ) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({
-        type: USER_FLASHCARD_GROUP_DETAILS_EDIT_REQUEST,
+        type: USER_JOURNAL_GROUP_DETAILS_EDIT_REQUEST,
       });
       const token = localStorage.getItem("accessToken");
       const config = {
@@ -113,29 +117,33 @@ export const addFlashcard =
         },
       };
       const Body = {
-        addFlashcardsDto: {
-          flashcardName: flashcardName,
-          flashcardDescription: flashcardDescription,
-          data: flashcardData,
+        addJournalsDto: {
+          journalName: journalName,
+          journalDescription: journalDescription,
+          journalDate: journalDate,
+          ans1: ans1,
+          ans2: ans2,
+          ans3: ans3,
+          ans4: ans4,
         },
-        FlashcardGroupId: FlashcardGroupId,
+        journalGroupId: journalGroupId,
       };
       // hitting REMAINDER api
       const { data } = await Axios.patch(
-        `${baseURL}flashcard/card`,
+        `${baseURL}journalgroup/journal`,
         Body,
         config
       );
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
-          type: USER_FLASHCARD_GROUP_DETAILS_EDIT_SUCCESS,
+          type: USER_JOURNAL_GROUP_DETAILS_EDIT_SUCCESS,
           payload: true,
         });
       }
     } catch (error) {
       dispatch({
-        type: USER_FLASHCARD_GROUP_DETAILS_EDIT_FAIL,
+        type: USER_JOURNAL_GROUP_DETAILS_EDIT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
@@ -144,12 +152,12 @@ export const addFlashcard =
     }
   };
 
-export const editFlashcardGroup =
-  (groupName: string, groupDescription: string, FlashcardGroupId: string) =>
+export const editJournalGroup =
+  (groupName: string, groupDescription: string, JournalGroupId: string) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({
-        type: USER_ADD_FLASHCARD_REQUEST,
+        type: USER_ADD_JOURNAL_REQUEST,
       });
       const token = localStorage.getItem("accessToken");
       const config = {
@@ -159,24 +167,27 @@ export const editFlashcardGroup =
         },
       };
       const Body = {
-        FlashcardGroupDto: {
-          groupName: groupName,
-          groupDescription: groupDescription,
-        },
-        FlashcardGroupId: FlashcardGroupId,
+        groupName: groupName,
+        groupDescription: groupDescription,
+        JournalGroupId: JournalGroupId,
       };
+      console.log(Body);
       // hitting REMAINDER api
-      const { data } = await Axios.patch(`${baseURL}flashcard`, Body, config);
+      const { data } = await Axios.patch(
+        `${baseURL}journalgroup`,
+        Body,
+        config
+      );
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
-          type: USER_ADD_FLASHCARD_SUCCESS,
+          type: USER_ADD_JOURNAL_SUCCESS,
           payload: true,
         });
       }
     } catch (error) {
       dispatch({
-        type: USER_ADD_FLASHCARD_FAIL,
+        type: USER_ADD_JOURNAL_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
@@ -185,11 +196,11 @@ export const editFlashcardGroup =
     }
   };
 
-export const deleteFlashcardGroup =
-  (FlashcardGroupId: string) => async (dispatch: Dispatch) => {
+export const deleteJournalGroup =
+  (journalGroupId: string) => async (dispatch: Dispatch) => {
     try {
       dispatch({
-        type: USER_FLASHCARD_GROUP_DELETE_REQUEST,
+        type: USER_JOURNAL_GROUP_DELETE_REQUEST,
       });
       const token = localStorage.getItem("accessToken");
       const config = {
@@ -201,20 +212,20 @@ export const deleteFlashcardGroup =
 
       // hitting REMAINDER api
       const { data } = await Axios.delete(
-        `${baseURL}flashcard/${FlashcardGroupId}`,
+        `${baseURL}journalGroup/${journalGroupId}`,
         config
       );
       console.log(data);
       // only make success if the response is success
       if (data.statusCode === 200) {
         dispatch({
-          type: USER_FLASHCARD_GROUP_DELETE_SUCCESS,
+          type: USER_JOURNAL_GROUP_DELETE_SUCCESS,
           payload: true,
         });
       }
     } catch (error) {
       dispatch({
-        type: USER_FLASHCARD_GROUP_DELETE_FAIL,
+        type: USER_JOURNAL_GROUP_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
@@ -223,12 +234,12 @@ export const deleteFlashcardGroup =
     }
   };
 
-export const deleteFlashcard =
-  (FlashcardGroupId: string | undefined, FlashcardId: string) =>
+export const deleteJournal =
+  (journalGroupId: string | undefined, journalId: string) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({
-        type: USER_FLASHCARD_DELETE_REQUEST,
+        type: USER_JOURNAL_DELETE_REQUEST,
       });
       const token = localStorage.getItem("accessToken");
       const config = {
@@ -239,19 +250,19 @@ export const deleteFlashcard =
       };
       // hitting REMAINDER api
       const { data } = await Axios.delete(
-        `${baseURL}flashcard/card/${FlashcardGroupId}/${FlashcardId}`,
+        `${baseURL}journalgroup/journal/${journalGroupId}/${journalId}`,
         config
       );
       // only make success if the response is success
       if (data.statusCode === 200) {
         dispatch({
-          type: USER_FLASHCARD_DELETE_SUCCESS,
+          type: USER_JOURNAL_DELETE_SUCCESS,
           payload: true,
         });
       }
     } catch (error) {
       dispatch({
-        type: USER_FLASHCARD_DELETE_FAIL,
+        type: USER_JOURNAL_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
