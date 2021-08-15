@@ -13,20 +13,16 @@ import { useSelector } from "react-redux";
 import { RootStore } from "./Redux/Store";
 
 function App() {
-  const [login, setLogin] = useState(false);
-  const { userInfo } = useSelector((state: RootStore) => state.userInfo);
+  const [login, setLogin] = useState(true);
 
   useEffect(() => {
-    if (userInfo === true) {
-      setLogin(true);
-    }
     const token = localStorage.getItem("accessToken");
     if (token) {
       setLogin(true);
     } else {
       setLogin(false);
     }
-  }, [userInfo]);
+  }, []);
 
   return (
     <BrowserRouter>

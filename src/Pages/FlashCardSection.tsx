@@ -1,10 +1,23 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import FlashCard, { flashCardData } from "../Components/FlashCard/FlashCard";
 import TaskGroupCard from "../Components/TaskList/TaskGroupCard";
 import { FlashCardData } from "../MockData/FlashCardData";
+import {
+  addFlashcardGroup,
+  getFlashcardGroupList,
+} from "../Redux/Actions/FlashcardActions";
+import { RootStore } from "../Redux/Store";
+import {
+  flashcardGroupReduxState,
+  flashcardGroups,
+  RemainderReduxState,
+} from "../Interfaces/Interfaces";
+import { getFlashcardAction } from "../Redux/Reducers/flashcardReducers";
+import Loader from "../Components/loader";
+import FlashcardView from "../Components/FlashCard/FlashcardView";
 
 interface FlashCardGroupProps {
   flashCardGroupId: string;
@@ -18,9 +31,8 @@ const FlashCardSection = () => {
   const [FlashcardTitle, setFlashcardTitle] = useState("");
   const [FlashcardDescription, setFlashcardDescription] = useState("");
   const [isOpenFlashCardGroup, setisOpenFlashCardGroup] = useState("");
-  const [OpenFlashCardGroupData, setisOpenFlashCardGroupData] = useState<
-    FlashCardGroupProps | undefined
-  >();
+  const [OpenFlashCardGroupData, setisOpenFlashCardGroupData] =
+    useState<flashcardGroups>();
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -33,12 +45,41 @@ const FlashCardSection = () => {
     setIsOpen(true);
   }
 
+  const addFlashcard = async () => {
+    if (FlashcardTitle || FlashcardDescription) {
+      await dispatch(addFlashcardGroup(FlashcardTitle, FlashcardDescription));
+      addToast("flashcard addded", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      dispatch(getFlashcardGroupList());
+    } else {
+      addToast("Title, description cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getFlashcardGroupList());
+    console.log(flashcard);
+  }, []);
+
+  const flashcard: flashcardGroupReduxState = useSelector(
+    (state: RootStore) => state.flashcardGroups
+  );
+
+  useEffect(() => {
+    console.log(flashcard);
+  }, [flashcard]);
+
   useEffect(() => {
     if (isOpenFlashCardGroup !== "") {
       const flashCardGroupId = isOpenFlashCardGroup;
-
-      const flashCardGroupData = FlashCardData.find(
-        (group) => group.flashCardGroupId === flashCardGroupId
+      console.log(flashcard);
+      const flashCardGroupData = flashcard.data.find(
+        (group) => group._id === flashCardGroupId
       );
       setisOpenFlashCardGroupData(flashCardGroupData);
     }
@@ -47,41 +88,13 @@ const FlashCardSection = () => {
   return (
     <div className="h-full overflow-y-auto">
       {isOpenFlashCardGroup !== "" && (
-        <div className="p-10 mx-auto pt-10 mt-10">
-          <div className="flex justify-between">
-            <div className="w-5/6">
-              <h1 className="text-2xl font-sans text-purple-600 font-bold ml-4 mb-1">
-                Journal Group: {OpenFlashCardGroupData?.flashCardGroupTitle}{" "}
-                {OpenFlashCardGroupData?.flashCardGroupId}
-              </h1>
-              <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
-                {OpenFlashCardGroupData?.flashCardGroupDescription}
-              </p>
-            </div>
-
-            <button
-              // onClick={openModal}
-              className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500"
-            >
-              New
-            </button>
-            <button
-              onClick={() => setisOpenFlashCardGroup("")}
-              className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-red-600 transition duration-500"
-            >
-              Back
-            </button>
-          </div>
-          <div className="mx-auto px-10 py-5 w-full grid grid-cols-2 overflow-y-auto">
-            {OpenFlashCardGroupData?.flashCards.map((flashcard) => {
-              return (
-                <div>
-                  <FlashCard color="#FFC3EE" flashCard={flashcard} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <FlashcardView
+          flashCardGroupId={OpenFlashCardGroupData?._id}
+          flashCardGroupName={OpenFlashCardGroupData?.groupName}
+          flashCardGroupDescription={OpenFlashCardGroupData?.groupDescription}
+          flashcards={OpenFlashCardGroupData?.flashcard}
+          back={setisOpenFlashCardGroup}
+        />
       )}
       {isOpenFlashCardGroup === "" && (
         <>
@@ -93,7 +106,7 @@ const FlashCardSection = () => {
               FlashCard Groups 📚 {isOpenFlashCardGroup}
             </h1>
             <button
-              onClick={openModal}
+              onClick={() => openModal()}
               className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-pink-600 transition duration-500"
             >
               New
@@ -176,7 +189,7 @@ const FlashCardSection = () => {
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                           onClick={() => {
-                            // addRemainderHandler();
+                            addFlashcard();
                             closeModal();
                           }}
                         >
@@ -197,23 +210,33 @@ const FlashCardSection = () => {
             </Transition>
           </div>
           <div className="p-10 w-full grid grid-cols-2 gap-4 overflow-y-auto">
-            {FlashCardData.map((FlashCardGroup) => {
-              return (
-                <div>
-                  <TaskGroupCard
-                    id="1212121212"
-                    title={FlashCardGroup.flashCardGroupTitle}
-                    description={FlashCardGroup.flashCardGroupDescription}
-                    color="#EFC5FA"
-                    Open={() => {
-                      setisOpenFlashCardGroup(FlashCardGroup.flashCardGroupId);
-                      console.log(FlashCardGroup);
-                    }}
-                    type="Flashcards"
-                  />
-                </div>
-              );
-            })}
+            {!flashcard.data ? (
+              <Loader />
+            ) : flashcard.data.length === 0 ? (
+              <div className="">
+                <br />
+                <h1 className="text-l ml-5 ">No flashcards</h1>
+                <br />
+              </div>
+            ) : (
+              flashcard.data.map((FlashCardGroup) => {
+                return (
+                  <div>
+                    <TaskGroupCard
+                      id={FlashCardGroup._id}
+                      title={FlashCardGroup.groupName}
+                      description={FlashCardGroup.groupDescription}
+                      color="#EFC5FA"
+                      Open={() => {
+                        setisOpenFlashCardGroup(FlashCardGroup._id);
+                        console.log(FlashCardGroup);
+                      }}
+                      type="Flashcards"
+                    />
+                  </div>
+                );
+              })
+            )}
           </div>
         </>
       )}
