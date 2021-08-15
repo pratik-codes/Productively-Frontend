@@ -12,8 +12,9 @@ interface JournalingComponentProps {
 }
 export interface journal {
   journalId: string;
-  journalTitle: string;
-  Description: string;
+  journalName: string;
+  journalDescription: string;
+  journalDate: string;
   ans1: string;
   ans2: string;
   ans3: string;
@@ -49,10 +50,10 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
     <div className="w-6/6 mx-auto">
       <div style={{ background: `${color}` }} className="rounded-2xl p-2 m-3">
         <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
-          {journals?.journalTitle}
+          {journals?.journalName}
         </h1>
         <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
-          {journals?.Description}
+          {journals?.journalDescription}
         </h1>
         <br></br>
         <div className="flex justify-between">

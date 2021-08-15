@@ -34,14 +34,13 @@ export const getJournalGroupList = () => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await Axios.get(`${baseURL}journal`, config);
+    const { data } = await Axios.get(`${baseURL}journalgroup`, config);
     console.log(data);
     // only make success if the response is success
-    if (data) {
-      console.log("api call done");
+    if (data.statusCode === 200) {
       dispatch({
         type: USER_JOURNAL_SUCCESS,
-        payload: data,
+        payload: data.data,
       });
     }
   } catch (error) {
@@ -178,6 +177,7 @@ export const editJournalGroup =
         Body,
         config
       );
+      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({

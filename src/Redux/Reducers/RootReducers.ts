@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { getFlashcardGroupReducers } from "./flashcardReducers";
+import { getJournalReducers } from "./journalReducers";
 import { getPrioritiesReducers } from "./priorityReducers";
 import { getRemaindersReducers } from "./remainderReducers";
 import { getTaskListGroupReducers } from "./taskReducers";
@@ -12,6 +13,7 @@ const RootReducer = combineReducers({
   priorities: getPrioritiesReducers,
   taskListGroups: getTaskListGroupReducers,
   flashcardGroups: getFlashcardGroupReducers,
+  journalGroups: getJournalReducers,
 });
 
 export default RootReducer;

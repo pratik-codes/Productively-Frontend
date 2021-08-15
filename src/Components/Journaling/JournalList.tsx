@@ -13,8 +13,9 @@ interface JournalCardComponentProps {
 
 export interface journal {
   journalId: string;
-  journalTitle: string;
-  Description: string;
+  journalName: string;
+  journalDescription: string;
+  journalDate: string;
   ans1: string;
   ans2: string;
   ans3: string;
@@ -91,9 +92,9 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
       </div>
       {SelectedJournalData && IsOpenJournal !== "" && (
         <Journal
-          title={SelectedJournalData.journalTitle}
-          description={SelectedJournalData.Description}
-          date="12/12/1998"
+          title={SelectedJournalData.journalName}
+          description={SelectedJournalData.journalDescription}
+          date={SelectedJournalData.journalDate}
           ans1={SelectedJournalData.ans1}
           ans2={SelectedJournalData.ans2}
           ans3={SelectedJournalData.ans3}
