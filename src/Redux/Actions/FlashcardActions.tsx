@@ -34,13 +34,14 @@ export const getFlashcardGroupList = () => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    // hitting REMAINDER api
     const { data } = await Axios.get(`${baseURL}flashcard`, config);
+    console.log(data);
     // only make success if the response is success
-    if (data.statusCode === 200) {
+    if (data) {
+      console.log("api call done");
       dispatch({
         type: USER_FLASHCARD_SUCCESS,
-        payload: data.data,
+        payload: data,
       });
     }
   } catch (error) {
@@ -73,7 +74,7 @@ export const addFlashcardGroup =
         groupDescription: groupDescription,
       };
       // hitting REMAINDER api
-      const { data } = await Axios.post(`${baseURL}taskgroup`, Body, config);
+      const { data } = await Axios.post(`${baseURL}flashcard`, Body, config);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
@@ -242,7 +243,6 @@ export const deleteFlashcard =
         `${baseURL}flashcard/card/${FlashcardGroupId}/${FlashcardId}`,
         config
       );
-      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 200) {
         dispatch({

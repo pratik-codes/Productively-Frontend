@@ -41,6 +41,11 @@ export interface Task {
 }
 
 // flashcard section
+export interface flashcardGroupReduxState {
+  loading: string;
+  data: flashcardGroups[];
+}
+
 export interface flashcardGroups {
   flashcard: flashcard[];
   _id: string;
