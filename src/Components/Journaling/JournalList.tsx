@@ -30,15 +30,23 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
   color,
   Back,
 }) => {
+  let [isOpen, setIsOpen] = useState(false);
   const [IsOpenJournal, setIsOpenJournal] = useState("");
   const [SelectedJournalData, setSelectedJournalData] = useState<
     any | undefined
   >({});
 
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   useEffect(() => {
     if (IsOpenJournal !== "") {
       const journalId = IsOpenJournal;
-
       const groupdata = journals.find(
         (journal) => journal.journalId === journalId
       );
@@ -60,11 +68,12 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
           </div>
 
           <button
-            //   onClick={openModal}
+            onClick={openModal}
             className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500"
           >
             New
           </button>
+
           <button
             onClick={() =>
               IsOpenJournal !== "" ? setIsOpenJournal("") : Back()
@@ -77,21 +86,39 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
       </div>
       <div className="mx-auto px-10 py-5 w-full grid grid-cols-2 overflow-y-auto">
         {journals &&
+          isOpen === false &&
           IsOpenJournal === "" &&
           journals.map((journal) => {
             return (
               <div className="w-5/6 mx-auto my-3">
                 <JournalCard
                   selectJournal={() => setIsOpenJournal(journal.journalId)}
+                  journalGroupId={GroupId}
                   journals={journal}
                   color="#F0A177"
+                  back={Back}
                 />
               </div>
             );
           })}
       </div>
+      {isOpen === true && (
+        <Journal
+          journalGroupId=""
+          title=""
+          description=""
+          date=""
+          ans1=""
+          ans2=""
+          ans3=""
+          ans4=""
+          type="add"
+          close={closeModal}
+        />
+      )}
       {SelectedJournalData && IsOpenJournal !== "" && (
         <Journal
+          journalGroupId={GroupId}
           title={SelectedJournalData.journalName}
           description={SelectedJournalData.journalDescription}
           date={SelectedJournalData.journalDate}
@@ -99,6 +126,8 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
           ans2={SelectedJournalData.ans2}
           ans3={SelectedJournalData.ans3}
           ans4={SelectedJournalData.ans4}
+          type="edit"
+          close={closeModal}
         />
       )}
     </>

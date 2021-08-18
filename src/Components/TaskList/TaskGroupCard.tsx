@@ -101,6 +101,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
       }
     }
     if (type === "Journals") {
+      console.log("inside journals function");
       if (!taskGroupTitle || !taskGroupDescription) {
         addToast("Title, description cant be empty.", {
           appearance: "error",

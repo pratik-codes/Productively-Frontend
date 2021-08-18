@@ -32,7 +32,7 @@ const TodoCard: React.FC = () => {
   }
 
   useEffect(() => {
-    dispatch(getPriority());
+    if (!Priorities) dispatch(getPriority());
   }, []);
 
   const addPriorityHandler = async () => {

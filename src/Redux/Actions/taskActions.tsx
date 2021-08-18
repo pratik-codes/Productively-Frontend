@@ -121,7 +121,7 @@ export const addTask =
       };
       console.log(Body);
       // hitting REMAINDER api
-      const { data } = await Axios.patch(
+      const { data } = await Axios.post(
         `${baseURL}taskgroup/tasks`,
         Body,
         config

@@ -52,10 +52,7 @@ const TaskList = () => {
   };
 
   useEffect(() => {
-    dispatch(getTaskList());
-    console.log(TaskListGroups);
-  }, []);
-  useEffect(() => {
+    if (!TaskListGroups.data) dispatch(getTaskList());
     console.log(TaskListGroups);
   }, []);
 
