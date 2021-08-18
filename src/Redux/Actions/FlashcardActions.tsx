@@ -121,7 +121,7 @@ export const addFlashcard =
         FlashcardGroupId: FlashcardGroupId,
       };
       // hitting REMAINDER api
-      const { data } = await Axios.patch(
+      const { data } = await Axios.post(
         `${baseURL}flashcard/card`,
         Body,
         config
@@ -167,6 +167,7 @@ export const editFlashcardGroup =
       };
       // hitting REMAINDER api
       const { data } = await Axios.patch(`${baseURL}flashcard`, Body, config);
+      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({

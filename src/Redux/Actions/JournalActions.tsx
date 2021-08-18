@@ -34,14 +34,13 @@ export const getJournalGroupList = () => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await Axios.get(`${baseURL}journal`, config);
+    const { data } = await Axios.get(`${baseURL}journalgroup`, config);
     console.log(data);
     // only make success if the response is success
-    if (data) {
-      console.log("api call done");
+    if (data.statusCode === 200) {
       dispatch({
         type: USER_JOURNAL_SUCCESS,
-        payload: data,
+        payload: data.data,
       });
     }
   } catch (error) {
@@ -73,10 +72,13 @@ export const addJournalGroup =
         groupName: groupName,
         groupDescription: groupDescription,
       };
+      console.log(Body);
       // hitting REMAINDER api
-      const { data } = await Axios.post(`${baseURL}journal`, Body, config);
+      const { data } = await Axios.post(`${baseURL}journalgroup`, Body, config);
+      console.log(data);
+
       // only make success if the response is success
-      if (data.statusCode === 201) {
+      if (data.statusCode === 200) {
         dispatch({
           type: USER_CREATE_JOURNAL_GROUP_SUCCESS,
           payload: data.message,
@@ -97,7 +99,7 @@ export const addJournal =
   (
     journalName: string,
     journalDescription: string,
-    journalDate: string,
+    journalDate: Date | undefined,
     ans1: string,
     ans2: string,
     ans3: string,
@@ -128,12 +130,15 @@ export const addJournal =
         },
         journalGroupId: journalGroupId,
       };
+      console.log(Body);
       // hitting REMAINDER api
-      const { data } = await Axios.patch(
+      const { data } = await Axios.post(
         `${baseURL}journalgroup/journal`,
         Body,
         config
       );
+      console.log(data);
+
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
@@ -178,6 +183,7 @@ export const editJournalGroup =
         Body,
         config
       );
+      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
@@ -235,7 +241,7 @@ export const deleteJournalGroup =
   };
 
 export const deleteJournal =
-  (journalGroupId: string | undefined, journalId: string) =>
+  (journalGroupId: string, journalId: string | undefined) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({

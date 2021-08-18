@@ -61,7 +61,7 @@ const Remainder = () => {
   };
 
   useEffect(() => {
-    dispatch(getRemainders());
+    if (!Remainders) dispatch(getRemainders());
   }, []);
 
   return (

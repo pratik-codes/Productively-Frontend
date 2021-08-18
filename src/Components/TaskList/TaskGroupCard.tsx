@@ -16,6 +16,11 @@ import {
   editFlashcardGroup,
   getFlashcardGroupList,
 } from "../../Redux/Actions/FlashcardActions";
+import {
+  deleteJournalGroup,
+  editJournalGroup,
+  getJournalGroupList,
+} from "../../Redux/Actions/JournalActions";
 
 interface RemainderComponentProps {
   id: string;
@@ -95,6 +100,24 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
         dispatch(getFlashcardGroupList());
       }
     }
+    if (type === "Journals") {
+      console.log("inside journals function");
+      if (!taskGroupTitle || !taskGroupDescription) {
+        addToast("Title, description cant be empty.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else {
+        await dispatch(
+          editJournalGroup(taskGroupTitle, taskGroupDescription, id)
+        );
+        addToast("Flashcard edited successfully.", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getJournalGroupList());
+      }
+    }
   };
 
   const deleteTaskGroupHandler = async () => {
@@ -113,6 +136,14 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
         autoDismiss: true,
       });
       dispatch(getFlashcardGroupList());
+    }
+    if (type === "Journals") {
+      await dispatch(deleteJournalGroup(id));
+      addToast("flashcard deleted successfully.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      dispatch(getJournalGroupList());
     }
   };
 

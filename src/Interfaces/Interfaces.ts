@@ -60,3 +60,27 @@ export interface flashcard {
   flashcardDescription: string;
   data: string;
 }
+
+// journal section
+
+export interface JournalReduxState {
+  loading: string;
+  data: JournalGroup[];
+}
+export interface JournalGroup {
+  _id: string;
+  user: string;
+  groupName: string;
+  groupDescription: string;
+  Journals: Journal[];
+}
+export interface Journal {
+  journalId: string;
+  journalName: string;
+  journalDescription: string;
+  journalDate: string;
+  ans1: string;
+  ans2: string;
+  ans3: string;
+  ans4: string;
+}

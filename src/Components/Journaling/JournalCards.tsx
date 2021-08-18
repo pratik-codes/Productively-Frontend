@@ -4,16 +4,26 @@ import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
 import Done from "../../Assets/icons/Done.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { useDispatch } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+import {
+  deleteJournal,
+  deleteJournalGroup,
+  getJournalGroupList,
+} from "../../Redux/Actions/JournalActions";
 
 interface JournalingComponentProps {
   color: string;
+  journalGroupId: string;
   journals: journal | undefined;
   selectJournal: any;
+  back: any;
 }
 export interface journal {
   journalId: string;
-  journalTitle: string;
-  Description: string;
+  journalName: string;
+  journalDescription: string;
+  journalDate: string;
   ans1: string;
   ans2: string;
   ans3: string;
@@ -22,8 +32,10 @@ export interface journal {
 
 const JournalCard: React.FC<JournalingComponentProps> = ({
   color,
+  journalGroupId,
   journals,
   selectJournal,
+  back,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
@@ -45,14 +57,27 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
     setDeleteIsOpen(true);
   }
 
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
+
+  const deleteJournalcardHandler = async () => {
+    await dispatch(deleteJournal(journalGroupId, journals?.journalId));
+    addToast("flashcard deleted successfully.", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    dispatch(getJournalGroupList());
+    back("");
+  };
+
   return (
     <div className="w-6/6 mx-auto">
       <div style={{ background: `${color}` }} className="rounded-2xl p-2 m-3">
         <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
-          {journals?.journalTitle}
+          {journals?.journalName}
         </h1>
         <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
-          {journals?.Description}
+          {journals?.journalDescription}
         </h1>
         <br></br>
         <div className="flex justify-between">
@@ -127,7 +152,10 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
                         <button
                           type="button"
                           className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeDeleteModal}
+                          onClick={() => {
+                            closeDeleteModal();
+                            deleteJournalcardHandler();
+                          }}
                         >
                           delete
                         </button>

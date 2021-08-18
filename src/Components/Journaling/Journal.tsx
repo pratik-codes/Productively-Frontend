@@ -1,7 +1,14 @@
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+import {
+  addJournal,
+  getJournalGroupList,
+} from "../../Redux/Actions/JournalActions";
 
 interface JournalProps {
+  journalGroupId: string;
   title: string;
   description: string;
   date: string;
@@ -9,9 +16,12 @@ interface JournalProps {
   ans2: string;
   ans3: string;
   ans4: string;
+  type: string;
+  close: any;
 }
 
 const Journal: React.FC<JournalProps> = ({
+  journalGroupId,
   title,
   description,
   date,
@@ -19,9 +29,13 @@ const Journal: React.FC<JournalProps> = ({
   ans2,
   ans3,
   ans4,
+  type,
+  close,
 }) => {
+  let [isOpen, setIsOpen] = useState(false);
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
+  const [JournalDate, setJournalDate] = useState();
   const [Answer1, setAnswer1] = useState("");
   const [Answer2, setAnswer2] = useState("");
   const [Answer3, setAnswer3] = useState("");
@@ -31,14 +45,62 @@ const Journal: React.FC<JournalProps> = ({
   const [Answer3TextBoxLen, setAnswer3TextBoxLen] = useState(3);
   const [Answer4TextBoxLen, setAnswer4TextBoxLen] = useState(3);
 
+  const dispatch = useDispatch();
+  const { addToast } = useToasts();
+
   useEffect(() => {
-    setTitle(title);
-    setDescription(description);
-    setAnswer1(ans1);
-    setAnswer2(ans2);
-    setAnswer3(ans3);
-    setAnswer4(ans4);
+    if (type === "edit") {
+      setTitle(title);
+      setDescription(description);
+      setAnswer1(ans1);
+      setAnswer2(ans2);
+      setAnswer3(ans3);
+      setAnswer4(ans4);
+    }
   }, [title, description, date, ans1, ans2, ans3, ans4]);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  const submitHandler = async () => {
+    if (type === "edit") {
+      console.log("edit this");
+      close();
+    } else {
+      if (Title || Description || JournalDate) {
+        console.log("add");
+        await dispatch(
+          addJournal(
+            Title,
+            Description,
+            JournalDate,
+            Answer1,
+            Answer2,
+            Answer3,
+            Answer4,
+            journalGroupId
+          )
+        );
+        addToast("Journal  addded", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        getJournalGroupList();
+        closeModal();
+        close();
+      } else {
+        addToast("title, description and date cant be empty", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     if (Answer1) {
@@ -87,6 +149,7 @@ const Journal: React.FC<JournalProps> = ({
           id="datepicker"
           placeholder="Select Date"
           min={new Date()}
+          value={JournalDate}
         />
       </div>
       <p className="font-bold text-black pt-5">How was your day today ?</p>
@@ -134,6 +197,7 @@ const Journal: React.FC<JournalProps> = ({
       ></textarea>
       <button
         onClick={() => {
+          submitHandler();
           console.log(
             "Onclick form state",
             Title,
@@ -146,7 +210,7 @@ const Journal: React.FC<JournalProps> = ({
         }}
         className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-purple- transition duration-500 my-4"
       >
-        New
+        {type === "edit" ? "Edit" : "Add"}
       </button>
     </div>
   );

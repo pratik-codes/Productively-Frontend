@@ -62,8 +62,7 @@ const FlashCardSection = () => {
   };
 
   useEffect(() => {
-    dispatch(getFlashcardGroupList());
-    console.log(flashcard);
+    if (!flashcard.data) dispatch(getFlashcardGroupList());
   }, []);
 
   const flashcard: flashcardGroupReduxState = useSelector(
