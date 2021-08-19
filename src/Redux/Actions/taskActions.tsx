@@ -8,9 +8,15 @@ import {
   USER_CREATE_TASK_GROUP_FAIL,
   USER_CREATE_TASK_GROUP_REQUEST,
   USER_CREATE_TASK_GROUP_SUCCESS,
+  USER_MARK_TASK_DONE_FAIL,
+  USER_MARK_TASK_DONE_REQUEST,
+  USER_MARK_TASK_DONE_SUCCESS,
   USER_TASK_DELETE_FAIL,
   USER_TASK_DELETE_REQUEST,
   USER_TASK_DELETE_SUCCESS,
+  USER_TASK_DETAILS_EDIT_FAIL,
+  USER_TASK_DETAILS_EDIT_REQUEST,
+  USER_TASK_DETAILS_EDIT_SUCCESS,
   USER_TASK_FAIL,
   USER_TASK_GROUP_DELETE_FAIL,
   USER_TASK_GROUP_DELETE_REQUEST,
@@ -176,6 +182,103 @@ export const editTaskGroup =
     } catch (error) {
       dispatch({
         type: USER_TASK_GROUP_DETAILS_EDIT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const EditTask =
+  (
+    TaskGroupId: string | undefined,
+    TaskId: string,
+    taskName: string,
+    taskDescription: string,
+    tasksStatus: string
+  ) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_TASK_DETAILS_EDIT_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const Body = {
+        TaskGroupId: TaskGroupId,
+        TaskId: TaskId,
+        TaskGroupDto: {
+          taskName: taskName,
+          taskDescription: taskDescription,
+          tasksStatus: tasksStatus,
+        },
+      };
+      console.log(Body);
+      // hitting REMAINDER api
+      const { data } = await Axios.patch(
+        `${baseURL}taskgroup/task`,
+        Body,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 201) {
+        dispatch({
+          type: USER_TASK_DETAILS_EDIT_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_TASK_DETAILS_EDIT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const MarkTaskDone =
+  (TaskGroupId: string | undefined, TaskId: string) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MARK_TASK_DONE_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const Body = {
+        TaskGroupId: TaskGroupId,
+        TaskId: TaskId,
+      };
+      console.log(Body);
+      // hitting REMAINDER api
+      const { data } = await Axios.patch(
+        `${baseURL}taskgroup/task/done`,
+        Body,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 201) {
+        dispatch({
+          type: USER_MARK_TASK_DONE_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MARK_TASK_DONE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

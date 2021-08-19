@@ -69,7 +69,7 @@ const TaskList = () => {
         GroupName: groupdata?.taskGroupName,
         GroupDescription: groupdata?.taskGroupDescription,
         Pending: groupdata?.tasks.Pending,
-        Done: groupdata?.tasks.Done,
+        done: groupdata?.tasks.done,
         Back: () => setTaskListIsOpen(""),
       };
       setTaskListData(stateData);
@@ -84,14 +84,14 @@ const TaskList = () => {
           GroupName={taskListData?.GroupName}
           GroupDescription={taskListData?.GroupDescription}
           Pending={taskListData?.Pending}
-          Done={taskListData?.Done}
+          Done={taskListData?.done}
           // Back={() => setTaskListIsOpen("")}
           Back={setTaskListIsOpen}
         />
       )}
       {taskListIsOpen === "" && (
         <div>
-          <div className="flex justify-between w-5/6 mx-auto pt-10 mt-10">
+          <div className="flex justify-between w-6/6 pt-10 mx-10 mt-10">
             <h1 className="text-2xl font-sans font-bold text-purple-700 ml-4 mb-4">
               Task Groups 📝
             </h1>
@@ -199,7 +199,7 @@ const TaskList = () => {
               </Dialog>
             </Transition>
           </div>
-          <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
+          <div className="py-10 px-20 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
             {!TaskListGroups.data ? (
               <Loader />
             ) : TaskListGroups.data.length === 0 ? (

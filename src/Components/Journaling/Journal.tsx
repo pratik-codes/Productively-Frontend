@@ -4,24 +4,28 @@ import { useDispatch } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import {
   addJournal,
+  editJournal,
   getJournalGroupList,
 } from "../../Redux/Actions/JournalActions";
 
 interface JournalProps {
   journalGroupId: string;
+  journalId: string;
   title: string;
   description: string;
-  date: string;
+  date: Date | undefined;
   ans1: string;
   ans2: string;
   ans3: string;
   ans4: string;
   type: string;
   close: any;
+  back: any;
 }
 
 const Journal: React.FC<JournalProps> = ({
   journalGroupId,
+  journalId,
   title,
   description,
   date,
@@ -31,11 +35,12 @@ const Journal: React.FC<JournalProps> = ({
   ans4,
   type,
   close,
+  back,
 }) => {
   let [isOpen, setIsOpen] = useState(false);
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
-  const [JournalDate, setJournalDate] = useState();
+  const [JournalDate, setJournalDate] = useState<Date>();
   const [Answer1, setAnswer1] = useState("");
   const [Answer2, setAnswer2] = useState("");
   const [Answer3, setAnswer3] = useState("");
@@ -52,6 +57,7 @@ const Journal: React.FC<JournalProps> = ({
     if (type === "edit") {
       setTitle(title);
       setDescription(description);
+      setJournalDate(date);
       setAnswer1(ans1);
       setAnswer2(ans2);
       setAnswer3(ans3);
@@ -69,8 +75,44 @@ const Journal: React.FC<JournalProps> = ({
 
   const submitHandler = async () => {
     if (type === "edit") {
-      console.log("edit this");
-      close();
+      if (Title || Description || JournalDate) {
+        console.log(
+          "Onclick form state",
+          Title,
+          Description,
+          JournalDate,
+          Answer1,
+          Answer2,
+          Answer3,
+          Answer4
+        );
+        await dispatch(
+          editJournal(
+            journalGroupId,
+            journalId,
+            Title,
+            Description,
+            JournalDate,
+            Answer1,
+            Answer2,
+            Answer3,
+            Answer4
+          )
+        );
+        addToast("Journal  edited", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        dispatch(getJournalGroupList());
+        closeModal();
+        close();
+        back();
+      } else {
+        addToast("title, description and date cant be empty", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
     } else {
       if (Title || Description || JournalDate) {
         console.log("add");
@@ -86,13 +128,14 @@ const Journal: React.FC<JournalProps> = ({
             journalGroupId
           )
         );
-        addToast("Journal  addded", {
+        await addToast("Journal  addded", {
           appearance: "success",
           autoDismiss: true,
         });
-        getJournalGroupList();
+        dispatch(getJournalGroupList());
         closeModal();
         close();
+        back();
       } else {
         addToast("title, description and date cant be empty", {
           appearance: "error",
@@ -145,11 +188,13 @@ const Journal: React.FC<JournalProps> = ({
         className=" p-2 mt-2 border-2  border-transparent placeholder-blueGray-300 text-blueGray-600 relative rounded text-base border-0 outline-none focus:outline-none focus:ring ring-purple-600 w-full"
       />
       <div className="w-full mt-6 mb-1 border-gray-400 border-opacity-50">
+        {console.log(JournalDate)}
         <DatePickerComponent
           id="datepicker"
           placeholder="Select Date"
           min={new Date()}
           value={JournalDate}
+          onChange={(e: any) => setJournalDate(e.target.value)}
         />
       </div>
       <p className="font-bold text-black pt-5">How was your day today ?</p>
@@ -198,15 +243,6 @@ const Journal: React.FC<JournalProps> = ({
       <button
         onClick={() => {
           submitHandler();
-          console.log(
-            "Onclick form state",
-            Title,
-            Description,
-            Answer1,
-            Answer2,
-            Answer3,
-            Answer4
-          );
         }}
         className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-purple- transition duration-500 my-4"
       >

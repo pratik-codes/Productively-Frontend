@@ -60,7 +60,7 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
         <div className="flex justify-between">
           <div className="w-5/6">
             <h1 className="text-2xl font-sans text-purple-600 font-bold ml-4 mb-1">
-              Journal Group: {title}
+              Flashcard Group: {title}
             </h1>
             <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
               {description}
@@ -90,7 +90,10 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
           IsOpenJournal === "" &&
           journals.map((journal) => {
             return (
-              <div className="w-5/6 mx-auto my-3">
+              <div
+                style={{ marginBottom: "2rem" }}
+                className="w-5/6 mx-auto my-3"
+              >
                 <JournalCard
                   selectJournal={() => setIsOpenJournal(journal.journalId)}
                   journalGroupId={GroupId}
@@ -104,21 +107,24 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
       </div>
       {isOpen === true && (
         <Journal
-          journalGroupId=""
+          journalGroupId={GroupId}
+          journalId=""
           title=""
           description=""
-          date=""
+          date={new Date()}
           ans1=""
           ans2=""
           ans3=""
           ans4=""
           type="add"
           close={closeModal}
+          back={Back}
         />
       )}
       {SelectedJournalData && IsOpenJournal !== "" && (
         <Journal
           journalGroupId={GroupId}
+          journalId={SelectedJournalData.journalId}
           title={SelectedJournalData.journalName}
           description={SelectedJournalData.journalDescription}
           date={SelectedJournalData.journalDate}
@@ -128,6 +134,7 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
           ans4={SelectedJournalData.ans4}
           type="edit"
           close={closeModal}
+          back={Back}
         />
       )}
     </>
