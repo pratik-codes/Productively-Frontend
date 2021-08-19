@@ -30,7 +30,7 @@ export interface TaskGroup {
   taskGroupId: string;
   taskGroupName: string;
   taskGroupDescription: string;
-  tasks: { Pending: Task[]; Done: Task[] };
+  tasks: { Pending: Task[]; done: Task[] };
 }
 
 export interface Task {

@@ -84,7 +84,7 @@ const Journaling = () => {
       )}
       {journalListIsOpen === "" && (
         <div className="">
-          <div className="flex justify-between w-5/6 mx-auto pt-10 mt-10">
+          <div className="flex justify-between w-6/6 pt-10 mx-10 mt-10">
             <h1
               style={{ color: "#6EB448" }}
               className="text-2xl font-sans font-bold  ml-4 mb-4"
@@ -195,13 +195,13 @@ const Journaling = () => {
               </Dialog>
             </Transition>
           </div>
-          <div className="p-10 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
+          <div className="py-10 px-20 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
             {!JournalGroups.data ? (
               <Loader />
             ) : JournalGroups.data.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 ">No upcoming remainders</h1>
+                <h1 className="text-l ml-5 ">No Journal Groups</h1>
                 <br />
               </div>
             ) : (

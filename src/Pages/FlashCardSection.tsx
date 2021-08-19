@@ -97,7 +97,7 @@ const FlashCardSection = () => {
       )}
       {isOpenFlashCardGroup === "" && (
         <>
-          <div className="flex justify-between w-5/6 mx-auto pt-10 mt-10">
+          <div className="flex justify-between w-6/6 pt-10 mx-10 mt-10">
             <h1
               style={{ color: "#e072ff" }}
               className="text-2xl font-sans font-bold  ml-4 mb-4"
@@ -208,7 +208,7 @@ const FlashCardSection = () => {
               </Dialog>
             </Transition>
           </div>
-          <div className="p-10 w-full grid grid-cols-2 gap-4 overflow-y-auto">
+          <div className="py-10 px-20 w-full grid grid-cols-2 gap-4 overflow-y-auto">
             {!flashcard.data ? (
               <Loader />
             ) : flashcard.data.length === 0 ? (

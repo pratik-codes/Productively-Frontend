@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
@@ -6,7 +6,12 @@ import Done from "../../Assets/icons/Done.png";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { useDispatch } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-import { deleteTask, getTaskList } from "../../Redux/Actions/taskActions";
+import {
+  deleteTask,
+  EditTask,
+  getTaskList,
+  MarkTaskDone,
+} from "../../Redux/Actions/taskActions";
 
 interface RemainderComponentProps {
   title: string;
@@ -25,8 +30,8 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
   color,
   back,
 }) => {
-  const [taskGroupTitle, settaskGroupTitle] = useState("");
-  const [taskGroupDescription, settaskGroupDescription] = useState("");
+  const [TaskTitle, setTaskTitle] = useState("");
+  const [TaskDescription, setTaskDescription] = useState("");
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
@@ -49,17 +54,19 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
   }
 
   const editTaskHandler = async () => {
-    if (taskGroupTitle || taskGroupDescription) {
+    if (TaskTitle || TaskDescription) {
       console.log("running add");
-      // await dispatch(addTask(TaskName, TaskDescription, "PENDING", GroupId));
-      // dispatch(getTaskList());
+      await dispatch(
+        EditTask(groupId, taskId, TaskTitle, TaskDescription, "PENDING")
+      );
+      dispatch(getTaskList());
       addToast("Task added successfully.", {
         appearance: "success",
         autoDismiss: true,
       });
-
-      settaskGroupTitle("");
-      settaskGroupDescription("");
+      setTaskTitle("");
+      setTaskDescription("");
+      back("");
     } else {
       console.log("aborting add");
 
@@ -68,6 +75,16 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
         autoDismiss: true,
       });
     }
+  };
+
+  const MarkTaskDoneHandler = async () => {
+    await dispatch(MarkTaskDone(groupId, taskId));
+    addToast("Task marked done.", {
+      appearance: "success",
+      autoDismiss: true,
+    });
+    await dispatch(getTaskList());
+    back("");
   };
 
   const deleteTaskHandler = async () => {
@@ -79,6 +96,13 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
     dispatch(getTaskList());
     back("");
   };
+
+  useEffect(() => {
+    if (title) {
+      setTaskTitle(title);
+      setTaskDescription(description);
+    }
+  }, []);
 
   return (
     <div className="w-6/6 mx-auto">
@@ -96,7 +120,7 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
               {color === "#DBEAFE" && (
                 <div
                   style={{ borderRadius: "100px" }}
-                  onClick={() => console.log(Done)}
+                  onClick={() => MarkTaskDoneHandler()}
                   className="ml-2 flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 hover:bg-green-600 transition duration-500"
                 >
                   <img
@@ -109,7 +133,9 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
 
               <div
                 style={{ borderRadius: "100px" }}
-                onClick={() => setEditIsOpen(true)}
+                onClick={() => {
+                  setEditIsOpen(true);
+                }}
                 className="ml-2 flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 mr-3 hover:bg-yellow-600 transition duration-500"
               >
                 <img
@@ -165,28 +191,26 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
                             maxLength={50}
                             type="text"
                             placeholder="Remainder Title"
-                            onChange={(e) => settaskGroupTitle(e.target.value)}
-                            value={taskGroupTitle}
+                            onChange={(e) => setTaskTitle(e.target.value)}
+                            value={TaskTitle}
                             className="px-3 py-2 mt-2 border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                           />
                           <div className="flex justify-end">
                             <p style={{ fontSize: "0.8rem" }}>
-                              {taskGroupTitle.length}/50
+                              {TaskTitle.length}/50
                             </p>
                           </div>
                           <input
                             type="text"
                             placeholder="Description"
                             maxLength={150}
-                            onChange={(e) =>
-                              settaskGroupDescription(e.target.value)
-                            }
-                            value={taskGroupDescription}
+                            onChange={(e) => setTaskDescription(e.target.value)}
+                            value={TaskDescription}
                             className="px-3 py-2 mt-3  border-2  border-opacity-50  placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring w-full"
                           />
                           <div className="flex justify-end">
                             <p style={{ fontSize: "0.8rem" }}>
-                              {taskGroupDescription.length}/150
+                              {TaskDescription.length}/150
                             </p>
                           </div>
                         </div>
@@ -194,7 +218,10 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
                           <button
                             type="button"
                             className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={closeEditModal}
+                            onClick={() => {
+                              closeEditModal();
+                              editTaskHandler();
+                            }}
                           >
                             Edit!
                           </button>

@@ -68,10 +68,9 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
     }
   };
 
-  // useEffect(() => {
-  //   setTaskName(GroupName);
-  //   setTaskDescription(GroupDescription);
-  // }, []);
+  useEffect(() => {
+    console.log(Done);
+  }, []);
 
   return (
     <>

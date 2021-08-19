@@ -71,8 +71,11 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
   };
 
   return (
-    <div className="w-6/6 mx-auto">
-      <div style={{ background: `${color}` }} className="rounded-2xl p-2 m-3">
+    <div className="w-6/6 mx-auto h-full">
+      <div
+        style={{ background: `${color}` }}
+        className="rounded-2xl p-2 m-3 flex flex-col justify-between break-words h-full"
+      >
         <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
           {journals?.journalName}
         </h1>
