@@ -8,8 +8,6 @@
 }
 
 .NavContainer {
-  width: 50%;
-  height: 100%;
   background: black;
   border-radius: 25px;
   display: flex;

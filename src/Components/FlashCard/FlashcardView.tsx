@@ -47,7 +47,6 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
         appearance: "error",
         autoDismiss: true,
       });
-      dispatch(getFlashcardGroupList());
     } else {
       await dispatch(
         addFlashcard(
@@ -57,11 +56,12 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
           flashCardGroupId
         )
       );
-      back("");
       addToast("flashcard addded", {
         appearance: "success",
         autoDismiss: true,
       });
+      await dispatch(getFlashcardGroupList());
+      back("");
     }
   };
   return (
@@ -193,7 +193,7 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
             Back
           </button>
         </div>
-        <div className="mx-auto px-10 py-5 w-full grid grid-cols-2 overflow-y-auto">
+        <div className="mx-auto px-10 py-5 w-full grid 2xl:grid-cols-2 xl:grid-cols-2 l:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 overflow-y-auto">
           {!flashcards ? (
             <Loader />
           ) : (

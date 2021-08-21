@@ -208,7 +208,7 @@ const FlashCardSection = () => {
               </Dialog>
             </Transition>
           </div>
-          <div className="py-10 px-20 w-full grid grid-cols-2 gap-4 overflow-y-auto">
+          <div className="py-10 px-20 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-4 overflow-y-auto">
             {!flashcard.data ? (
               <Loader />
             ) : flashcard.data.length === 0 ? (
@@ -220,7 +220,7 @@ const FlashCardSection = () => {
             ) : (
               flashcard.data.map((FlashCardGroup) => {
                 return (
-                  <div>
+                  <div style={{ marginBottom: "2rem" }}>
                     <TaskGroupCard
                       id={FlashCardGroup._id}
                       title={FlashCardGroup.groupName}

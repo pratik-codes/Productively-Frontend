@@ -22,7 +22,7 @@ const Homepage: React.FC = () => {
         className="flex align-center justify-center"
       >
         <div className="bg-white w-full rounded-xl m-5 s  shadow-xl flex ">
-          <div className="w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
+          <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
             <div onClick={() => setPageOpen("Homepage")}>
               <SidebarCard
                 activeTab={pageOpen}
@@ -58,7 +58,7 @@ const Homepage: React.FC = () => {
               />
             </div>
           </div>
-          <div className="w-10/12 h-full">
+          <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 md:w-full 2 sm:w-full h-full">
             {pageOpen === "Homepage" && <HomePage />}
             {pageOpen === "Task List" && <TaskList />}
             {pageOpen === "Flash Cards" && <FlashCardSection />}
