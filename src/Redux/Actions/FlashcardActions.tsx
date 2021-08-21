@@ -7,9 +7,15 @@ import {
   USER_CREATE_FLASHCARD_GROUP_FAIL,
   USER_CREATE_FLASHCARD_GROUP_REQUEST,
   USER_CREATE_FLASHCARD_GROUP_SUCCESS,
+  USER_FLASHCARD_DATA_EDIT_FAIL,
+  USER_FLASHCARD_DATA_EDIT_REQUEST,
+  USER_FLASHCARD_DATA_EDIT_SUCCESS,
   USER_FLASHCARD_DELETE_FAIL,
   USER_FLASHCARD_DELETE_REQUEST,
   USER_FLASHCARD_DELETE_SUCCESS,
+  USER_FLASHCARD_EDIT_FAIL,
+  USER_FLASHCARD_EDIT_REQUEST,
+  USER_FLASHCARD_EDIT_SUCCESS,
   USER_FLASHCARD_FAIL,
   USER_FLASHCARD_GROUP_DELETE_FAIL,
   USER_FLASHCARD_GROUP_DELETE_REQUEST,
@@ -126,6 +132,7 @@ export const addFlashcard =
         Body,
         config
       );
+      console.log(data);
       // only make success if the response is success
       if (data.statusCode === 201) {
         dispatch({
@@ -178,6 +185,104 @@ export const editFlashcardGroup =
     } catch (error) {
       dispatch({
         type: USER_ADD_FLASHCARD_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const editFlashcard =
+  (
+    FlashcardGroupId: string | undefined,
+    FlashcardId: string,
+    flashcardName: string,
+    flashcardDescription: string
+  ) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_FLASHCARD_EDIT_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const Body = {
+        FlashcardGroupDto: {
+          flashcardName: flashcardName,
+          flashcardDescription: flashcardDescription,
+        },
+        FlashcardGroupId: FlashcardGroupId,
+        FlashcardId: FlashcardId,
+      };
+      // hitting REMAINDER api
+      const { data } = await Axios.patch(
+        `${baseURL}flashcard/card`,
+        Body,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 201) {
+        dispatch({
+          type: USER_FLASHCARD_EDIT_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_FLASHCARD_EDIT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const editFlashcardData =
+  (
+    FlashcardGroupId: string | undefined,
+    FlashcardId: string,
+    flashcardData: string
+  ) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_FLASHCARD_DATA_EDIT_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const Body = {
+        FlashcardGroupId: FlashcardGroupId,
+        FlashcardId: FlashcardId,
+        data: flashcardData,
+      };
+      // hitting REMAINDER api
+      const { data } = await Axios.patch(
+        `${baseURL}flashcard/card/data`,
+        Body,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 201) {
+        dispatch({
+          type: USER_FLASHCARD_DATA_EDIT_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_FLASHCARD_DATA_EDIT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
