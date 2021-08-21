@@ -47,7 +47,6 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
         appearance: "error",
         autoDismiss: true,
       });
-      dispatch(getFlashcardGroupList());
     } else {
       await dispatch(
         addFlashcard(
@@ -57,11 +56,12 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
           flashCardGroupId
         )
       );
-      back("");
       addToast("flashcard addded", {
         appearance: "success",
         autoDismiss: true,
       });
+      await dispatch(getFlashcardGroupList());
+      back("");
     }
   };
   return (

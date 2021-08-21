@@ -4,6 +4,8 @@ import deleteIcon from "../../Assets/icons/Delete.png";
 import edit from "../../Assets/icons/EditButton.png";
 import {
   deleteFlashcard,
+  editFlashcard,
+  editFlashcardData,
   getFlashcardGroupList,
 } from "../../Redux/Actions/FlashcardActions";
 import { useDispatch } from "react-redux";
@@ -71,8 +73,47 @@ const FlashCard: React.FC<flashCardProps> = ({
     back("");
   };
 
-  const addFlashcardHandler = () => {
-    console.log("adding");
+  const editFlashcardHandler = async () => {
+    if (!FlashCardTitle || !FlashCardDescription) {
+      addToast("Title, description cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      await dispatch(
+        editFlashcard(
+          flashCardGroupId,
+          flashCardId,
+          FlashCardTitle,
+          FlashCardDescription
+        )
+      );
+      addToast("flashcard addded", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      await dispatch(getFlashcardGroupList());
+      back("");
+    }
+  };
+
+  const dataFlashcardHandler = async () => {
+    if (!FlashCardData) {
+      addToast("Data cant be empty.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      await dispatch(
+        editFlashcardData(flashCardGroupId, flashCardId, FlashCardData)
+      );
+      addToast("flashcard addded", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      await dispatch(getFlashcardGroupList());
+      back("");
+    }
   };
 
   useEffect(() => {
@@ -357,7 +398,10 @@ const FlashCard: React.FC<flashCardProps> = ({
                   <button
                     type="button"
                     className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-pink-900 bg-pink-100 border border-transparent rounded-md hover:bg-pink-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-500"
-                    onClick={closeDeleteModal}
+                    onClick={() => {
+                      closeDeleteModal();
+                      dataFlashcardHandler();
+                    }}
                   >
                     edit
                   </button>
