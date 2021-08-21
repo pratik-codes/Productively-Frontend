@@ -43,8 +43,8 @@ export default function NavBar() {
   ];
 
   return (
-    <div className="NavWrapper">
-      <div className="NavContainer ">
+    <div className="flex justify-center w-full h-14 mt-2 align-center">
+      <div className="NavContainer flex justify-between 2xl:w-3/6 xl:w-3/6 l:w-4/6 md:w-5/6 sm:w-6/6">
         <div className="grid-cols-2 ml-8">
           <Link to="/dashboard">
             <button className="focus:outline-none p-2 text-sm font-medium text-gray-300 hover:text-white  duration-300">
@@ -60,7 +60,9 @@ export default function NavBar() {
           <div className="grid-cols-8">
             <Link to="/">
               <button className="focus:outline-none px-2 py-2.5">
-                <h2 className="font-bold">PRODUCTIVELY</h2>
+                <h2 className="font-bold md:text-sm sm:text-sm">
+                  PRODUCTIVELY
+                </h2>
               </button>
             </Link>
           </div>

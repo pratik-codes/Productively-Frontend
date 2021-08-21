@@ -195,7 +195,7 @@ const Journaling = () => {
               </Dialog>
             </Transition>
           </div>
-          <div className="py-10 px-20 h-full w-full grid grid-cols-3 gap-2  overflow-y-auto">
+          <div className="py-10 px-20 h-full w-full grid grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
             {!JournalGroups.data ? (
               <Loader />
             ) : JournalGroups.data.length === 0 ? (
