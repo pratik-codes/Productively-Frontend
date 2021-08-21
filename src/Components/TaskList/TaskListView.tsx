@@ -201,7 +201,7 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
           Task Status: Pending ⌛
         </h1>
       </div>
-      <div className="p-10 w-full grid grid-cols-4 gap-2  overflow-y-auto">
+      <div className="p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Pending && Pending.length === 0 ? (
           <div className="">
             <br />
@@ -231,7 +231,7 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
           Task Status: Done ✅
         </h1>
       </div>
-      <div className="p-10 w-full grid grid-cols-4 gap-2  overflow-y-auto">
+      <div className="p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Done && Done.length === 0 ? (
           <div className="">
             <br />
