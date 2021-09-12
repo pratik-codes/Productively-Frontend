@@ -69,14 +69,14 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
 
   return (
     <>
-      <div className="bg-blue-100 rounded-2xl my-4 p-4 break-words">
+      <div className="bg-blue-100 rounded-2xl my-4 p-3 break-words">
         <h1 className="ml-4 font-sans text-black text-l font-medium">{task}</h1>
         <div className="flex justify-end">
           <div className="flex">
             <div
               style={{ borderRadius: "100px" }}
               onClick={() => setEditIsOpen(true)}
-              className="flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 mr-3 hover:bg-yellow-600 transition duration-500"
+              className="flex items-center mr-1 w-8 h-8 cursor-pointer bg-black mt-3 mr-3 hover:bg-yellow-600 transition duration-500"
             >
               <img
                 className="flex justify-center align-middle mx-auto w-4 h-4 text-gray-700"
@@ -170,7 +170,7 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({ id, task }) => {
             <div
               style={{ borderRadius: "100px" }}
               onClick={() => setDeleteIsOpen(true)}
-              className="flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 hover:bg-red-600 transition duration-500"
+              className="flex items-center mr-1 w-8 h-8 cursor-pointer bg-black mt-3 hover:bg-red-600 transition duration-500"
             >
               <img
                 className="flex justify-center align-middle mx-auto w-4 h-4 text-gray-700"

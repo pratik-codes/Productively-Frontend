@@ -24,6 +24,9 @@ const Remainder = () => {
   const [remainderTitle, setRemaindertitle] = useState("");
   const [remainderDescription, setRemainderDescription] = useState("");
   const [remainderDate, setRemainderDate] = useState();
+  const [multipleDelete, setMultipleDelete] = useState(false);
+  const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
+  let [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -34,6 +37,14 @@ const Remainder = () => {
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteIsOpen(false);
+  }
+
+  function openDeleteModal() {
+    setDeleteIsOpen(true);
   }
 
   const Remainders: RemainderReduxState = useSelector(
@@ -60,6 +71,15 @@ const Remainder = () => {
     }
   };
 
+  const addCardsToAddOrDelete = (id: string, add: boolean) => {
+    if (add === true) cardsToDelete.push(id);
+    else {
+      var idIndex = cardsToDelete.indexOf(id);
+      cardsToDelete.splice(idIndex, 1);
+    }
+    console.log(cardsToDelete);
+  };
+
   useEffect(() => {
     if (!Remainders.data) dispatch(getRemainders());
   }, []);
@@ -70,14 +90,45 @@ const Remainder = () => {
         <br />
         <div className="flex justify-between mb-2">
           <h1 className="text-2xl font-sans font-bold text-yellow-700 ml-4 mb-4">
-            Remainder Timeline ⏰
+            Reminder Timeline ⏰
           </h1>
-          <button
-            onClick={openModal}
-            className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
-          >
-            New
-          </button>
+          <div className="flex">
+            <button
+              onClick={openModal}
+              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+            >
+              New
+            </button>
+            {multipleDelete ? (
+              <div>
+                <button
+                  onClick={() => {
+                    openDeleteModal();
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+                >
+                  Delete all
+                </button>
+                <button
+                  onClick={() => {
+                    setMultipleDelete(false);
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setMultipleDelete(!multipleDelete);
+                }}
+                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+              >
+                Multiple delete
+              </button>
+            )}
+          </div>
         </div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
@@ -172,7 +223,82 @@ const Remainder = () => {
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModal}
+                      onClick={() => {
+                        closeModal();
+                      }}
+                    >
+                      cancel
+                    </button>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+
+        <Transition appear show={deleteIsOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={openDeleteModal}
+          >
+            <div className=" px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Delete Remainder
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <Dialog.Description>
+                      Are you sure you want to delete this Priority?
+                    </Dialog.Description>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => {
+                        closeDeleteModal();
+                      }}
+                    >
+                      delete
+                    </button>
+                    <button
+                      type="button"
+                      className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => {
+                        closeDeleteModal();
+                      }}
                     >
                       cancel
                     </button>
@@ -208,6 +334,13 @@ const Remainder = () => {
                     title={remainder.remainderName}
                     description={remainder.remainderDescription}
                     date={remainder.remainderDate}
+                    multipleDelete={multipleDelete}
+                    addMultipleDelete={() =>
+                      addCardsToAddOrDelete(remainder._id, true)
+                    }
+                    removeMultipleDelete={() =>
+                      addCardsToAddOrDelete(remainder._id, false)
+                    }
                   />
                 </div>
               );
@@ -238,6 +371,13 @@ const Remainder = () => {
                       title={remainder.remainderName}
                       description={remainder.remainderDescription}
                       date={remainder.remainderDate}
+                      multipleDelete={multipleDelete}
+                      addMultipleDelete={() =>
+                        addCardsToAddOrDelete(remainder._id, true)
+                      }
+                      removeMultipleDelete={() =>
+                        addCardsToAddOrDelete(remainder._id, false)
+                      }
                     />
                   </div>
                 );

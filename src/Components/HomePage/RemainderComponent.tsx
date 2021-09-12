@@ -16,6 +16,9 @@ interface RemainderComponentProps {
   title: string;
   description: string;
   date: Date;
+  multipleDelete: boolean;
+  addMultipleDelete: any;
+  removeMultipleDelete: any;
 }
 
 const RemainderComponent: React.FC<RemainderComponentProps> = ({
@@ -23,10 +26,14 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
   title,
   description,
   date,
+  multipleDelete,
+  addMultipleDelete,
+  removeMultipleDelete,
 }) => {
   const [remainderTitle, setRemainderTitle] = useState("");
   const [remainderDescription, setRemainderDescription] = useState("");
   const [remainderDate, setRemainderDate] = useState<Date>();
+  const [checkBoxIsChecked, setCheckBoxIsChecked] = useState<Boolean>(true);
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
@@ -47,6 +54,15 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  const checkBoxHandler = () => {
+    if (checkBoxIsChecked) {
+      addMultipleDelete();
+    }
+    if (!checkBoxIsChecked) {
+      removeMultipleDelete();
+    }
+  };
 
   useEffect(() => {
     if (title) {
@@ -94,12 +110,33 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
         style={{ background: "#FFCF7D" }}
         className="rounded-2xl p-2 m- h-full flex flex-col justify-between break-words"
       >
-        <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
-          {title}
-        </h1>
-        <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
-          {description}
-        </h1>
+        <div className="flex justify-between ">
+          <div>
+            <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
+              {title}
+            </h1>
+            <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
+              {description}
+            </h1>
+          </div>
+          {multipleDelete ? (
+            <div>
+              <input
+                type="checkbox"
+                onChange={() => {
+                  checkBoxHandler();
+                  setCheckBoxIsChecked(!checkBoxIsChecked);
+                }}
+                className="mt-2 mr-2 "
+                style={{
+                  width: "20px",
+                  height: "20px",
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
+
         <br></br>
         <div className="flex justify-between">
           <h1 className="ml-4 mt-6 font-sans text-xs font-bold ">
