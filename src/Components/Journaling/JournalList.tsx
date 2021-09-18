@@ -35,6 +35,9 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
   const [SelectedJournalData, setSelectedJournalData] = useState<
     any | undefined
   >({});
+  const [multipleDelete, setMultipleDelete] = useState(false);
+  const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
+  const [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -42,6 +45,14 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteIsOpen(false);
+  }
+
+  function openDeleteModal() {
+    setDeleteIsOpen(true);
   }
 
   useEffect(() => {
@@ -54,13 +65,22 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
     }
   });
 
+  const addCardsToAddOrDelete = (id: string, add: boolean) => {
+    if (add === true) cardsToDelete.push(id);
+    else {
+      var idIndex = cardsToDelete.indexOf(id);
+      cardsToDelete.splice(idIndex, 1);
+    }
+    console.log(cardsToDelete);
+  };
+
   return (
     <>
       <div className="p-10 mx-auto pt-10 mt-10">
         <div className="flex justify-between">
           <div className="w-5/6">
             <h1 className="text-2xl font-sans text-purple-600 font-bold ml-4 mb-1">
-              Flashcard Group: {title}
+              Journal Group: {title}
             </h1>
             <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
               {description}
@@ -69,16 +89,98 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
 
           <button
             onClick={openModal}
-            className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500"
+            className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500 "
           >
-            New
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
           </button>
+
+          {multipleDelete ? (
+            <div className="flex">
+              <button
+                onClick={() => {
+                  openDeleteModal();
+                }}
+                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => {
+                  setMultipleDelete(false);
+                }}
+                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setMultipleDelete(!multipleDelete);
+              }}
+              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+          )}
 
           <button
             onClick={() =>
               IsOpenJournal !== "" ? setIsOpenJournal("") : Back()
             }
-            className="bg-black text-white font-bold h-10 mb-4 py-1 px-4 rounded mr-4 hover:bg-red-600 transition duration-500"
+            className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500 "
           >
             Back
           </button>
@@ -98,8 +200,15 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
                   selectJournal={() => setIsOpenJournal(journal.journalId)}
                   journalGroupId={GroupId}
                   journals={journal}
-                  color="#F0A177"
+                  color="#CABDED"
                   back={Back}
+                  multipleDelete={multipleDelete}
+                  addMultipleDelete={() =>
+                    addCardsToAddOrDelete(journal.journalId, true)
+                  }
+                  removeMultipleDelete={() =>
+                    addCardsToAddOrDelete(journal.journalId, false)
+                  }
                 />
               </div>
             );

@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
 
 import NavBar from "./Components/NavBar";
-import Homepage from "./Pages/Homepage";
+import Homepage from "./Pages/Homepage/Homepage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import "./styles/index.css";

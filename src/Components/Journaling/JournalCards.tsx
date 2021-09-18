@@ -18,6 +18,9 @@ interface JournalingComponentProps {
   journals: journal | undefined;
   selectJournal: any;
   back: any;
+  multipleDelete: boolean;
+  addMultipleDelete: any;
+  removeMultipleDelete: any;
 }
 export interface journal {
   journalId: string;
@@ -36,11 +39,15 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
   journals,
   selectJournal,
   back,
+  multipleDelete,
+  addMultipleDelete,
+  removeMultipleDelete,
 }) => {
   const [taskGroupTitle, settaskGroupTitle] = useState("");
   const [taskGroupDescription, settaskGroupDescription] = useState("");
   let [editIsOpen, setEditIsOpen] = useState(false);
   let [deleteIsOpen, setDeleteIsOpen] = useState(false);
+  const [checkBoxIsChecked, setCheckBoxIsChecked] = useState<Boolean>(true);
 
   function closeEditModal() {
     setEditIsOpen(false);
@@ -70,18 +77,50 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
     back("");
   };
 
+  const checkBoxHandler = () => {
+    if (checkBoxIsChecked) {
+      addMultipleDelete();
+    }
+    if (!checkBoxIsChecked) {
+      removeMultipleDelete();
+    }
+  };
+
   return (
     <div className="w-6/6 mx-auto h-full">
       <div
         style={{ background: `${color}` }}
         className="rounded-2xl p-2 m-3 flex flex-col justify-between break-words h-full"
       >
-        <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
-          {journals?.journalName}
-        </h1>
-        <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
-          {journals?.journalDescription}
-        </h1>
+        <div className="div flex justify-between">
+          <div>
+            <h1 className="ml-4 pt-3 mb-4 font-sans text-black text-2xl font-bold">
+              {journals?.journalName}
+            </h1>
+            <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
+              {journals?.journalDescription}
+            </h1>
+          </div>
+          <div>
+            {multipleDelete ? (
+              <div>
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    checkBoxHandler();
+                    setCheckBoxIsChecked(!checkBoxIsChecked);
+                  }}
+                  className="mt-2 mr-2 "
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+              </div>
+            ) : null}
+          </div>
+        </div>
+
         <br></br>
         <div className="flex justify-between">
           <div>
@@ -89,7 +128,20 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
               onClick={selectJournal}
               className="bg-black text-white font-bold mt-4 py-1 px-4 rounded ml-2 hover:bg-gray-700 transition duration-500"
             >
-              open
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
+              </svg>
             </button>
           </div>
           <div className="flex">
@@ -167,7 +219,20 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
                           className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                           onClick={closeDeleteModal}
                         >
-                          cancel
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
                         </button>
                       </div>
                     </div>
