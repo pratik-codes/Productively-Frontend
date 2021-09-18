@@ -15,6 +15,9 @@ import Loader from "../loader";
 const TodoCard: React.FC = () => {
   const [addPriorities, setAddPriorities] = useState("");
   let [isOpen, setIsOpen] = useState(false);
+  const [multipleDelete, setMultipleDelete] = useState(false);
+  const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
+  const [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -29,6 +32,14 @@ const TodoCard: React.FC = () => {
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteIsOpen(false);
+  }
+
+  function openDeleteModal() {
+    setDeleteIsOpen(true);
   }
 
   useEffect(() => {
@@ -51,20 +62,112 @@ const TodoCard: React.FC = () => {
     }
   };
 
+  const addCardsToAddOrDelete = (id: string, add: boolean) => {
+    if (add === true) cardsToDelete.push(id);
+    else {
+      var idIndex = cardsToDelete.indexOf(id);
+      cardsToDelete.splice(idIndex, 1);
+    }
+    console.log(cardsToDelete);
+  };
+
   return (
     <div className="h-full overflow-y-auto">
       <div className=" h-6/6 m-5   ">
         <br />
         <div className="flex justify-between">
           <h1 className="text-2xl font-sans font-bold text-blue-800 ml-4 mb-4">
-            Today's Priorities 🌟
+            Priorities 🌟
           </h1>
-          <button
-            onClick={openModal}
-            className="bg-black text-white font-bold mb-4 py-1 px-4 rounded"
-          >
-            New
-          </button>
+          <div className="flex">
+            <button
+              onClick={openModal}
+              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded h-8 mx-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </button>
+            {multipleDelete ? (
+              <div>
+                <button
+                  onClick={() => {
+                    openDeleteModal();
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-2 h-8"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => {
+                    setMultipleDelete(false);
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 h-8"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setMultipleDelete(!multipleDelete);
+                }}
+                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 h-8"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
         <div className="m-4">
           <Transition appear show={isOpen} as={Fragment}>
@@ -132,14 +235,137 @@ const TodoCard: React.FC = () => {
                           addPriorityHandler();
                         }}
                       >
-                        add!
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
                       </button>
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModal}
                       >
-                        cancel
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition>
+
+          <Transition appear show={deleteIsOpen} as={Fragment}>
+            <Dialog
+              as="div"
+              className="fixed inset-0 z-10 overflow-y-auto"
+              onClose={openDeleteModal}
+            >
+              <div className=" px-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0" />
+                </Transition.Child>
+
+                {/* This element is to trick the browser into centering the modal contents. */}
+                <span
+                  className="inline-block h-screen align-middle"
+                  aria-hidden="true"
+                >
+                  &#8203;
+                </span>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      Delete Priority
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <Dialog.Description>
+                        Are you sure you want to delete this Priority?
+                      </Dialog.Description>
+                    </div>
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={() => {
+                          closeDeleteModal();
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={() => {
+                          closeDeleteModal();
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -159,7 +385,17 @@ const TodoCard: React.FC = () => {
             Priorities.data.map((task: PriorityData) => {
               return (
                 <div>
-                  <TodoCardComponent id={task._id} task={task.priority} />
+                  <TodoCardComponent
+                    id={task._id}
+                    task={task.priority}
+                    multipleDelete={multipleDelete}
+                    addMultipleDelete={() =>
+                      addCardsToAddOrDelete(task._id, true)
+                    }
+                    removeMultipleDelete={() =>
+                      addCardsToAddOrDelete(task._id, false)
+                    }
+                  />
                 </div>
               );
             })

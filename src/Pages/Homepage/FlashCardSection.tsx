@@ -2,22 +2,22 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-import FlashCard, { flashCardData } from "../Components/FlashCard/FlashCard";
-import TaskGroupCard from "../Components/TaskList/TaskGroupCard";
-import { FlashCardData } from "../MockData/FlashCardData";
+import FlashCard, { flashCardData } from "../../Components/FlashCard/FlashCard";
+import TaskGroupCard from "../../Components/TaskList/TaskGroupCard";
+import { FlashCardData } from "../../MockData/FlashCardData";
 import {
   addFlashcardGroup,
   getFlashcardGroupList,
-} from "../Redux/Actions/FlashcardActions";
-import { RootStore } from "../Redux/Store";
+} from "../../Redux/Actions/FlashcardActions";
+import { RootStore } from "../../Redux/Store";
 import {
   flashcardGroupReduxState,
   flashcardGroups,
   RemainderReduxState,
-} from "../Interfaces/Interfaces";
-import { getFlashcardAction } from "../Redux/Reducers/flashcardReducers";
-import Loader from "../Components/loader";
-import FlashcardView from "../Components/FlashCard/FlashcardView";
+} from "../../Interfaces/Interfaces";
+import { getFlashcardAction } from "../../Redux/Reducers/flashcardReducers";
+import Loader from "../../Components/loader";
+import FlashcardView from "../../Components/FlashCard/FlashcardView";
 
 interface FlashCardGroupProps {
   flashCardGroupId: string;
@@ -33,6 +33,9 @@ const FlashCardSection = () => {
   const [isOpenFlashCardGroup, setisOpenFlashCardGroup] = useState("");
   const [OpenFlashCardGroupData, setisOpenFlashCardGroupData] =
     useState<flashcardGroups>();
+  const [multipleDelete, setMultipleDelete] = useState(false);
+  const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
+  const [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -43,6 +46,14 @@ const FlashCardSection = () => {
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteIsOpen(false);
+  }
+
+  function openDeleteModal() {
+    setDeleteIsOpen(true);
   }
 
   const addFlashcard = async () => {
@@ -59,6 +70,15 @@ const FlashCardSection = () => {
         autoDismiss: true,
       });
     }
+  };
+
+  const addCardsToAddOrDelete = (id: string, add: boolean) => {
+    if (add === true) cardsToDelete.push(id);
+    else {
+      var idIndex = cardsToDelete.indexOf(id);
+      cardsToDelete.splice(idIndex, 1);
+    }
+    console.log(cardsToDelete);
   };
 
   useEffect(() => {
@@ -98,18 +118,103 @@ const FlashCardSection = () => {
       {isOpenFlashCardGroup === "" && (
         <>
           <div className="flex justify-between w-6/6 pt-10 mx-10 mt-10">
-            <h1
-              style={{ color: "#e072ff" }}
-              className="text-2xl font-sans font-bold  ml-4 mb-4"
-            >
-              FlashCard Groups 📚 {isOpenFlashCardGroup}
-            </h1>
-            <button
-              onClick={() => openModal()}
-              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-pink-600 transition duration-500"
-            >
-              New
-            </button>
+            <div>
+              <h1
+                style={{ color: "#e072ff" }}
+                className="text-2xl font-sans font-bold  ml-4 mb-4"
+              >
+                FlashCard Groups 📚 {isOpenFlashCardGroup}
+              </h1>
+            </div>
+            <div className="flex">
+              <button
+                onClick={() => openModal()}
+                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-pink-600 transition duration-500"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+              </button>
+              {multipleDelete ? (
+                <div>
+                  <button
+                    onClick={() => {
+                      openDeleteModal();
+                    }}
+                    className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMultipleDelete(false);
+                    }}
+                    className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMultipleDelete(!multipleDelete);
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
             <Transition appear show={isOpen} as={Fragment}>
               <Dialog
                 as="div"
@@ -192,14 +297,40 @@ const FlashCardSection = () => {
                             closeModal();
                           }}
                         >
-                          add!
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            />
+                          </svg>
                         </button>
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                           onClick={closeModal}
                         >
-                          cancel
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
                         </button>
                       </div>
                     </div>
@@ -231,6 +362,13 @@ const FlashCardSection = () => {
                         console.log(FlashCardGroup);
                       }}
                       type="Flashcards"
+                      multipleDelete={multipleDelete}
+                      addMultipleDelete={() =>
+                        addCardsToAddOrDelete(FlashCardGroup._id, true)
+                      }
+                      removeMultipleDelete={() =>
+                        addCardsToAddOrDelete(FlashCardGroup._id, false)
+                      }
                     />
                   </div>
                 );
