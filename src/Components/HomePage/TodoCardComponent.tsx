@@ -50,9 +50,11 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({
 
   const checkBoxHandler = () => {
     if (checkBoxIsChecked) {
+      console.log(checkBoxIsChecked);
       addMultipleDelete();
     }
     if (!checkBoxIsChecked) {
+      console.log(checkBoxIsChecked);
       removeMultipleDelete();
     }
   };
@@ -244,7 +246,7 @@ const TodoCardComponent: React.FC<TodoCardComponentProps> = ({
               className="flex items-center mr-1 w-8 h-8 cursor-pointer bg-black mt-3 hover:bg-red-600 transition duration-500"
             >
               <img
-                className="flex justify-center align-middle mx-auto w-4 h-4 text-gray-700"
+                className="flex justify-center align-middle mx-auto w-3 h-3 text-gray-700"
                 src={deleteIcon}
                 alt="close"
               />

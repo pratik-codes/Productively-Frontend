@@ -25,6 +25,12 @@ import {
   USER_FLASHCARD_GROUP_DETAILS_EDIT_SUCCESS,
   USER_FLASHCARD_REQUEST,
   USER_FLASHCARD_SUCCESS,
+  USER_MULTIPLE_FLASHCARD_DELETE_FAIL,
+  USER_MULTIPLE_FLASHCARD_DELETE_REQUEST,
+  USER_MULTIPLE_FLASHCARD_DELETE_SUCCESS,
+  USER_MULTIPLE_FLASHCARD_GROUP_DELETE_FAIL,
+  USER_MULTIPLE_FLASHCARD_GROUP_DELETE_REQUEST,
+  USER_MULTIPLE_FLASHCARD_GROUP_DELETE_SUCCESS,
 } from "../Constants/Falshcard.constants";
 import { baseURL } from "./userActions";
 
@@ -358,6 +364,94 @@ export const deleteFlashcard =
     } catch (error) {
       dispatch({
         type: USER_FLASHCARD_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteMultipleFlashcardGroupHandler =
+  (flashcardGroupIds: string[]) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_FLASHCARD_GROUP_DELETE_REQUEST,
+      });
+
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = { flashcardGroupIds: flashcardGroupIds };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}flashcard/delete`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_FLASHCARD_GROUP_DELETE_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_FLASHCARD_GROUP_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteMultipleFlashcardsHandler =
+  (flashcardGroupId: string | undefined, flashcardIds: string[]) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_FLASHCARD_DELETE_REQUEST,
+      });
+
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = {
+        flashcardGroupId: flashcardGroupId,
+        flashcardIds: flashcardIds,
+      };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}flashcard/cards/delete`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_FLASHCARD_DELETE_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_FLASHCARD_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

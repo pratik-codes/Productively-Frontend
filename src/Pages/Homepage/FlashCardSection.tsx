@@ -7,6 +7,7 @@ import TaskGroupCard from "../../Components/TaskList/TaskGroupCard";
 import { FlashCardData } from "../../MockData/FlashCardData";
 import {
   addFlashcardGroup,
+  deleteMultipleFlashcardGroupHandler,
   getFlashcardGroupList,
 } from "../../Redux/Actions/FlashcardActions";
 import { RootStore } from "../../Redux/Store";
@@ -36,6 +37,7 @@ const FlashCardSection = () => {
   const [multipleDelete, setMultipleDelete] = useState(false);
   const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -79,6 +81,23 @@ const FlashCardSection = () => {
       cardsToDelete.splice(idIndex, 1);
     }
     console.log(cardsToDelete);
+  };
+
+  const multipleDeleteHandler = async (remainderIds: string[]) => {
+    if (remainderIds.length === 0) {
+      addToast("No cards selected to delete.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      await dispatch(deleteMultipleFlashcardGroupHandler(remainderIds));
+      addToast("Reminders deleted successfully.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setCardsToDelete([]);
+      dispatch(getFlashcardGroupList());
+    }
   };
 
   useEffect(() => {
@@ -338,7 +357,144 @@ const FlashCardSection = () => {
                 </div>
               </Dialog>
             </Transition>
+
+            <Transition appear show={deleteIsOpen} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto"
+                onClose={openDeleteModal}
+              >
+                <div className=" px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0" />
+                  </Transition.Child>
+
+                  {/* This element is to trick the browser into centering the modal contents. */}
+                  <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                  >
+                    &#8203;
+                  </span>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                      >
+                        Delete Multiple Flashcards
+                      </Dialog.Title>
+                      <div className="mt-2">
+                        <Dialog.Description>
+                          Are you sure you want to delete all the Flashcards?
+                        </Dialog.Description>
+                      </div>
+                      <div className="mt-4">
+                        <button
+                          type="button"
+                          className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={() => {
+                            closeDeleteModal();
+                            multipleDeleteHandler(cardsToDelete);
+                          }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={() => {
+                            closeDeleteModal();
+                          }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
           </div>
+
+          <div
+            className="flex items-center max-w-md mx-auto bg-white rounded-full shadow-md border-2"
+            x-data="{ search: '' }"
+          >
+            <div className="w-full">
+              <input
+                type="search"
+                className="w-full px-4 py-1 text-gray-900 rounded-full focus:outline-none"
+                placeholder="search"
+                x-model="search"
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                className={`flex items-center justify-center w-12 h-12 text-gray-100 rounded-full ${
+                  searchInput.length > 0 ? "bg-purple-500" : "bg-gray-500"
+                }`}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
           <div className="py-10 px-20 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-4 overflow-y-auto">
             {!flashcard.data ? (
               <Loader />
@@ -349,30 +505,45 @@ const FlashCardSection = () => {
                 <br />
               </div>
             ) : (
-              flashcard.data.map((FlashCardGroup) => {
-                return (
-                  <div style={{ marginBottom: "2rem" }}>
-                    <TaskGroupCard
-                      id={FlashCardGroup._id}
-                      title={FlashCardGroup.groupName}
-                      description={FlashCardGroup.groupDescription}
-                      color="#EFC5FA"
-                      Open={() => {
-                        setisOpenFlashCardGroup(FlashCardGroup._id);
-                        console.log(FlashCardGroup);
-                      }}
-                      type="Flashcards"
-                      multipleDelete={multipleDelete}
-                      addMultipleDelete={() =>
-                        addCardsToAddOrDelete(FlashCardGroup._id, true)
-                      }
-                      removeMultipleDelete={() =>
-                        addCardsToAddOrDelete(FlashCardGroup._id, false)
-                      }
-                    />
-                  </div>
-                );
-              })
+              flashcard.data
+                .filter((value) => {
+                  if (searchInput === "") {
+                    return value;
+                  } else if (
+                    value.groupName
+                      .toLocaleLowerCase()
+                      .includes(searchInput.toLocaleLowerCase()) ||
+                    value.groupDescription
+                      .toLocaleLowerCase()
+                      .includes(searchInput.toLocaleLowerCase())
+                  ) {
+                    return value;
+                  }
+                })
+                .map((FlashCardGroup) => {
+                  return (
+                    <div style={{ marginBottom: "2rem" }}>
+                      <TaskGroupCard
+                        id={FlashCardGroup._id}
+                        title={FlashCardGroup.groupName}
+                        description={FlashCardGroup.groupDescription}
+                        color="#EFC5FA"
+                        Open={() => {
+                          setisOpenFlashCardGroup(FlashCardGroup._id);
+                          console.log(FlashCardGroup);
+                        }}
+                        type="Flashcards"
+                        multipleDelete={multipleDelete}
+                        addMultipleDelete={() =>
+                          addCardsToAddOrDelete(FlashCardGroup._id, true)
+                        }
+                        removeMultipleDelete={() =>
+                          addCardsToAddOrDelete(FlashCardGroup._id, false)
+                        }
+                      />
+                    </div>
+                  );
+                })
             )}
           </div>
         </>
