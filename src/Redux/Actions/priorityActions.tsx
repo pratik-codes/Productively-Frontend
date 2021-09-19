@@ -6,6 +6,9 @@ import {
   USER_CREATE_PRIORITY_FAIL,
   USER_CREATE_PRIORITY_REQUEST,
   USER_CREATE_PRIORITY_SUCCESS,
+  USER_MULTIPLE_PRIORITY_DELETE_FAIL,
+  USER_MULTIPLE_PRIORITY_DELETE_REQUEST,
+  USER_MULTIPLE_PRIORITY_DELETE_SUCCESS,
   USER_PRIORITY_DELETE_FAIL,
   USER_PRIORITY_DELETE_REQUEST,
   USER_PRIORITY_DELETE_SUCCESS,
@@ -152,6 +155,48 @@ export const deletePriority =
     } catch (error) {
       dispatch({
         type: USER_PRIORITY_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const multipleDeletePriority =
+  (priorityIds: string[]) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_PRIORITY_DELETE_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = { prioritiesIds: priorityIds };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}priority/delete`,
+        Body,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_PRIORITY_DELETE_SUCCESS,
+          payload: true,
+        });
+        // setting the accesstoken to the local storage
+        localStorage.setItem("accessToken", data.data.accessToken);
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_PRIORITY_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

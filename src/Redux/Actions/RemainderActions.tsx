@@ -6,6 +6,9 @@ import {
   USER_CREATE_REMAINDER_FAIL,
   USER_CREATE_REMAINDER_REQUEST,
   USER_CREATE_REMAINDER_SUCCESS,
+  USER_MULTIPLE_REMAINDER_DELETE_FAIL,
+  USER_MULTIPLE_REMAINDER_DELETE_REQUEST,
+  USER_MULTIPLE_REMAINDER_DELETE_SUCCESS,
   USER_REMAINDER_DELETE_FAIL,
   USER_REMAINDER_DELETE_REQUEST,
   USER_REMAINDER_DELETE_SUCCESS,
@@ -168,6 +171,51 @@ export const deleteRemainder =
     } catch (error) {
       dispatch({
         type: USER_REMAINDER_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const multipleDeleteRemainder =
+  (remainderIds: string[]) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_REMAINDER_DELETE_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = {
+        remainderIds: remainderIds,
+      };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}remainder/delete`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_REMAINDER_DELETE_SUCCESS,
+          payload: true,
+        });
+        // setting the accesstoken to the local storage
+        localStorage.setItem("accessToken", data.data.accessToken);
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_REMAINDER_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

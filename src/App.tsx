@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
+
 import NavBar from "./Components/NavBar";
-import Homepage from "./Pages/Homepage";
+import Homepage from "./Pages/Homepage/Homepage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import "./styles/index.css";
 import "./styles/App.css";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Dashboard from "./Pages/Dashboard";
-import { useSelector } from "react-redux";
-import { RootStore } from "./Redux/Store";
 
-function App() {
+const App = () => {
   const [login, setLogin] = useState(true);
 
   useEffect(() => {
@@ -46,5 +45,5 @@ function App() {
       </ToastProvider>
     </BrowserRouter>
   );
-}
+};
 export default App;

@@ -13,7 +13,7 @@ export interface UserInterface {
 export interface RemainderReduxState {
   loading: string;
   data: RemainderData;
-}
+} 
 
 export interface PrioritiesReduxState {
   loading: string;
