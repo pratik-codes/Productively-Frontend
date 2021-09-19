@@ -23,6 +23,12 @@ import {
   USER_JOURNAL_GROUP_DETAILS_EDIT_SUCCESS,
   USER_JOURNAL_REQUEST,
   USER_JOURNAL_SUCCESS,
+  USER_MULTIPLE_JOURNAL_DELETE_FAIL,
+  USER_MULTIPLE_JOURNAL_DELETE_REQUEST,
+  USER_MULTIPLE_JOURNAL_DELETE_SUCCESS,
+  USER_MULTIPLE_JOURNAL_GROUP_DELETE_FAIL,
+  USER_MULTIPLE_JOURNAL_GROUP_DELETE_REQUEST,
+  USER_MULTIPLE_JOURNAL_GROUP_DELETE_SUCCESS,
 } from "../Constants/journal.constants";
 
 export const getJournalGroupList = () => async (dispatch: Dispatch) => {
@@ -329,6 +335,94 @@ export const deleteJournal =
     } catch (error) {
       dispatch({
         type: USER_JOURNAL_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteMultipleJournalGroupHandler =
+  (journalGroupIds: string[]) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_JOURNAL_GROUP_DELETE_REQUEST,
+      });
+
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = { journalGroupIds: journalGroupIds };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}journalgroup/delete`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_JOURNAL_GROUP_DELETE_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_JOURNAL_GROUP_DELETE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteMultipleJournalsHandler =
+  (journalsGroupId: string | undefined, journalsIds: string[]) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_MULTIPLE_JOURNAL_DELETE_REQUEST,
+      });
+
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const Body = {
+        journalsGroupId: journalsGroupId,
+        journalsIds: journalsIds,
+      };
+
+      // hitting REMAINDER api
+      const { data } = await Axios.post(
+        `${baseURL}journalgroup/cards/delete`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_MULTIPLE_JOURNAL_DELETE_SUCCESS,
+          payload: true,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_MULTIPLE_JOURNAL_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
