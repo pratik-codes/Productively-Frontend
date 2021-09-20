@@ -100,6 +100,9 @@ const JournalCard: React.FC<JournalingComponentProps> = ({
             <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
               {journals?.journalDescription}
             </h1>
+            <h1 className="ml-4 mb-4 font-sans text-black text-l font-medium">
+              {journals?.journalDate.toString().split("T")[0]}
+            </h1>
           </div>
           <div>
             {multipleDelete ? (

@@ -4,6 +4,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import "../styles/ComponentsStyles/NavBar.css";
 import Productively from "../Assets/Productively.svg";
+import { NavbarDropDown } from "./NavbarDropDown";
 
 export default function NavBar() {
   const [login, setLogin] = useState(false);
@@ -43,8 +44,86 @@ export default function NavBar() {
   ];
 
   return (
-    <div className="flex justify-center w-full h-14 mt-2 align-center">
-      <div className="NavContainer flex justify-between 2xl:w-3/6 xl:w-3/6 l:w-4/6 md:w-5/6 sm:w-6/6">
+    <div className="flex justify-center w-full h-14 mt-2 align-center ">
+      <div className="mobile NavContainer 2xl:hidden xl:hidden l:hidden md:hidden sm:flex justify-between sm:w-6/6">
+        <div className="flex mr-2">
+          <img className="h-7 mx-6" src={Productively} alt="logo" />
+        </div>
+        <div className="mx-4">
+          <NavbarDropDown />
+        </div>
+        <div className="w-full max-w-sm">
+          <Popover className="relative">
+            {({ open }) => (
+              <>
+                <Popover.Button
+                  className={`
+                ${open ? "" : "text-opacity-90"}
+                text-white group bg-orange-700 px-1 py-2 rounded-md inline-flex items-center text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                >
+                  <div className="border-2 border-gray-600 rounded-2xl flex flex-wrap content-center px-2 py-2 text-gray-300 hover:text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      />
+                    </svg>
+                    <ChevronDownIcon
+                      className={`${open ? "" : "text-opacity-70"}
+                  h-5 w-5 text-orange-300 group-hover:text-opacity-80 transition ease-in-out duration-150`}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </Popover.Button>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-1"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-1"
+                >
+                  <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
+                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                      <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-2 mx-auto my-auto">
+                        <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-5xl m-5 p-5 pb-1 mb-1 text-2xl">
+                          Notifications coming soon!
+                        </h1>
+                      </div>
+                      <div className="p-4 bg-gray-50">
+                        <a
+                          href="##"
+                          className="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                        >
+                          <span className="flex items-center">
+                            <span className="text-sm font-medium text-gray-900">
+                              Want to collaborate?
+                            </span>
+                          </span>
+                          <span className="block text-sm text-gray-500">
+                            You can contribute to the project through github or
+                            reach out to us by email.
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </Popover.Panel>
+                </Transition>
+              </>
+            )}
+          </Popover>
+        </div>
+      </div>
+      <div className="desktop NavContainer hidden justify-between 2xl:w-3/6 xl:w-3/6 l:w-4/6 md:w-5/6 sm:w-6/6 2xl:flex xl:flex l:flex md:flex ">
         <div className="grid-cols-2 ml-8">
           <Link to="/dashboard">
             <button className="focus:outline-none p-2 text-sm font-medium text-gray-300 hover:text-white  duration-300">

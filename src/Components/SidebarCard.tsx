@@ -14,7 +14,7 @@ const SidebarCard: React.FC<SideBarCardProps> = ({
   return (
     <div
       style={{ background: activeTab === title ? "#DDD6FE" : "#E5E7EB" }}
-      className="flex m-5 bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500"
+      className="flex mx-5 my-8 bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500"
     >
       <div className="flex items-center w-4/10">
         <img
