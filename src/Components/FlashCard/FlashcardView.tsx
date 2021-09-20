@@ -444,13 +444,13 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
         </div>
 
         <div
-          className="flex items-center max-w-md mx-auto bg-white rounded-full shadow-md border-2"
+          className="flex items-center max-w-md mx-auto bg-white rounded-md shadow-md"
           x-data="{ search: '' }"
         >
           <div className="w-full">
             <input
               type="search"
-              className="w-full px-4 py-1 text-gray-900 rounded-full focus:outline-none"
+              className="w-full px-4 py-1 text-gray-900 rounded-md focus:outline-none"
               placeholder="search"
               x-model="search"
               onChange={(e) => setSearchInput(e.target.value)}
@@ -459,7 +459,7 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
           <div>
             <button
               type="submit"
-              className={`flex items-center justify-center w-12 h-12 text-gray-100 rounded-full ${
+              className={`flex items-center justify-center w-12 h-12 text-gray-100 rounded-md ${
                 searchInput.length > 0 ? "bg-purple-500" : "bg-gray-500"
               }`}
             >

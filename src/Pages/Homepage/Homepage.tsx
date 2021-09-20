@@ -37,9 +37,9 @@ const Homepage: React.FC = () => {
                 imgSrc={tasklist}
               />
             </div>
-            <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
-              Learn
-            </h1>
+            {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
+              "LEARN"
+            </h1> */}
             <div onClick={() => setPageOpen("Flash Cards")}>
               <SidebarCard
                 activeTab={pageOpen}
@@ -47,9 +47,9 @@ const Homepage: React.FC = () => {
                 imgSrc={flashcard}
               />
             </div>
-            <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
-              Reflection
-            </h1>
+            {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
+              "REFLECT"
+            </h1> */}
             <div onClick={() => setPageOpen("Journaling")}>
               <SidebarCard
                 activeTab={pageOpen}
