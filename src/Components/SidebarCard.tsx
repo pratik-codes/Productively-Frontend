@@ -18,13 +18,15 @@ const SidebarCard: React.FC<SideBarCardProps> = ({
     >
       <div className="flex items-center w-4/10">
         <img
-          className="flex justify-center align-middle mx-4 w-7 h-7 text-gray-700"
+          className="flex justify-center align-middle mx-4 w-7 h-7 md:h-5 md:h-5  text-gray-700"
           src={imgSrc}
           alt="logo"
         />
       </div>
       <div className="w-8/12 flex items-center justify-start align-middle">
-        <h3 className=" font-sans text-md font-bold text-gray-700">{title}</h3>
+        <h3 className=" font-sans text-md md:text-sm font-bold text-gray-700">
+          {title}
+        </h3>
       </div>
     </div>
   );

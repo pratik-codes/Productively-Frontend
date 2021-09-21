@@ -2,9 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+
 import "../styles/ComponentsStyles/NavBar.css";
 import Productively from "../Assets/Productively.svg";
 import { NavbarDropDown } from "./NavbarDropDown";
+import { useDispatch } from "react-redux";
+import { userHomePageViewAction } from "../Redux/Actions/userActions";
 
 export default function NavBar() {
   const [login, setLogin] = useState(false);
@@ -22,38 +25,21 @@ export default function NavBar() {
     window.localStorage.removeItem("accessToken");
     window.location.reload();
   };
-  const solutions = [
-    {
-      name: "Insights",
-      description: "Measure actions your users take",
-      href: "##",
-      icon: IconOne,
-    },
-    {
-      name: "Automations",
-      description: "Create your own targeted content",
-      href: "##",
-      icon: IconTwo,
-    },
-    {
-      name: "Reports",
-      description: "Keep track of your growth",
-      href: "##",
-      icon: IconThree,
-    },
-  ];
 
   return (
     <div className="flex justify-center w-full h-14 mt-2 align-center ">
-      <div className="mobile NavContainer 2xl:hidden xl:hidden l:hidden md:hidden sm:flex justify-between sm:w-6/6">
+      <div className="mobile NavContainer 2xl:hidden xl:hidden l:hidden md:flex sm:flex justify-between sm:w-6/6 h-13">
         <div className="flex mr-2">
           <img className="h-7 mx-6" src={Productively} alt="logo" />
+          {/* <h2 className=" font-bold text-white md:text-sm sm:text-sm mt-2">
+            PRODUCTIVELY
+          </h2> */}
         </div>
         <div className="mx-4">
           <NavbarDropDown />
         </div>
         <div className="w-full max-w-sm">
-          <Popover className="relative">
+          <Popover className="relative ">
             {({ open }) => (
               <>
                 <Popover.Button
@@ -61,7 +47,7 @@ export default function NavBar() {
                 ${open ? "" : "text-opacity-90"}
                 text-white group bg-orange-700 px-1 py-2 rounded-md inline-flex items-center text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
                 >
-                  <div className="border-2 border-gray-600 rounded-2xl flex flex-wrap content-center px-2 py-2 text-gray-300 hover:text-white">
+                  <div className="border-2 border-gray-600 rounded-2xl flex flex-wrap content-center px-2 py-2 text-gray-300 hover:text-white ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -92,7 +78,7 @@ export default function NavBar() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
+                  <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/4 sm:px-0 lg:max-w-3xl ">
                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                       <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-2 mx-auto my-auto">
                         <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-5xl m-5 p-5 pb-1 mb-1 text-2xl">

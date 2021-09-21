@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
       style={{ overflowY: "scroll", overflowX: "hidden" }}
     >
       <div className="2xl:flex xl:flex l:flex h-full flex-row w-auto">
-        <div className="flex-auto 2xl:w-6/12 xl:w-6/12 l:w-full md:w-full sm:w-full m-4 border-r border-gray-300">
+        <div className="flex-auto 2xl:w-6/12 xl:w-6/12 l:w-full md:w-full sm:w-full 2xl:m-4 xl:m-4 l:m-4 md:m-4 m-0 border-r border-gray-300">
           <div className="h-full">
             <Remainder />
           </div>

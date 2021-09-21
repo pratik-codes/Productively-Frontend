@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarCard from "../../Components/SidebarCard";
 import tasklist from "../../Assets/icons/tasklist.png";
 import homepage from "../../Assets/icons/homepage.png";
@@ -11,9 +11,22 @@ import HomePage from "../../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
 import Journaling from "./Journaling";
 import FlashCardSection from "./FlashCardSection";
+import { userViewReduxState } from "../../Interfaces/Interfaces";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../Redux/Store";
 
 const Homepage: React.FC = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
+
+  const userView: userViewReduxState = useSelector(
+    (state: RootStore) => state.userViewInfo
+  );
+
+  useEffect(() => {
+    if (userView.view !== "") {
+      setPageOpen(userView.view);
+    }
+  }, [userView]);
 
   return (
     <>
@@ -21,7 +34,7 @@ const Homepage: React.FC = () => {
         style={{ height: "90%" }}
         className="flex align-center justify-center"
       >
-        <div className="bg-white w-full rounded-xl m-5 s  shadow-xl flex ">
+        <div className="bg-white w-full rounded-xl m-5 shadow-xl flex ">
           <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
             <div onClick={() => setPageOpen("Homepage")}>
               <SidebarCard
