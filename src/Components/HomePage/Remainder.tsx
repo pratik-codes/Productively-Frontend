@@ -204,7 +204,7 @@ const Remainder = () => {
         </div>
         {/* search component */}
         <div
-          className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md"
+          className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md mt-4"
           x-data="{ search: '' }"
         >
           <div className="w-full">

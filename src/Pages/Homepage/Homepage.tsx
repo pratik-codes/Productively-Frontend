@@ -32,9 +32,12 @@ const Homepage: React.FC = () => {
     <>
       <div
         style={{ height: "90%" }}
-        className="flex align-center justify-center"
+        className="flex align-center justify-center mx-auto"
       >
-        <div className="bg-white w-full rounded-xl m-5 shadow-xl flex ">
+        <div
+          className="bg-white w-full rounded-xl  shadow-xl flex "
+          style={{ margin: "1rem" }}
+        >
           <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
             <div onClick={() => setPageOpen("Homepage")}>
               <SidebarCard

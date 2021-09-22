@@ -109,17 +109,17 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
 
   return (
     <>
-      <div className="p-10 mx-auto pt-10 mt-10">
-        <div className="flex justify-between">
-          <div className="w-5/6">
-            <h1 className="text-2xl font-sans text-purple-600 font-bold ml-4 mb-1">
+      <div className="p-5 mx-auto pt-10 mt-10 2xl:p-10 xl:p-10 l:p-10 md:p-10">
+        <div className="flex flex-col-reverse 2xl:flex-row xl:flex-row l:flex-row md:flex-row justify-between">
+          <div className="w-6/6 2xl:w-5/6 xl:w-5/6 l:w-5/6 md:w-5/6">
+            <h1 className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
               Flashcard Group: {flashCardGroupName}{" "}
             </h1>
             <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
               {flashCardGroupDescription}
             </p>
           </div>
-          <div className="flex">
+          <div className="flex justify-end">
             <button
               onClick={openNewFlashcardModal}
               className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-purple-700 transition duration-500 "
@@ -443,8 +443,9 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
           </Transition>
         </div>
 
+        {/* search component */}
         <div
-          className="flex items-center max-w-md mx-auto bg-white rounded-md shadow-md"
+          className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md mt-4"
           x-data="{ search: '' }"
         >
           <div className="w-full">
@@ -481,7 +482,7 @@ const FlashcardView: React.FC<flashCardViewProps> = ({
           </div>
         </div>
 
-        <div className="mx-auto px-10 py-5 w-full grid 2xl:grid-cols-2 xl:grid-cols-2 l:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 overflow-y-auto">
+        <div className="pt-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-2 xl:grid-cols-2 l:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 overflow-y-auto">
           {!flashcards ? (
             <Loader />
           ) : flashcards.length === 0 ? (

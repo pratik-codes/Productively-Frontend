@@ -1,6 +1,8 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import SidebarCard from "./SidebarCard";
 import tasklist from "../Assets/icons/tasklist.png";
@@ -10,7 +12,6 @@ import notes from "../Assets/icons/notes.png";
 import Journals from "../Assets/icons/journalling.png";
 import Logout from "../Assets/icons/logout.png";
 import { userHomePageViewAction } from "../Redux/Actions/userActions";
-import { useDispatch } from "react-redux";
 
 export const NavbarDropDown = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
@@ -60,14 +61,24 @@ export const NavbarDropDown = () => {
         >
           <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
-              <div onClick={() => setUserHomePageView("Homepage")}>
+              <div
+                onClick={() => {
+                  setUserHomePageView("Homepage");
+                  setPageOpen("Homepage");
+                }}
+              >
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Homepage"}
                   imgSrc={homepage}
                 />
               </div>
-              <div onClick={() => setUserHomePageView("Task List")}>
+              <div
+                onClick={() => {
+                  setUserHomePageView("Task List");
+                  setPageOpen("Task List");
+                }}
+              >
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Task List"}
@@ -77,7 +88,12 @@ export const NavbarDropDown = () => {
               {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "LEARN"
             </h1> */}
-              <div onClick={() => setUserHomePageView("Flash Cards")}>
+              <div
+                onClick={() => {
+                  setUserHomePageView("Flash Cards");
+                  setPageOpen("Flash Cards");
+                }}
+              >
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Flash Cards"}
@@ -87,20 +103,27 @@ export const NavbarDropDown = () => {
               {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "REFLECT"
             </h1> */}
-              <div onClick={() => setUserHomePageView("Journaling")}>
+              <div
+                onClick={() => {
+                  setUserHomePageView("Journaling");
+                  setPageOpen("Journaling");
+                }}
+              >
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Journaling"}
                   imgSrc={Journals}
                 />
               </div>
-              <div onClick={() => setUserHomePageView("Homepage")}>
-                <SidebarCard
-                  activeTab={pageOpen}
-                  title={"Dashboard"}
-                  imgSrc={homepage}
-                />
-              </div>
+              <Link to="/dashboard">
+                <div>
+                  <SidebarCard
+                    activeTab={pageOpen}
+                    title={"Dashboard"}
+                    imgSrc={homepage}
+                  />
+                </div>
+              </Link>
 
               {login === true ? (
                 <div onClick={logout}>
