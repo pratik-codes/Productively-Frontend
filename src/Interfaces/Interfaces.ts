@@ -13,7 +13,13 @@ export interface UserInterface {
 export interface RemainderReduxState {
   loading: string;
   data: RemainderData;
-} 
+}
+
+// flashcard section
+export interface userViewReduxState {
+  loading: string;
+  view: string;
+}
 
 export interface PrioritiesReduxState {
   loading: string;

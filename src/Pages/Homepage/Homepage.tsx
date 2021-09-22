@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarCard from "../../Components/SidebarCard";
 import tasklist from "../../Assets/icons/tasklist.png";
 import homepage from "../../Assets/icons/homepage.png";
@@ -11,17 +11,33 @@ import HomePage from "../../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
 import Journaling from "./Journaling";
 import FlashCardSection from "./FlashCardSection";
+import { userViewReduxState } from "../../Interfaces/Interfaces";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../Redux/Store";
 
 const Homepage: React.FC = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
+
+  const userView: userViewReduxState = useSelector(
+    (state: RootStore) => state.userViewInfo
+  );
+
+  useEffect(() => {
+    if (userView.view !== "") {
+      setPageOpen(userView.view);
+    }
+  }, [userView]);
 
   return (
     <>
       <div
         style={{ height: "90%" }}
-        className="flex align-center justify-center"
+        className="flex align-center justify-center mx-auto"
       >
-        <div className="bg-white w-full rounded-xl m-5 s  shadow-xl flex ">
+        <div
+          className="bg-white w-full rounded-xl  shadow-xl flex "
+          style={{ margin: "1rem" }}
+        >
           <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
             <div onClick={() => setPageOpen("Homepage")}>
               <SidebarCard
@@ -37,9 +53,9 @@ const Homepage: React.FC = () => {
                 imgSrc={tasklist}
               />
             </div>
-            <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
-              Learn
-            </h1>
+            {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
+              "LEARN"
+            </h1> */}
             <div onClick={() => setPageOpen("Flash Cards")}>
               <SidebarCard
                 activeTab={pageOpen}
@@ -47,9 +63,9 @@ const Homepage: React.FC = () => {
                 imgSrc={flashcard}
               />
             </div>
-            <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
-              Reflection
-            </h1>
+            {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
+              "REFLECT"
+            </h1> */}
             <div onClick={() => setPageOpen("Journaling")}>
               <SidebarCard
                 activeTab={pageOpen}

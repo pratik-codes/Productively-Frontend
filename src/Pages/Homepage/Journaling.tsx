@@ -123,10 +123,10 @@ const Journaling = () => {
       )}
       {journalListIsOpen === "" && (
         <div className="">
-          <div className="flex justify-between w-6/6 pt-10 mx-10 mt-10">
+          <div className="flex justify-between w-6/6 pt-10 mx-5 2xl:mx-10 xl:mx-10 l:mx-10 md:mx-10 mt-5 2xl:mt-10 xl:mt-10 l:mt-10 md:mt-10">
             <h1
               style={{ color: "#6EB448" }}
-              className="text-2xl font-sans font-bold  ml-4 mb-4"
+              className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-purple-700 mx-4"
             >
               Journal Groups 💭
             </h1>
@@ -442,14 +442,15 @@ const Journaling = () => {
             </Transition>
           </div>
 
+          {/* search component */}
           <div
-            className="flex items-center max-w-md mx-auto bg-white rounded-full shadow-md border-2"
+            className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md mt-4"
             x-data="{ search: '' }"
           >
             <div className="w-full">
               <input
                 type="search"
-                className="w-full px-4 py-1 text-gray-900 rounded-full focus:outline-none"
+                className="w-full px-4 py-1 text-gray-900 rounded-md focus:outline-none"
                 placeholder="search"
                 x-model="search"
                 onChange={(e) => setSearchInput(e.target.value)}
@@ -458,7 +459,7 @@ const Journaling = () => {
             <div>
               <button
                 type="submit"
-                className={`flex items-center justify-center w-12 h-12 text-gray-100 rounded-full ${
+                className={`flex items-center justify-center w-12 h-12 text-gray-100 rounded-md ${
                   searchInput.length > 0 ? "bg-purple-500" : "bg-gray-500"
                 }`}
               >
@@ -480,7 +481,7 @@ const Journaling = () => {
             </div>
           </div>
 
-          <div className="py-10 px-20 h-full w-full grid grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
+          <div className="py-10 px-2 2xl:px-20 xl:px-20 l:px-20 md:px-20 h-full w-full grid grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
             {!JournalGroups.data ? (
               <Loader />
             ) : JournalGroups.data.length === 0 ? (
