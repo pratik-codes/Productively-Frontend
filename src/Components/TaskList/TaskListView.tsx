@@ -113,17 +113,17 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
 
   return (
     <>
-      <div className="p-10 mx-auto pt-10 mt-10">
-        <div className="flex justify-between">
-          <div className="w-5/6">
-            <h1 className="text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
+      <div className="p-5 mx-auto pt-10 mt-10 2xl:p-10 xl:p-10 l:p-10 md:p-10">
+        <div className="flex flex-col-reverse 2xl:flex-row xl:flex-row l:flex-row md:flex-row justify-between">
+          <div className="w-6/6 2xl:w-5/6 xl:w-5/6 l:w-5/6 md:w-5/6">
+            <h1 className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
               Task Group: {GroupName}
             </h1>
             <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
               {GroupDescription}
             </p>
           </div>
-          <div className="flex">
+          <div className="flex justify-end">
             <button
               onClick={() => {
                 openModal();
@@ -443,8 +443,9 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         </div>
       </div>
 
+      {/* search component */}
       <div
-        className="flex items-center max-w-md mx-auto bg-white rounded-md shadow-md"
+        className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md mt-4"
         x-data="{ search: '' }"
       >
         <div className="w-full">
@@ -481,12 +482,12 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         </div>
       </div>
 
-      <div className="p-10  mx-auto">
-        <h1 className="text-2xl font-sans text-black ml-4 mb-4">
+      <div className="px-5 pt-10 2xl:p-10 xl:p-10 lg:p-10 md:p-10 mx-auto">
+        <h1 className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4">
           Task Status: Pending ⌛
         </h1>
       </div>
-      <div className="p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
+      <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Pending && Pending.length === 0 ? (
           <div className="">
             <br />
@@ -531,12 +532,12 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         )}
       </div>
       <br />
-      <div className="p-10  mx-auto">
-        <h1 className="text-2xl font-sans text-black ml-4 mb-4">
+      <div className="px-5 pt-10 2xl:p-10 xl:p-10 lg:p-10 md:p-10 mx-auto">
+        <h1 className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4">
           Task Status: Done ✅
         </h1>
       </div>
-      <div className="p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
+      <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Done && Done.length === 0 ? (
           <div className="">
             <br />

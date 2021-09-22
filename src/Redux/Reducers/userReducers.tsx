@@ -8,6 +8,9 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_HOMEPAGE_VIEW_REQUEST,
+  USER_HOMEPAGE_VIEW_SUCCESS,
+  USER_HOMEPAGE_VIEW_FAIL,
 } from "../Constants/user.constants";
 export interface userBasicState {
   user: boolean;
@@ -15,9 +18,23 @@ export interface userBasicState {
 const userInitialBasicState: userBasicState = {
   user: false,
 };
+
+export interface userHomepageBasicState {
+  view: string;
+}
+
+const userHomePageViewInitialBasicState: userHomepageBasicState = {
+  view: "",
+};
+
 type Action = {
   type: string;
   payload?: boolean;
+};
+
+type HomePageAction = {
+  type: string;
+  payload?: string;
 };
 
 export const userLoginReducer = (
@@ -46,6 +63,22 @@ export const userRegisterReducer = (
     case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userHomePageViewChangeReducer = (
+  state = userHomePageViewInitialBasicState,
+  action: HomePageAction
+) => {
+  switch (action.type) {
+    case USER_HOMEPAGE_VIEW_REQUEST:
+      return { loading: true };
+    case USER_HOMEPAGE_VIEW_SUCCESS:
+      return { loading: false, view: action.payload };
+    case USER_HOMEPAGE_VIEW_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

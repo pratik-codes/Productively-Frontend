@@ -204,7 +204,7 @@ const Remainder = () => {
         </div>
         {/* search component */}
         <div
-          className="flex items-center max-w-md mx-auto bg-white rounded-md shadow-md"
+          className="flex items-center w-5/6 mx-auto bg-white rounded-md shadow-md mt-4"
           x-data="{ search: '' }"
         >
           <div className="w-full">
@@ -476,7 +476,7 @@ const Remainder = () => {
           </h1>
           <br />
         </div>
-        <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 xm:grid-cols-1 gap-2">
+        <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2">
           {!Remainders.data ? (
             <Loader />
           ) : Remainders.data.Upcoming.length === 0 ? (
@@ -526,7 +526,7 @@ const Remainder = () => {
           <h1 className="text-2xl font-sans text-black ml-4 mb-4">Past 🔙</h1>
           <br />
 
-          <div className="w-full grid grid-cols-2 gap-4">
+          <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2">
             {!Remainders.data ? (
               <Loader />
             ) : Remainders.data.Past.length === 0 ? (

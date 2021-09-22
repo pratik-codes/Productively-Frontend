@@ -7,6 +7,9 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_HOMEPAGE_VIEW_REQUEST,
+  USER_HOMEPAGE_VIEW_SUCCESS,
+  USER_HOMEPAGE_VIEW_FAIL,
 } from "../Constants/user.constants";
 
 export const baseURL = "https://productively-by-pratik.herokuapp.com/";
@@ -76,6 +79,28 @@ export const RegisterAction =
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const userHomePageViewAction =
+  (viewName: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_HOMEPAGE_VIEW_REQUEST,
+      });
+
+      dispatch({
+        type: USER_HOMEPAGE_VIEW_SUCCESS,
+        payload: viewName,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_HOMEPAGE_VIEW_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

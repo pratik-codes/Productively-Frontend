@@ -28,6 +28,12 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .productively-text-mobile-navbar {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 900px) {
   .desktop {
     display: none;
   }

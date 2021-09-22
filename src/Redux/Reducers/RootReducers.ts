@@ -4,10 +4,15 @@ import { getJournalReducers } from "./journalReducers";
 import { getPrioritiesReducers } from "./priorityReducers";
 import { getRemaindersReducers } from "./remainderReducers";
 import { getTaskListGroupReducers } from "./taskReducers";
-import { userLoginReducer, userRegisterReducer } from "./userReducers";
+import {
+  userHomePageViewChangeReducer,
+  userLoginReducer,
+  userRegisterReducer,
+} from "./userReducers";
 
 const RootReducer = combineReducers({
   userInfo: userLoginReducer,
+  userViewInfo: userHomePageViewChangeReducer,
   userRegister: userRegisterReducer,
   remainders: getRemaindersReducers,
   priorities: getPrioritiesReducers,
