@@ -165,7 +165,7 @@ const Journal: React.FC<JournalProps> = ({
   return (
     <div
       style={{ background: "#B095F6" }}
-      className="w-4/6 py-5 mx-auto shadow-2xl rounded-2xl p-10 mb-5"
+      className="w-6/6 2xl:w-4/6 xl:w-4/6 lg:w-4/6 md:w-4/6 py-5 mx-auto shadow-2xl rounded-2xl p-10 mb-5"
     >
       <p className="font-bold text-black pt-3">Title</p>
       <input
