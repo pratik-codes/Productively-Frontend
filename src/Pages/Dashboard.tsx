@@ -13,13 +13,13 @@ const Dashboard = () => {
     <>
       <div
         style={{ height: "85%" }}
-        className="bg-white rounded-xl m-5 shadow-xl align-center justify-center"
+        className="bg-white rounded-xl m-3 shadow-xl align-center justify-center"
       >
         <div className="w-full">
-          <h1 className="font-bold text-transparent bg-clip-text text-black xl:text-7xl m-5 p-5 md:text-8xl sm:text-8xl">
+          <h1 className="font-bold text-transparent bg-clip-text text-black m-5 p-5 text-3xl md:text-6xl 2xl:text-6xl xl:text-6xl l:text-6xl">
             Dashboard
           </h1>
-          <div className="w-full flex">
+          <div className="w-full flex overflow-scroll">
             <div className="xl:w-3/12 l:w-3/12 md:w-12/12 sm:w-12/12 bg-white rounded-xl shadow-2xl mx-auto">
               <div className="flex justify-end">
                 <div

@@ -14,6 +14,8 @@ import FlashCardSection from "./FlashCardSection";
 import { userViewReduxState } from "../../Interfaces/Interfaces";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../Redux/Store";
+import { Route, Switch } from "react-router";
+import { Link } from "react-router-dom";
 
 const Homepage: React.FC = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
@@ -74,7 +76,7 @@ const Homepage: React.FC = () => {
               />
             </div>
           </div>
-          <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 md:w-full 2 sm:w-full h-full">
+          <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full">
             {pageOpen === "Homepage" && <HomePage />}
             {pageOpen === "Task List" && <TaskList />}
             {pageOpen === "Flash Cards" && <FlashCardSection />}
