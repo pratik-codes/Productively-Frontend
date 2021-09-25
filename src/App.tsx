@@ -10,6 +10,7 @@ import "./styles/index.css";
 import "./styles/App.css";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Dashboard from "./Pages/Dashboard";
+import HomePage from "./Components/HomePage/HomePage";
 
 const App = () => {
   const [login, setLogin] = useState(true);
@@ -37,6 +38,7 @@ const App = () => {
           <ProtectedRoute
             loggedIn={login}
             path="/dashboard"
+            exact
             component={Dashboard}
           />
           <Route path="/login" component={Login} />

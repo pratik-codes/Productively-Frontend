@@ -207,10 +207,10 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
             )}
 
             <button
+              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
               onClick={() =>
                 IsOpenJournal !== "" ? setIsOpenJournal("") : Back()
               }
-              className="bg-black text-white font-bold px-4 rounded mr-4 hover:bg-purple-700 transition duration-500 mb-2"
             >
               Back
             </button>
@@ -356,7 +356,7 @@ const JournalList: React.FC<JournalCardComponentProps | undefined> = ({
         </div>
       )}
 
-      <div className="mx-auto py-5 w-full grid grid-cols-2 overflow-y-auto">
+      <div className="mx-auto w-full grid grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 overflow-y-auto">
         {journals &&
           isOpen === false &&
           IsOpenJournal === "" &&
