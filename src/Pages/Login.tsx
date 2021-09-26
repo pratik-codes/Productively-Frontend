@@ -5,15 +5,20 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../Redux/Store";
 import { LoginAction } from "../Redux/Actions/userActions";
+import { LoginReduxState } from "../Interfaces/Interfaces";
+import { userInfo } from "os";
 
 const Login = () => {
   const dispatch = useDispatch();
   const { addToast } = useToasts();
 
-  const { userInfo, error } = useSelector((state: RootStore) => state.userInfo);
+  const login = async (event: any) => {
+    event.preventDefault();
+    const email = event.target[1].value;
+    const password = event.target[2].value;
+    const res: any = await dispatch(LoginAction(email, password));
 
-  useEffect(() => {
-    if (userInfo === true) {
+    if (res === true) {
       addToast("User logged in!", {
         appearance: "success",
         autoDismiss: true,
@@ -21,20 +26,12 @@ const Login = () => {
       setTimeout(() => {
         window.location.href = "/";
       }, 1000);
-    }
-    if (error) {
-      addToast(`${error}`, {
+    } else {
+      addToast(`${res}`, {
         appearance: "error",
         autoDismiss: true,
       });
     }
-  }, [userInfo, error, addToast]);
-
-  const login = async (event: any) => {
-    event.preventDefault();
-    const email = event.target[1].value;
-    const password = event.target[2].value;
-    await dispatch(LoginAction(email, password));
   };
 
   return (

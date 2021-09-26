@@ -1,13 +1,19 @@
 import { Redirect, Route } from "react-router";
 
-const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }: any) => {
+const ProtectedRoute = ({
+  component: Comp,
+  loggedIn,
+  path,
+  activeView,
+  ...rest
+}: any) => {
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
         return loggedIn ? (
-          <Comp {...props} />
+          <Comp activeView={activeView} {...props} />
         ) : (
           <Redirect
             to={{

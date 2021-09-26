@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Remainder from "./Remainder";
 import TodoCard from "./TodoCard";
 
 const HomePage: React.FC = () => {
   return (
     <div
-      className="h-full"
+      className="h-full "
       style={{ overflowY: "scroll", overflowX: "hidden" }}
     >
       <div className="2xl:flex xl:flex l:flex h-full flex-row w-auto">

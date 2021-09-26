@@ -17,7 +17,11 @@ import { RootStore } from "../../Redux/Store";
 import { Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
 
-const Homepage: React.FC = () => {
+export interface homepageProps {
+  activeView: string;
+}
+
+const Homepage: React.FC<homepageProps> = ({ activeView }) => {
   const [pageOpen, setPageOpen] = useState("Homepage");
 
   const userView: userViewReduxState = useSelector(
@@ -25,10 +29,12 @@ const Homepage: React.FC = () => {
   );
 
   useEffect(() => {
-    if (userView.view !== "") {
-      setPageOpen(userView.view);
+    if (activeView) {
+      setPageOpen(activeView);
+    } else {
+      setPageOpen("Homepage");
     }
-  }, [userView]);
+  }, [activeView]);
 
   return (
     <>
@@ -41,40 +47,48 @@ const Homepage: React.FC = () => {
           style={{ margin: "1rem" }}
         >
           <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
-            <div onClick={() => setPageOpen("Homepage")}>
-              <SidebarCard
-                activeTab={pageOpen}
-                title={"Homepage"}
-                imgSrc={homepage}
-              />
-            </div>
-            <div onClick={() => setPageOpen("Task List")}>
-              <SidebarCard
-                activeTab={pageOpen}
-                title={"Task List"}
-                imgSrc={tasklist}
-              />
-            </div>
+            <Link to="/">
+              <div onClick={() => setPageOpen("Homepage")}>
+                <SidebarCard
+                  activeTab={pageOpen}
+                  title={"Homepage"}
+                  imgSrc={homepage}
+                />
+              </div>
+            </Link>
+            <Link to="/tasklists">
+              <div onClick={() => setPageOpen("Task List")}>
+                <SidebarCard
+                  activeTab={pageOpen}
+                  title={"Task List"}
+                  imgSrc={tasklist}
+                />
+              </div>
+            </Link>
             {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "LEARN"
             </h1> */}
-            <div onClick={() => setPageOpen("Flash Cards")}>
-              <SidebarCard
-                activeTab={pageOpen}
-                title={"Flash Cards"}
-                imgSrc={flashcard}
-              />
-            </div>
+            <Link to="/flashcards">
+              <div onClick={() => setPageOpen("Flash Cards")}>
+                <SidebarCard
+                  activeTab={pageOpen}
+                  title={"Flash Cards"}
+                  imgSrc={flashcard}
+                />
+              </div>
+            </Link>
             {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "REFLECT"
             </h1> */}
-            <div onClick={() => setPageOpen("Journaling")}>
-              <SidebarCard
-                activeTab={pageOpen}
-                title={"Journaling"}
-                imgSrc={Journals}
-              />
-            </div>
+            <Link to="/Journaling">
+              <div onClick={() => setPageOpen("Journaling")}>
+                <SidebarCard
+                  activeTab={pageOpen}
+                  title={"Journaling"}
+                  imgSrc={Journals}
+                />
+              </div>
+            </Link>
           </div>
           <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full">
             {pageOpen === "Homepage" && <HomePage />}

@@ -20,6 +20,10 @@ import { RemainderReduxState } from "../../Interfaces/Interfaces";
 import loader from "../loader";
 import Loader from "../loader";
 
+import { gsap, TimelineLite, Power3 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 const Remainder = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [remainderTitle, setRemaindertitle] = useState("");
@@ -48,6 +52,17 @@ const Remainder = () => {
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  let t1 = new TimelineLite({ delay: 0.3 });
+
+  useEffect(() => {
+    t1.staggerFrom(
+      ".animateRemainder",
+      1,
+      { y: 30, ease: Power3.easeOut, opacity: 0 },
+      0.15
+    );
+  }, [t1]);
 
   const Remainders: RemainderReduxState = useSelector(
     (state: RootStore) => state.remainders
@@ -104,7 +119,7 @@ const Remainder = () => {
   }, []);
 
   return (
-    <div className="rounded-2xl h-full overflow-y-auto">
+    <div className="rounded-2xl h-full overflow-y-auto ">
       <div>
         <br />
         <div className="flex justify-between mb-2">
@@ -471,18 +486,18 @@ const Remainder = () => {
         </Transition>
         <br></br>
         <div className="flex justify-between mb-2">
-          <h1 className="text-2xl font-sans  text-black ml-4 mb-4">
+          <h1 className="text-2xl font-sans  text-black ml-4 mb-4 font-bold">
             Upcoming ⏭️
           </h1>
           <br />
         </div>
-        <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2">
+        <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2 ">
           {!Remainders.data ? (
             <Loader />
           ) : Remainders.data.Upcoming.length === 0 ? (
             <div className="">
               <br />
-              <h1 className="text-l ml-5 ">No upcoming reminders</h1>
+              <h1 className="text-l ml-5 font-bold">No upcoming reminders</h1>
               <br />
             </div>
           ) : (
@@ -523,16 +538,18 @@ const Remainder = () => {
         <br></br>
         <br></br>
         <div className="mb-2">
-          <h1 className="text-2xl font-sans text-black ml-4 mb-4">Past 🔙</h1>
+          <h1 className="text-2xl font-sans text-black ml-4 mb-4 font-bold">
+            Past 🔙
+          </h1>
           <br />
 
-          <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2">
+          <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2 ">
             {!Remainders.data ? (
               <Loader />
             ) : Remainders.data.Past.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 ">No past reminders</h1>
+                <h1 className="text-l ml-5 font-bold">No past reminders</h1>
                 <br />
               </div>
             ) : (

@@ -462,7 +462,7 @@ const TodoCard: React.FC = () => {
               })
               .map((task: PriorityData) => {
                 return (
-                  <div>
+                  <div className="">
                     <TodoCardComponent
                       id={task._id}
                       task={task.priority}

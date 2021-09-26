@@ -10,6 +10,23 @@ export interface UserInterface {
   isAdmin: boolean;
 }
 
+export interface LoginReduxState {
+  loading: boolean;
+  data: {
+    _id: string;
+    name: string;
+    email: string;
+    createdAt: string;
+  };
+}
+
+export interface userObjectBackendResponse {
+  _id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
 export interface RemainderReduxState {
   loading: string;
   data: RemainderData;

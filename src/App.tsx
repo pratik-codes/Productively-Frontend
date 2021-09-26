@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
 
 import NavBar from "./Components/NavBar";
-import Homepage from "./Pages/Homepage/Homepage";
+import Homepage, { homepageProps } from "./Pages/Homepage/Homepage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import "./styles/index.css";
@@ -32,7 +32,26 @@ const App = () => {
           <ProtectedRoute
             loggedIn={login}
             path="/"
+            activeView="Homepage"
             exact
+            component={Homepage}
+          />
+          <ProtectedRoute
+            loggedIn={login}
+            path="/tasklists"
+            activeView="Task List"
+            component={Homepage}
+          />
+          <ProtectedRoute
+            loggedIn={login}
+            path="/flashcards"
+            activeView="Flash Cards"
+            component={Homepage}
+          />
+          <ProtectedRoute
+            loggedIn={login}
+            path="/Journaling"
+            activeView="Journaling"
             component={Homepage}
           />
           <ProtectedRoute
@@ -41,6 +60,7 @@ const App = () => {
             exact
             component={Dashboard}
           />
+
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
