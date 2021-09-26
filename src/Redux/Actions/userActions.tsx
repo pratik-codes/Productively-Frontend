@@ -31,14 +31,19 @@ export const LoginAction =
         { email, password },
         config
       );
+      console.log(data);
+
       // only make success if the response is success
       if (data.statusCode === 200) {
         dispatch({
           type: USER_LOGIN_SUCCESS,
-          payload: true,
+          payload: data.data.userData,
         });
         // setting the accesstoken to the local storage
         localStorage.setItem("accessToken", data.data.accessToken);
+        localStorage.setItem("userData", JSON.stringify(data.data.userData));
+
+        return true;
       }
     } catch (error) {
       dispatch({
@@ -48,6 +53,7 @@ export const LoginAction =
             ? error.response.data.message
             : error.message,
       });
+      return error.response.data.message;
     }
   };
 
@@ -66,7 +72,7 @@ export const RegisterAction =
       // hitting login api
       const { data } = await axios.post(
         `${baseURL}users/signup`,
-        { email, password },
+        { email, name, password },
         config
       );
       // only make success if the response is success
@@ -108,3 +114,25 @@ export const userHomePageViewAction =
       });
     }
   };
+
+// export const submitContactUsAction =
+//   (viewName: string) => async (dispatch: Dispatch) => {
+//     try {
+//       dispatch({
+//         type: USER_HOMEPAGE_VIEW_REQUEST,
+//       });
+
+//       dispatch({
+//         type: USER_HOMEPAGE_VIEW_SUCCESS,
+//         payload: viewName,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: USER_HOMEPAGE_VIEW_FAIL,
+//         payload:
+//           error.response && error.response.data.message
+//             ? error.response.data.message
+//             : error.message,
+//       });
+//     }
+//   };

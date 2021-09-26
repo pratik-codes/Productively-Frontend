@@ -15,6 +15,10 @@ import {
 } from "../../Redux/Actions/taskActions";
 import { RootStore } from "../../Redux/Store";
 
+import { gsap, TimelineLite, Power3 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 const TaskList = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [addGroupTitle, setaddGroupTitle] = useState("");
@@ -48,6 +52,17 @@ const TaskList = () => {
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  let t1 = new TimelineLite({ delay: 0.3 });
+
+  useEffect(() => {
+    t1.staggerFrom(
+      ".animate",
+      1,
+      { y: 30, ease: Power3.easeOut, opacity: 0 },
+      0.15
+    );
+  }, [t1]);
 
   const addTaskGroupHandler = async () => {
     if (addGroupDescription || addGroupTitle) {
@@ -489,13 +504,13 @@ const TaskList = () => {
             </div>
           </div>
 
-          <div className="py-10 px-2 2xl:px-20 xl:px-20 l:px-20 md:px-20 h-full w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
+          <div className="py-10 px-2 2xl:px-20 xl:px-20 l:px-20 md:px-20 h-full w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto ">
             {!TaskListGroups.data ? (
               <Loader />
             ) : TaskListGroups.data.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-10 ">No taskgroups</h1>
+                <h1 className="text-l ml-10 font-bold">No taskgroups</h1>
                 <br />
               </div>
             ) : (

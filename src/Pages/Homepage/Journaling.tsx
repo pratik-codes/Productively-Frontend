@@ -18,6 +18,10 @@ import {
 } from "../../Redux/Actions/JournalActions";
 import { RootStore } from "../../Redux/Store";
 
+import { gsap, TimelineLite, Power3 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 const Journaling = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [JournalTitle, setJournalTitle] = useState("");
@@ -51,6 +55,17 @@ const Journaling = () => {
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  let t1 = new TimelineLite({ delay: 0.3 });
+
+  useEffect(() => {
+    t1.staggerFrom(
+      ".animate",
+      1,
+      { y: 30, ease: Power3.easeOut, opacity: 0 },
+      0.15
+    );
+  }, [t1]);
 
   const addJournal = async () => {
     if (JournalTitle || JournalDescription) {
@@ -487,7 +502,7 @@ const Journaling = () => {
             ) : JournalGroups.data.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 ">No Journal Groups</h1>
+                <h1 className="text-l ml-5 font-bold">No Journal Groups</h1>
                 <br />
               </div>
             ) : (

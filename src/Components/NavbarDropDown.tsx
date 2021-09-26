@@ -61,60 +61,65 @@ export const NavbarDropDown = () => {
         >
           <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
-              <div
-                onClick={() => {
-                  setUserHomePageView("Homepage");
-                  setPageOpen("Homepage");
-                }}
-              >
-                <SidebarCard
-                  activeTab={pageOpen}
-                  title={"Homepage"}
-                  imgSrc={homepage}
-                />
-              </div>
-              <div
-                onClick={() => {
-                  setUserHomePageView("Task List");
-                  setPageOpen("Task List");
-                }}
-              >
-                <SidebarCard
-                  activeTab={pageOpen}
-                  title={"Task List"}
-                  imgSrc={tasklist}
-                />
-              </div>
+              <Link to="/">
+                <div
+                  onClick={() => {
+                    setPageOpen("Homepage");
+                  }}
+                >
+                  <SidebarCard
+                    activeTab={pageOpen}
+                    title={"Homepage"}
+                    imgSrc={homepage}
+                  />
+                </div>
+              </Link>
+              <Link to="/tasklists">
+                <div
+                  onClick={() => {
+                    setPageOpen("Task List");
+                  }}
+                >
+                  <SidebarCard
+                    activeTab={pageOpen}
+                    title={"Task List"}
+                    imgSrc={tasklist}
+                  />
+                </div>
+              </Link>
               {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "LEARN"
             </h1> */}
-              <div
-                onClick={() => {
-                  setUserHomePageView("Flash Cards");
-                  setPageOpen("Flash Cards");
-                }}
-              >
-                <SidebarCard
-                  activeTab={pageOpen}
-                  title={"Flash Cards"}
-                  imgSrc={flashcard}
-                />
-              </div>
+              <Link to="/flashcards">
+                <div
+                  onClick={() => {
+                    setPageOpen("Flash Cards");
+                  }}
+                >
+                  <SidebarCard
+                    activeTab={pageOpen}
+                    title={"Flash Cards"}
+                    imgSrc={flashcard}
+                  />
+                </div>
+              </Link>
               {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "REFLECT"
             </h1> */}
-              <div
-                onClick={() => {
-                  setUserHomePageView("Journaling");
-                  setPageOpen("Journaling");
-                }}
-              >
-                <SidebarCard
-                  activeTab={pageOpen}
-                  title={"Journaling"}
-                  imgSrc={Journals}
-                />
-              </div>
+              <Link to="/Journaling">
+                <div
+                  onClick={() => {
+                    setPageOpen("Journaling");
+                  }}
+                >
+                  <SidebarCard
+                    activeTab={pageOpen}
+                    title={"Journaling"}
+                    imgSrc={Journals}
+                  />
+                </div>
+              </Link>
+
               <Link to="/dashboard">
                 <div>
                   <SidebarCard

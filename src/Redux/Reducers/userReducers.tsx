@@ -13,10 +13,11 @@ import {
   USER_HOMEPAGE_VIEW_FAIL,
 } from "../Constants/user.constants";
 export interface userBasicState {
-  user: boolean;
+  user: {};
 }
+
 const userInitialBasicState: userBasicState = {
-  user: false,
+  user: {},
 };
 
 export interface userHomepageBasicState {
@@ -45,7 +46,7 @@ export const userLoginReducer = (
     case USER_LOGIN_REQUEST:
       return { loading: true };
     case USER_LOGIN_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, data: action.payload };
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     default:

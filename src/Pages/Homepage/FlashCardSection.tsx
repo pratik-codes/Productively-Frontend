@@ -20,6 +20,10 @@ import { getFlashcardAction } from "../../Redux/Reducers/flashcardReducers";
 import Loader from "../../Components/loader";
 import FlashcardView from "../../Components/FlashCard/FlashcardView";
 
+import { gsap, TimelineLite, Power3 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 interface FlashCardGroupProps {
   flashCardGroupId: string;
   flashCardGroupTitle: string;
@@ -57,6 +61,17 @@ const FlashCardSection = () => {
   function openDeleteModal() {
     setDeleteIsOpen(true);
   }
+
+  let t1 = new TimelineLite({ delay: 0.3 });
+
+  useEffect(() => {
+    t1.staggerFrom(
+      ".animate",
+      1,
+      { y: 30, ease: Power3.easeOut, opacity: 0 },
+      0.15
+    );
+  }, [t1]);
 
   const addFlashcard = async () => {
     if (FlashcardTitle || FlashcardDescription) {
@@ -494,13 +509,13 @@ const FlashCardSection = () => {
             </div>
           </div>
 
-          <div className="py-10 px-2 2xl:px-20 xl:px-20 l:px-20 md:px-20 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-4 overflow-y-auto">
+          <div className="py-10 px-2 2xl:px-20 xl:px-20 l:px-20 md:px-20 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-4 overflow-y-auto ">
             {!flashcard.data ? (
               <Loader />
             ) : flashcard.data.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 ">No flashcards</h1>
+                <h1 className="text-l ml-5 font-bold">No flashcards</h1>
                 <br />
               </div>
             ) : (
