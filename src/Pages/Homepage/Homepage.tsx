@@ -43,7 +43,7 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
         className="flex align-center justify-center mx-auto"
       >
         <div
-          className="bg-white w-full rounded-xl  shadow-xl flex "
+          className="bg-white w-full rounded-xl flex "
           style={{ margin: "1rem" }}
         >
           <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
