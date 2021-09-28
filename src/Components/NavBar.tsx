@@ -30,16 +30,18 @@ export default function NavBar() {
     <div className="flex justify-center w-full h-14 mt-2 align-center ">
       <div className="mobile NavContainer 2xl:hidden xl:hidden l:hidden md:flex sm:flex justify-between sm:w-6/6 h-13">
         <div className="flex mr-2">
-          <img className="h-7 mx-6" src={Productively} alt="logo" />
-          {/* <h2 className=" font-bold text-white md:text-sm sm:text-sm mt-2">
-            PRODUCTIVELY
-          </h2> */}
+          <div className="">
+            <NavbarDropDown />
+          </div>
+          <div className="flex mx-4">
+            <img className="h-8 my-auto mr-3" src={Productively} alt="logo" />
+            <h2 className=" font-bold text-white md:text-sm sm:text-sm my-auto">
+              PRODUCTIVELY
+            </h2>
+          </div>
         </div>
-        <div className="mx-4">
-          <NavbarDropDown />
-        </div>
-        <div className="w-full max-w-sm">
-          <Popover className="relative ">
+        <div className="max-w-sm mr-2">
+          <Popover className="relative">
             {({ open }) => (
               <>
                 <Popover.Button
@@ -47,10 +49,10 @@ export default function NavBar() {
                 ${open ? "" : "text-opacity-90"}
                 text-white group bg-orange-700 px-1 py-2 rounded-md inline-flex items-center text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
                 >
-                  <div className="border-2 border-gray-600 rounded-2xl flex flex-wrap content-center px-2 py-2 text-gray-300 hover:text-white ">
+                  <div className="border-2 border-gray-600 rounded-2xl flex flex-wrap content-center p-2 text-gray-300 hover:text-white ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
+                      className="h-6 w-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -62,11 +64,6 @@ export default function NavBar() {
                         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                       />
                     </svg>
-                    <ChevronDownIcon
-                      className={`${open ? "" : "text-opacity-70"}
-                  h-5 w-5 text-orange-300 group-hover:text-opacity-80 transition ease-in-out duration-150`}
-                      aria-hidden="true"
-                    />
                   </div>
                 </Popover.Button>
                 <Transition

@@ -150,12 +150,33 @@ const FlashCardSection = () => {
         <>
           <div className="flex justify-between w-6/6 pt-10 mx-5 2xl:mx-10 xl:mx-10 l:mx-10 md:mx-10 mt-5 2xl:mt-10 xl:mt-10 l:mt-10 md:mt-10">
             <div>
-              <h1
-                style={{ color: "#e072ff" }}
-                className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-purple-700 mx-4"
-              >
-                FlashCard Groups 📚 {isOpenFlashCardGroup}
-              </h1>
+              <div className="2xl:flex xl:flex l:flex mf:flex ">
+                <span
+                  style={{ color: "#e072ff" }}
+                  className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-purple-700 "
+                >
+                  FlashCard Groups
+                </span>
+                <span>
+                  <svg
+                    style={{ color: "#e072ff" }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 mt-1 2xl:ml-2 xl:ml-2 l:ml-2 md:ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
+                    />
+                  </svg>
+                </span>
+              </div>
             </div>
             <div className="flex">
               <button

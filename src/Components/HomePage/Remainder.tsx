@@ -123,9 +123,27 @@ const Remainder = () => {
       <div>
         <br />
         <div className="flex justify-between mb-2">
-          <h1 className="text-2xl font-sans font-bold text-yellow-700 ml-4 mb-4">
-            Reminder Timeline ⏰
-          </h1>
+          <div className="2xl:flex xl:flex l:flex md:flex justify-start">
+            <span className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-yellow-700 ml-4 mb-4">
+              Reminder Timeline{" "}
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 mt-1 mx-2 text-yellow-700 ml-4 2xl:ml-2 xl:ml-2 l:ml-2 md:ml-2 "
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </span>
+          </div>
           <div className="flex">
             <button
               onClick={openModal}
@@ -147,7 +165,7 @@ const Remainder = () => {
               </svg>
             </button>
             {multipleDelete ? (
-              <div>
+              <div className="flex">
                 <button
                   onClick={() => {
                     openDeleteModal();
@@ -193,27 +211,29 @@ const Remainder = () => {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => {
-                  setMultipleDelete(!multipleDelete);
-                }}
-                className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    setMultipleDelete(!multipleDelete);
+                  }}
+                  className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -486,9 +506,27 @@ const Remainder = () => {
         </Transition>
         <br></br>
         <div className="flex justify-between mb-2">
-          <h1 className="text-2xl font-sans  text-black ml-4 mb-4 font-bold">
-            Upcoming ⏭️
-          </h1>
+          <div className="flex">
+            <span className="text-2xl font-sans  text-black ml-4 mb-4 font-bold">
+              Upcoming
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 mt-1 ml-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"
+                />
+              </svg>
+            </span>
+          </div>
           <br />
         </div>
         <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2 ">
@@ -497,7 +535,7 @@ const Remainder = () => {
           ) : Remainders.data.Upcoming.length === 0 ? (
             <div className="">
               <br />
-              <h1 className="text-l ml-5 font-bold">No upcoming reminders</h1>
+              <h1 className="text-l ml-5 ">No upcoming reminders</h1>
               <br />
             </div>
           ) : (
@@ -538,9 +576,27 @@ const Remainder = () => {
         <br></br>
         <br></br>
         <div className="mb-2">
-          <h1 className="text-2xl font-sans text-black ml-4 mb-4 font-bold">
-            Past 🔙
-          </h1>
+          <div className="flex">
+            <span className="text-2xl font-sans text-black ml-4 mb-4 font-bold">
+              Past
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 mt-1 ml-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"
+                />
+              </svg>
+            </span>
+          </div>
           <br />
 
           <div className="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 xm:grid-cols-1 gap-2 ">
@@ -549,7 +605,7 @@ const Remainder = () => {
             ) : Remainders.data.Past.length === 0 ? (
               <div className="">
                 <br />
-                <h1 className="text-l ml-5 font-bold">No past reminders</h1>
+                <h1 className="text-l ml-5 ">No past reminders</h1>
                 <br />
               </div>
             ) : (

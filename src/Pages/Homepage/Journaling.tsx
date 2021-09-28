@@ -139,12 +139,31 @@ const Journaling = () => {
       {journalListIsOpen === "" && (
         <div className="">
           <div className="flex justify-between w-6/6 pt-10 mx-5 2xl:mx-10 xl:mx-10 l:mx-10 md:mx-10 mt-5 2xl:mt-10 xl:mt-10 l:mt-10 md:mt-10">
-            <h1
-              style={{ color: "#6EB448" }}
-              className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-purple-700 mx-4"
-            >
-              Journal Groups 💭
-            </h1>
+            <div className="2xl:flex xl:flex l:flex md:flex">
+              <span
+                style={{ color: "#6EB448" }}
+                className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-purple-700 "
+              >
+                Journal Groups
+              </span>
+              <span>
+                <svg
+                  style={{ color: "#6EB448" }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7 mt-1 2xl:ml-2 xl:ml-2 l:ml-2 md:ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                  />
+                </svg>
+              </span>
+            </div>
             <div className="flex">
               <button
                 onClick={openModal}

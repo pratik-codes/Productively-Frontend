@@ -98,9 +98,27 @@ const TodoCard: React.FC = () => {
       <div className=" h-6/6 m-5   ">
         <br />
         <div className="flex justify-between">
-          <h1 className="text-2xl font-sans font-bold text-blue-800 ml-4 mb-4">
-            Priorities 🌟
-          </h1>
+          <div className="flex">
+            <span className="text-2xl font-sans font-bold text-blue-800 ml-4 mb-4">
+              Priorities
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 ml-2 mt-1 text-blue-800"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+            </span>
+          </div>
           <div className="flex">
             <button
               onClick={openModal}
@@ -441,7 +459,7 @@ const TodoCard: React.FC = () => {
           ) : Priorities.data.length === 0 ? (
             <div className="">
               <br />
-              <h1 className="text-l ml-5 font-bold">No priorities</h1>
+              <h1 className="text-l ml-5 ">No priorities</h1>
               <br />
             </div>
           ) : (

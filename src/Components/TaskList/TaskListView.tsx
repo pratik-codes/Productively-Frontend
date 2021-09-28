@@ -483,9 +483,27 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
       </div>
 
       <div className="px-5 pt-10 2xl:p-10 xl:p-10 lg:p-10 md:p-10 mx-auto">
-        <h1 className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4">
-          Task Status: Pending ⌛
-        </h1>
+        <div className="flex">
+          <span className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4 font-bold">
+            Task Status: Pending
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7 mt-1 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
       <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Pending && Pending.length === 0 ? (
@@ -533,9 +551,27 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
       </div>
       <br />
       <div className="px-5 pt-10 2xl:p-10 xl:p-10 lg:p-10 md:p-10 mx-auto">
-        <h1 className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4">
-          Task Status: Done ✅
-        </h1>
+        <div className="flex">
+          <span className="text-xl 2xl:text-2xl xl:text-2xl lg:text-2xl md:text-2xl font-sans text-black ml-4 mb-4 font-bold">
+            Task Status: Done
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7 mt-1 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
       <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
         {Done && Done.length === 0 ? (
