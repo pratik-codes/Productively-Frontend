@@ -2,7 +2,10 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import edit from "../../Assets/icons/EditButton.png";
 import deleteIcon from "../../Assets/icons/Delete.png";
-import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import {
+  DatePickerComponent,
+  DateTimePickerComponent,
+} from "@syncfusion/ej2-react-calendars";
 import { useDispatch } from "react-redux";
 import {
   deleteRemainder,
@@ -227,7 +230,7 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
                         </div>
 
                         <div className="w-full mt-2">
-                          <DatePickerComponent
+                          <DateTimePickerComponent
                             id="datepicker"
                             placeholder="Select Date"
                             min={new Date()}

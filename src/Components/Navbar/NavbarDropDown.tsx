@@ -4,14 +4,14 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import SidebarCard from "./SidebarCard";
-import tasklist from "../Assets/icons/tasklist.png";
-import homepage from "../Assets/icons/homepage.png";
-import flashcard from "../Assets/icons/flashcard.png";
-import notes from "../Assets/icons/notes.png";
-import Journals from "../Assets/icons/journalling.png";
-import Logout from "../Assets/icons/logout.png";
-import { userHomePageViewAction } from "../Redux/Actions/userActions";
+import SidebarCard from "../SidebarCard";
+import tasklist from "../../Assets/icons/tasklist.png";
+import homepage from "../../Assets/icons/homepage.png";
+import flashcard from "../../Assets/icons/flashcard.png";
+import notes from "../../Assets/icons/notes.png";
+import Journals from "../../Assets/icons/journalling.png";
+import Logout from "../../Assets/icons/logout.png";
+import { userHomePageViewAction } from "../../Redux/Actions/userActions";
 
 export const NavbarDropDown = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
@@ -39,15 +39,28 @@ export const NavbarDropDown = () => {
   };
 
   return (
-    <div className="w-full ml-10">
+    <div className="w-full ml-2">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 rounded-2xl border-2 border-gray-600">
-            Options
-            <ChevronDownIcon
+          <Menu.Button className="inline-flex justify-center w-full p-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 rounded-2xl border-2 border-gray-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+            {/* <ChevronDownIcon
               className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
-            />
+            /> */}
           </Menu.Button>
         </div>
         <Transition
@@ -59,7 +72,7 @@ export const NavbarDropDown = () => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute left-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Link to="/">
                 <div
