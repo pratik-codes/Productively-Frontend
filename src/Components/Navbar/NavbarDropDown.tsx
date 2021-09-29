@@ -4,14 +4,14 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import SidebarCard from "./SidebarCard";
-import tasklist from "../Assets/icons/tasklist.png";
-import homepage from "../Assets/icons/homepage.png";
-import flashcard from "../Assets/icons/flashcard.png";
-import notes from "../Assets/icons/notes.png";
-import Journals from "../Assets/icons/journalling.png";
-import Logout from "../Assets/icons/logout.png";
-import { userHomePageViewAction } from "../Redux/Actions/userActions";
+import SidebarCard from "../SidebarCard";
+import tasklist from "../../Assets/icons/tasklist.png";
+import homepage from "../../Assets/icons/homepage.png";
+import flashcard from "../../Assets/icons/flashcard.png";
+import notes from "../../Assets/icons/notes.png";
+import Journals from "../../Assets/icons/journalling.png";
+import Logout from "../../Assets/icons/logout.png";
+import { userHomePageViewAction } from "../../Redux/Actions/userActions";
 
 export const NavbarDropDown = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
 
-import NavBar from "./Components/NavBar";
+import NavBar from "./Components/Navbar/NavBar";
 import Homepage, { homepageProps } from "./Pages/Homepage/Homepage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";

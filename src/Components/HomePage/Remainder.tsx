@@ -1,7 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useToasts } from "react-toast-notifications";
-import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import {
+  DatePickerComponent,
+  DateTimePickerComponent,
+} from "@syncfusion/ej2-react-calendars";
 import RemainderComponent from "./RemainderComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -345,7 +348,7 @@ const Remainder = () => {
                       </p>
                     </div>
                     <div className="w-full">
-                      <DatePickerComponent
+                      <DateTimePickerComponent
                         id="datepicker"
                         placeholder="Select Date"
                         onChange={(e: any) => setRemainderDate(e.target.value)}
@@ -533,7 +536,7 @@ const Remainder = () => {
           {!Remainders.data ? (
             <Loader />
           ) : Remainders.data.Upcoming.length === 0 ? (
-            <div className="">
+            <div style={{ marginBottom: "2rem" }}>
               <br />
               <h1 className="text-l ml-5 ">No upcoming reminders</h1>
               <br />
@@ -624,7 +627,7 @@ const Remainder = () => {
                 }
               }).map((remainder: remainderData) => {
                 return (
-                  <div>
+                  <div style={{ marginBottom: "2rem" }}>
                     <RemainderComponent
                       id={remainder._id}
                       title={remainder.remainderName}
