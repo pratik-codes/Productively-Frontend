@@ -87,7 +87,7 @@ const Login = () => {
           <div className="flex items-center justify-end">
             <div className="text-sm">
               <a
-                href="/forgot"
+                href="/forgotpassword"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Forgot your password?

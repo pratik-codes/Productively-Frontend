@@ -10,9 +10,19 @@ import {
   USER_HOMEPAGE_VIEW_REQUEST,
   USER_HOMEPAGE_VIEW_SUCCESS,
   USER_HOMEPAGE_VIEW_FAIL,
+  USER_FORGOT_PASSWORD_REQUEST,
+  USER_FORGOT_PASSWORD_SUCCESS,
+  USER_FORGOT_PASSWORD_FAIL,
+  USER_VALIDATE_OTP_REQUEST,
+  USER_VALIDATE_OTP_SUCCESS,
+  USER_VALIDATE_OTP_FAIL,
+  USER_CHANGE_PASSWORD_REQUEST,
+  USER_CHANGE_PASSWORD_SUCCESS,
+  USER_CHANGE_PASSWORD_FAIL,
 } from "../Constants/user.constants";
 
 export const baseURL = "https://productively-by-pratik.herokuapp.com/";
+// export const baseURL = "http://localhost:3000/";
 
 export const LoginAction =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -136,3 +146,108 @@ export const userHomePageViewAction =
 //       });
 //     }
 //   };
+
+export const userChangePasswordRequestAction =
+  (email: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_FORGOT_PASSWORD_REQUEST,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const Body = { email: email };
+
+      const { data } = await axios.post(
+        `${baseURL}auth/forgotpassword/email`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data) {
+        dispatch({
+          type: USER_FORGOT_PASSWORD_SUCCESS,
+        });
+        return data;
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_FORGOT_PASSWORD_FAIL,
+      });
+      return error;
+    }
+  };
+
+export const validateOTPAction =
+  (email: string, OTP: number) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_VALIDATE_OTP_REQUEST,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const Body = { email: email, OTP: OTP };
+
+      const { data } = await axios.post(
+        `${baseURL}auth/forgotpassword/validate`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data) {
+        dispatch({
+          type: USER_VALIDATE_OTP_SUCCESS,
+        });
+        return data;
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_VALIDATE_OTP_FAIL,
+      });
+      return error.response;
+    }
+  };
+
+export const changePasswordAction =
+  (email: string, newPassword: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_CHANGE_PASSWORD_REQUEST,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const Body = { email: email, newPassword: newPassword };
+
+      const { data } = await axios.post(
+        `${baseURL}auth/forgotpassword/update`,
+        Body,
+        config
+      );
+
+      // only make success if the response is success
+      if (data) {
+        dispatch({
+          type: USER_CHANGE_PASSWORD_SUCCESS,
+        });
+        return data;
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_CHANGE_PASSWORD_FAIL,
+      });
+      return error.response;
+    }
+  };
