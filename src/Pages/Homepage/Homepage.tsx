@@ -16,6 +16,12 @@ import { useSelector } from "react-redux";
 import { RootStore } from "../../Redux/Store";
 import { Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
+import {
+  FlashCardSvg,
+  HomePageSvg,
+  JournalSvg,
+  TaskListSvg,
+} from "../../Assets/SvgComponents";
 
 export interface homepageProps {
   activeView: string;
@@ -49,7 +55,8 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Homepage"}
-                  imgSrc={homepage}
+                  icon={<HomePageSvg />}
+                  margin={2}
                 />
               </div>
             </Link>
@@ -58,7 +65,8 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Task List"}
-                  imgSrc={tasklist}
+                  icon={<TaskListSvg />}
+                  margin={2}
                 />
               </div>
             </Link>
@@ -70,7 +78,8 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Flash Cards"}
-                  imgSrc={flashcard}
+                  icon={<FlashCardSvg />}
+                  margin={2}
                 />
               </div>
             </Link>
@@ -82,7 +91,8 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Journaling"}
-                  imgSrc={Journals}
+                  icon={<JournalSvg />}
+                  margin={2}
                 />
               </div>
             </Link>

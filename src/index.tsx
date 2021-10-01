@@ -5,11 +5,10 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import store from "./Redux/Store";
+import Loader from "./Components/loader";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Provider store={store}>{<App /> ? <App /> : <Loader />}</Provider>,
   document.getElementById("root")
 );
 // If you want your app to work offline and load faster, you can change
