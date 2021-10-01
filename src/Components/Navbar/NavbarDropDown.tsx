@@ -12,6 +12,13 @@ import notes from "../../Assets/icons/notes.png";
 import Journals from "../../Assets/icons/journalling.png";
 import Logout from "../../Assets/icons/logout.png";
 import { userHomePageViewAction } from "../../Redux/Actions/userActions";
+import LogoutSvg, {
+  DashboardSvg,
+  FlashCardSvg,
+  HomePageSvg,
+  JournalSvg,
+  TaskListSvg,
+} from "../../Assets/SvgComponents";
 
 export const NavbarDropDown = () => {
   const [pageOpen, setPageOpen] = useState("Homepage");
@@ -83,7 +90,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Homepage"}
-                    imgSrc={homepage}
+                    icon={<HomePageSvg />}
+                    margin={1}
                   />
                 </div>
               </Link>
@@ -96,7 +104,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Task List"}
-                    imgSrc={tasklist}
+                    icon={<TaskListSvg />}
+                    margin={1}
                   />
                 </div>
               </Link>
@@ -112,7 +121,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Flash Cards"}
-                    imgSrc={flashcard}
+                    icon={<FlashCardSvg />}
+                    margin={1}
                   />
                 </div>
               </Link>
@@ -128,7 +138,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Journaling"}
-                    imgSrc={Journals}
+                    icon={<JournalSvg />}
+                    margin={1}
                   />
                 </div>
               </Link>
@@ -138,7 +149,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Dashboard"}
-                    imgSrc={homepage}
+                    icon={<DashboardSvg />}
+                    margin={1}
                   />
                 </div>
               </Link>
@@ -148,7 +160,8 @@ export const NavbarDropDown = () => {
                   <SidebarCard
                     activeTab={pageOpen}
                     title={"Logout"}
-                    imgSrc={Logout}
+                    icon={<LogoutSvg />}
+                    margin={1}
                   />
                 </div>
               ) : null}

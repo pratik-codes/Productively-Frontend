@@ -11,6 +11,7 @@ import "./styles/App.css";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Dashboard from "./Pages/Dashboard";
 import HomePage from "./Components/HomePage/HomePage";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 const App = () => {
   const [login, setLogin] = useState(true);
@@ -63,6 +64,7 @@ const App = () => {
 
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/forgotpassword" component={ForgotPassword} />
         </Switch>
       </ToastProvider>
     </BrowserRouter>

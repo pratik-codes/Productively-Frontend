@@ -110,7 +110,14 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
   return (
     <div className="w-5/6 h-full mx-auto">
       <div
-        style={{ background: "#FFCF7D" }}
+        style={{
+          background: `${
+            new Date(date).toLocaleDateString() ===
+            new Date().toLocaleDateString()
+              ? " #E6EE96"
+              : "#FFCF7D"
+          }`,
+        }}
         className="rounded-2xl p-2 m- h-full flex flex-col justify-between break-words"
       >
         <div className="flex justify-between ">
@@ -142,14 +149,17 @@ const RemainderComponent: React.FC<RemainderComponentProps> = ({
 
         <br></br>
         <div className="flex justify-between">
-          <h1 className="ml-4 mt-6 font-sans text-xs font-bold ">
-            {date.toString().split("T")[0]}
-          </h1>
+          <div className="h-full">
+            <br />
+            <h1 className="place-content-bottom ml-2  2xl:ml-2 xl:ml-2 l:ml-2 md:ml-2 sm:ml-2 h-6 font-sans text-xs font-bold bg-black text-white py-1 px-3 rounded-2xl">
+              {new Date(date).toLocaleString()}
+            </h1>
+          </div>
           <div className="flex">
             <div
               style={{ borderRadius: "100px" }}
               onClick={() => setEditIsOpen(true)}
-              className="flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 mr-3 hover:bg-yellow-600 transition duration-500"
+              className="flex items-center mr-1 w-10 h-10 cursor-pointer bg-black mt-3 mr-1 2xl:mr-3 xl:mr-3 l:mr-3 md:mr-3  hover:bg-yellow-600 transition duration-500"
             >
               <img
                 className="flex justify-center align-middle mx-auto w-4 h-4 text-gray-700"
