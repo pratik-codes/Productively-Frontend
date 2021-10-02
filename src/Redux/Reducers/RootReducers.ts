@@ -8,12 +8,16 @@ import {
   userHomePageViewChangeReducer,
   userLoginReducer,
   userRegisterReducer,
+  userShowHiveNavbarReducer,
+  userShowSidebarReducer,
 } from "./userReducers";
 
 const RootReducer = combineReducers({
   userInfo: userLoginReducer,
   userViewInfo: userHomePageViewChangeReducer,
   userRegister: userRegisterReducer,
+  showNavbar: userShowHiveNavbarReducer,
+  showSidebar: userShowSidebarReducer,
   remainders: getRemaindersReducers,
   priorities: getPrioritiesReducers,
   taskListGroups: getTaskListGroupReducers,

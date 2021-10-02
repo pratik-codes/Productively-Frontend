@@ -81,7 +81,7 @@ export const NavbarDropDown = () => {
         >
           <Menu.Items className="absolute left-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
-              <Link to="/">
+              <Link to="/homepage">
                 <div
                   onClick={() => {
                     setPageOpen("Homepage");
@@ -92,10 +92,11 @@ export const NavbarDropDown = () => {
                     title={"Homepage"}
                     icon={<HomePageSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               </Link>
-              <Link to="/tasklists">
+              <Link to="/tasklist">
                 <div
                   onClick={() => {
                     setPageOpen("Task List");
@@ -106,13 +107,14 @@ export const NavbarDropDown = () => {
                     title={"Task List"}
                     icon={<TaskListSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               </Link>
               {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "LEARN"
             </h1> */}
-              <Link to="/flashcards">
+              <Link to="/flashcard">
                 <div
                   onClick={() => {
                     setPageOpen("Flash Cards");
@@ -123,6 +125,7 @@ export const NavbarDropDown = () => {
                     title={"Flash Cards"}
                     icon={<FlashCardSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               </Link>
@@ -140,6 +143,7 @@ export const NavbarDropDown = () => {
                     title={"Journaling"}
                     icon={<JournalSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               </Link>
@@ -151,6 +155,7 @@ export const NavbarDropDown = () => {
                     title={"Dashboard"}
                     icon={<DashboardSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               </Link>
@@ -162,6 +167,7 @@ export const NavbarDropDown = () => {
                     title={"Logout"}
                     icon={<LogoutSvg />}
                     margin={1}
+                    showTitle={true}
                   />
                 </div>
               ) : null}

@@ -24,7 +24,7 @@ const Login = () => {
         autoDismiss: true,
       });
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/homepage";
       }, 1000);
     } else {
       addToast(`${res}`, {

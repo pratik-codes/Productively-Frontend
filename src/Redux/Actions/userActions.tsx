@@ -19,10 +19,16 @@ import {
   USER_CHANGE_PASSWORD_REQUEST,
   USER_CHANGE_PASSWORD_SUCCESS,
   USER_CHANGE_PASSWORD_FAIL,
+  USER_SHOW_HIDE_NAVBAR_REQUEST,
+  USER_SHOW_HIDE_NAVBAR_SUCCESS,
+  USER_SHOW_HIDE_NAVBAR_FAIL,
+  USER_SHOW_HIDE_SIDEBAR_REQUEST,
+  USER_SHOW_HIDE_SIDEBAR_SUCCESS,
+  USER_SHOW_HIDE_SIDEBAR_FAIL,
 } from "../Constants/user.constants";
 
-export const baseURL = "https://productively-by-pratik.herokuapp.com/";
-// export const baseURL = "http://localhost:3000/";
+// export const baseURL = "https://productively-by-pratik.herokuapp.com/";
+export const baseURL = "http://localhost:3000/";
 
 export const LoginAction =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -249,5 +255,43 @@ export const changePasswordAction =
         type: USER_CHANGE_PASSWORD_FAIL,
       });
       return error.response;
+    }
+  };
+
+export const showNavBarAction =
+  (value: boolean) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_SHOW_HIDE_NAVBAR_REQUEST,
+      });
+      console.log(value);
+      dispatch({
+        type: USER_SHOW_HIDE_NAVBAR_SUCCESS,
+        payload: value,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_SHOW_HIDE_NAVBAR_FAIL,
+      });
+      console.log(error);
+    }
+  };
+
+export const showSidebarAction =
+  (value: boolean) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_SHOW_HIDE_SIDEBAR_REQUEST,
+      });
+      console.log(value);
+      dispatch({
+        type: USER_SHOW_HIDE_SIDEBAR_SUCCESS,
+        payload: value,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_SHOW_HIDE_SIDEBAR_FAIL,
+      });
+      console.log(error);
     }
   };

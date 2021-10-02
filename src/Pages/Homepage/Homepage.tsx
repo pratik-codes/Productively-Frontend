@@ -11,7 +11,10 @@ import HomePage from "../../Components/HomePage/HomePage";
 import TaskList from "./TaskList";
 import Journaling from "./Journaling";
 import FlashCardSection from "./FlashCardSection";
-import { userViewReduxState } from "../../Interfaces/Interfaces";
+import {
+  showNavBarReduxState,
+  userViewReduxState,
+} from "../../Interfaces/Interfaces";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../Redux/Store";
 import { Route, Switch } from "react-router";
@@ -27,59 +30,64 @@ export interface homepageProps {
   activeView: string;
 }
 
-const Homepage: React.FC<homepageProps> = ({ activeView }) => {
+const Homepage: React.FC<any> = ({ activeView, match }) => {
   const [pageOpen, setPageOpen] = useState("Homepage");
 
-  const userView: userViewReduxState = useSelector(
-    (state: RootStore) => state.userViewInfo
+  const showNavbarRedux: showNavBarReduxState = useSelector(
+    (state: RootStore) => state.showNavbar
   );
 
-  useEffect(() => {
-    if (activeView) {
-      setPageOpen(activeView);
-    } else {
-      setPageOpen("Homepage");
-    }
-  }, [activeView]);
+  const showSidebarRedux: showNavBarReduxState = useSelector(
+    (state: RootStore) => state.showSidebar
+  );
+
+  let params = match.params;
 
   return (
     <>
       <div
-        style={{ height: "90%" }}
+        style={{ height: `${showNavbarRedux.show === true ? "90%" : "99%"}` }}
         className="flex align-center justify-center mx-auto"
       >
-        <div className="mx-4 my-2 bg-white w-full rounded-xl flex">
-          <div className="sidebar absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out w-2/12 ml-3 item-center grid-cols-2 my-7 border-r border-gray-300">
-            <Link to="/">
-              <div onClick={() => setPageOpen("Homepage")}>
+        <div className=" mx-4 my-2 bg-white w-full rounded-xl flex">
+          <div
+            className={`mx-auto sidebar ${
+              showSidebarRedux.show === true ? "w-2/12" : "w-24 m-3"
+            } ml-3 item-center grid-cols-2 mb-7 mt-2 border-r border-gray-300`}
+          >
+            <Link to="/homepage">
+              <div onClick={() => setPageOpen("homepage")}>
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Homepage"}
                   icon={<HomePageSvg />}
                   margin={2}
+                  showTitle={showSidebarRedux.show}
                 />
               </div>
             </Link>
-            <Link to="/tasklists">
+            <Link to="/tasklist">
               <div onClick={() => setPageOpen("Task List")}>
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Task List"}
                   icon={<TaskListSvg />}
                   margin={2}
+                  showTitle={showSidebarRedux.show}
                 />
               </div>
             </Link>
             {/* <h1 className="font-sans text-gray-800 text-2xl font-bold	ml-6 mb-8 mt-10">
               "LEARN"
             </h1> */}
-            <Link to="/flashcards">
+            <Link to="/flashcard">
               <div onClick={() => setPageOpen("Flash Cards")}>
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Flash Cards"}
                   icon={<FlashCardSvg />}
                   margin={2}
+                  showTitle={showSidebarRedux.show}
                 />
               </div>
             </Link>
@@ -93,15 +101,18 @@ const Homepage: React.FC<homepageProps> = ({ activeView }) => {
                   title={"Journaling"}
                   icon={<JournalSvg />}
                   margin={2}
+                  showTitle={showSidebarRedux.show}
                 />
               </div>
             </Link>
           </div>
           <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full">
-            {pageOpen === "Homepage" && <HomePage />}
-            {pageOpen === "Task List" && <TaskList />}
-            {pageOpen === "Flash Cards" && <FlashCardSection />}
-            {pageOpen === "Journaling" && <Journaling />}
+            <Switch>
+              <Route path="/homepage" component={HomePage} />
+              <Route path="/tasklist" component={TaskList} />
+              <Route path="/flashcard" component={FlashCardSection} />
+              <Route path="/Journaling" component={Journaling} />
+            </Switch>
           </div>
         </div>
       </div>
