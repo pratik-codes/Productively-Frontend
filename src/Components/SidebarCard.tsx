@@ -22,9 +22,9 @@ const SidebarCard: React.FC<SideBarCardProps> = ({
         marginTop: `${margin}rem`,
         marginBottom: `${margin}rem`,
       }}
-      className="flex mx-5  bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500 mx-auto "
+      className="flex mx-5 justify-center bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500 mx-auto "
     >
-      <div className="flex items-center w-4/10">
+      <div className="flex justify-center items-center w-4/10">
         <div
           style={{ marginTop: `${margin !== 2 ? 0.8 : -0.5}rem` }}
           className="flex justify-center align-middle mx-2 2xl:mx-4 xl:mx-4 l:mx-4 md:mx-4 w-10 h-10  md:h-5 md:h-5 mx-auto text-gray-700"

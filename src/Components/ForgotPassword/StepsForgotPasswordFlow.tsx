@@ -2,8 +2,8 @@ import React from "react";
 
 const StepsForgotPasswordFlow = () => {
   return (
-    <div className="w-5/12 flex mx-auto w-6/6 2xl:w-4/6 xl:w-4/6 l:w-4/6 md:w-4/6 justify-between m-5 px-10">
-      <div className="lg:py-6 lg:pr-16">
+    <div className="w-12/12 flex mx-auto w-6/6 2xl:w-4/6 xl:w-4/6 l:w-4/6 md:w-4/6 justify-between m-5 px-10">
+      <div className="lg:py-6 lg:px-16">
         <br />
         <div className="flex">
           <div className="flex flex-col items-center mr-4">

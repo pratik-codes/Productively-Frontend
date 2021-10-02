@@ -53,10 +53,10 @@ const Homepage: React.FC<any> = ({ activeView, match }) => {
           <div
             className={`mx-auto sidebar ${
               showSidebarRedux.show === true ? "w-2/12" : "w-24 m-3"
-            } ml-3 item-center grid-cols-2 mb-7 mt-2 border-r border-gray-300`}
+            } mx-2 item-center grid-cols-2 mb-7 mt-2 border-r border-gray-300`}
           >
             <Link to="/homepage">
-              <div onClick={() => setPageOpen("homepage")}>
+              <div onClick={() => setPageOpen("Homepage")}>
                 <SidebarCard
                   activeTab={pageOpen}
                   title={"Homepage"}
@@ -109,7 +109,7 @@ const Homepage: React.FC<any> = ({ activeView, match }) => {
           <div
             className={`${
               showSidebarRedux.show === true
-                ? "2xl:w-10/12 xl:w-10/12 l:w-10/12"
+                ? "2xl:w-full xl:w-full l:w-full"
                 : "2xl:w-full xl:w-full l:w-full"
             }2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full`}
           >

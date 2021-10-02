@@ -58,7 +58,7 @@ const App = () => {
         >
           <button
             type="button"
-            className=" mr-3 inline-flex justify-center px-3 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-2xl hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
+            className="invisible 2xl:visible xl:visible l:visible md:visible mr-3 inline-flex justify-center px-2 py-1 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-2xl hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
             onClick={() => {
               showSidebarHandler(!sidebar);
             }}
@@ -105,7 +105,7 @@ const App = () => {
           </button>
           <button
             type="button"
-            className=" mr-3 inline-flex justify-center px-3 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-2xl hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
+            className=" mr-3 inline-flex justify-center px-2 py-1 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-2xl hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
             onClick={() => {
               showHideNavbarHandler(!showNavbar);
             }}
@@ -148,7 +148,7 @@ const App = () => {
               </svg>
             )}
 
-            <span className="font-bold ml-2">navbar</span>
+            <span className="font-bold ml-1">navbar</span>
           </button>
         </div>
 
