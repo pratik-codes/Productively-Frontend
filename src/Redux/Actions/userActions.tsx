@@ -27,8 +27,8 @@ import {
   USER_SHOW_HIDE_SIDEBAR_FAIL,
 } from "../Constants/user.constants";
 
-// export const baseURL = "https://productively-by-pratik.herokuapp.com/";
-export const baseURL = "http://localhost:3000/";
+export const baseURL = "https://productively-by-pratik.herokuapp.com/";
+// export const baseURL = "http://localhost:3000/";
 
 export const LoginAction =
   (email: string, password: string) => async (dispatch: Dispatch) => {

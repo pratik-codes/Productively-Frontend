@@ -106,7 +106,13 @@ const Homepage: React.FC<any> = ({ activeView, match }) => {
               </div>
             </Link>
           </div>
-          <div className="2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full">
+          <div
+            className={`${
+              showSidebarRedux.show === true
+                ? "2xl:w-10/12 xl:w-10/12 l:w-10/12"
+                : "2xl:w-full xl:w-full l:w-full"
+            }2xl:w-10/12 xl:w-10/12 l:w-10/12 w-full h-full`}
+          >
             <Switch>
               <Route path="/homepage" component={HomePage} />
               <Route path="/tasklist" component={TaskList} />
