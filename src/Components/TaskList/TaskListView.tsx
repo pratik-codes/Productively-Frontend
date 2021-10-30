@@ -1,13 +1,21 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useToasts } from "react-toast-notifications";
-import { Task } from "../../Interfaces/Interfaces";
+import {
+  Task,
+  TaskGroup,
+  TaskListReduxState,
+} from "../../Interfaces/Interfaces";
 import {
   addTask,
   deleteMultipleTasksHandler,
+  getTaskGroupTaskList,
   getTaskList,
 } from "../../Redux/Actions/taskActions";
+import { RootStore } from "../../Redux/Store";
+import Loader from "../loader";
 import TaskCard from "./TaskCard";
 
 export interface TaskListViewProps {
@@ -16,7 +24,6 @@ export interface TaskListViewProps {
   GroupDescription: string | undefined;
   Pending: Task[] | undefined;
   Done: Task[] | undefined;
-  Back: any;
 }
 
 interface TaskList {
@@ -25,22 +32,18 @@ interface TaskList {
   Status: string;
 }
 
-const TaskListView: React.FC<TaskListViewProps | undefined> = ({
-  GroupId,
-  GroupName,
-  GroupDescription,
-  Pending,
-  Done,
-  Back,
-}) => {
+const TaskListView: React.FC<any> = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [TaskName, setTaskName] = useState("");
   const [TaskDescription, setTaskDescription] = useState("");
   const [TaskStatus, setTaskStatus] = useState("");
   const [multipleDelete, setMultipleDelete] = useState(false);
   const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<any>({});
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+
+  const params: any = useParams();
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
@@ -63,10 +66,11 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
 
   const addTaskHandler = async () => {
     if (TaskName || TaskDescription) {
-      console.log("running add");
-      await dispatch(addTask(TaskName, TaskDescription, "PENDING", GroupId));
+      await dispatch(
+        addTask(TaskName, TaskDescription, "PENDING", selectedGroup.taskGroupId)
+      );
+
       dispatch(getTaskList());
-      Back("");
       addToast("Task added successfully.", {
         appearance: "success",
         autoDismiss: true,
@@ -75,8 +79,6 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
       setTaskName("");
       setTaskDescription("");
     } else {
-      console.log("aborting add");
-
       addToast("title and description and status are required.", {
         appearance: "error",
         autoDismiss: true,
@@ -90,8 +92,21 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
       var idIndex = cardsToDelete.indexOf(id);
       cardsToDelete.splice(idIndex, 1);
     }
-    console.log(cardsToDelete);
   };
+
+  useEffect(() => {
+    const Id = params.groupId;
+    console.log(Id);
+
+    const setTaskList = async (id: string) => {
+      const taskGroupData: any = await dispatch(getTaskGroupTaskList(id));
+      setSelectedGroup(taskGroupData);
+    };
+
+    if (Id) {
+      setTaskList(Id);
+    }
+  }, []);
 
   const multipleDeleteHandler = async (taskIds: string[]) => {
     if (taskIds.length === 0) {
@@ -100,14 +115,15 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         autoDismiss: true,
       });
     } else {
-      await dispatch(deleteMultipleTasksHandler(GroupId, taskIds));
+      await dispatch(
+        deleteMultipleTasksHandler(selectedGroup.taskGroupId, taskIds)
+      );
       addToast("Reminders deleted successfully.", {
         appearance: "success",
         autoDismiss: true,
       });
       setCardsToDelete([]);
       dispatch(getTaskList());
-      Back("");
     }
   };
 
@@ -117,10 +133,10 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         <div className="flex flex-col-reverse 2xl:flex-row xl:flex-row l:flex-row md:flex-row justify-between">
           <div className="w-6/6 2xl:w-5/6 xl:w-5/6 l:w-5/6 md:w-5/6">
             <h1 className="text-xl 2xl:text-2xl xl:text-2xl l:text-2xl md:text-2xl font-sans font-bold text-blue-700 ml-4 mb-1">
-              Task Group: {GroupName}
+              Task Group: {selectedGroup.groupName}
             </h1>
             <p className="text-xs font-sans w-3/6 text-black ml-4 mb-4">
-              {GroupDescription}
+              {selectedGroup.groupDescription}
             </p>
           </div>
           <div className="flex justify-end">
@@ -213,12 +229,6 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
                 </svg>
               </button>
             )}
-            <button
-              onClick={() => Back("")}
-              className="bg-black text-white font-bold mb-4 py-1 px-4 rounded mr-4 hover:bg-red-600 transition duration-500"
-            >
-              Back
-            </button>
           </div>
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog
@@ -506,47 +516,50 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         </div>
       </div>
       <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
-        {Pending && Pending.length === 0 ? (
+        {!selectedGroup.Tasks ? (
+          <Loader />
+        ) : selectedGroup.Tasks.pending.length === 0 ? (
           <div className="">
             <br />
-            <h1 className="text-l ml-5 ">No pending tasks</h1>
+            <h1 className="text-l ml-5 ">No Pending tasks</h1>
             <br />
           </div>
         ) : (
-          Pending?.filter((value) => {
-            if (searchInput === "") {
-              return value;
-            } else if (
-              value.taskName
-                .toLocaleLowerCase()
-                .includes(searchInput.toLocaleLowerCase()) ||
-              value.taskDescription
-                .toLocaleLowerCase()
-                .includes(searchInput.toLocaleLowerCase())
-            ) {
-              return value;
-            }
-          }).map((task) => {
-            return (
-              <div style={{ marginBottom: "2rem" }}>
-                <TaskCard
-                  groupId={GroupId}
-                  taskId={task.taskId}
-                  title={task.taskName}
-                  description={task.taskDescription}
-                  color="#DBEAFE"
-                  back={Back}
-                  multipleDelete={multipleDelete}
-                  addMultipleDelete={() =>
-                    addCardsToAddOrDelete(task.taskId, true)
-                  }
-                  removeMultipleDelete={() =>
-                    addCardsToAddOrDelete(task.taskId, false)
-                  }
-                />
-              </div>
-            );
-          })
+          selectedGroup.Tasks.pending
+            ?.filter((value: any) => {
+              if (searchInput === "") {
+                return value;
+              } else if (
+                value.taskName
+                  .toLocaleLowerCase()
+                  .includes(searchInput.toLocaleLowerCase()) ||
+                value.taskDescription
+                  .toLocaleLowerCase()
+                  .includes(searchInput.toLocaleLowerCase())
+              ) {
+                return value;
+              }
+            })
+            .map((task: any) => {
+              return (
+                <div style={{ marginBottom: "2rem" }}>
+                  <TaskCard
+                    groupId={selectedGroup.id}
+                    taskId={task.taskId}
+                    title={task.taskName}
+                    description={task.taskDescription}
+                    color="#DBEAFE"
+                    multipleDelete={multipleDelete}
+                    addMultipleDelete={() =>
+                      addCardsToAddOrDelete(task.taskId, true)
+                    }
+                    removeMultipleDelete={() =>
+                      addCardsToAddOrDelete(task.taskId, false)
+                    }
+                  />
+                </div>
+              );
+            })
         )}
       </div>
       <br />
@@ -574,47 +587,50 @@ const TaskListView: React.FC<TaskListViewProps | undefined> = ({
         </div>
       </div>
       <div className="p-2 2xl:p-10 xl:p-10 lg:p-10 md:p-10 w-full grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xm:grid-cols-1 gap-2  overflow-y-auto">
-        {Done && Done.length === 0 ? (
+        {!selectedGroup.Tasks ? (
+          <Loader />
+        ) : selectedGroup.Tasks.done.length === 0 ? (
           <div className="">
             <br />
-            <h1 className="text-l ml-5 ">No done tasks</h1>
+            <h1 className="text-l ml-5 ">No done Tasks</h1>
             <br />
           </div>
         ) : (
-          Done?.filter((value) => {
-            if (searchInput === "") {
-              return value;
-            } else if (
-              value.taskName
-                .toLocaleLowerCase()
-                .includes(searchInput.toLocaleLowerCase()) ||
-              value.taskDescription
-                .toLocaleLowerCase()
-                .includes(searchInput.toLocaleLowerCase())
-            ) {
-              return value;
-            }
-          }).map((task) => {
-            return (
-              <div style={{ marginBottom: "2rem" }}>
-                <TaskCard
-                  groupId={GroupId}
-                  taskId={task.taskId}
-                  title={task.taskName}
-                  description={task.taskDescription}
-                  color="#E6EE96"
-                  back={Back}
-                  multipleDelete={multipleDelete}
-                  addMultipleDelete={() =>
-                    addCardsToAddOrDelete(task.taskId, true)
-                  }
-                  removeMultipleDelete={() =>
-                    addCardsToAddOrDelete(task.taskId, false)
-                  }
-                />
-              </div>
-            );
-          })
+          selectedGroup.Tasks.done
+            ?.filter((value: any) => {
+              if (searchInput === "") {
+                return value;
+              } else if (
+                value.taskName
+                  .toLocaleLowerCase()
+                  .includes(searchInput.toLocaleLowerCase()) ||
+                value.taskDescription
+                  .toLocaleLowerCase()
+                  .includes(searchInput.toLocaleLowerCase())
+              ) {
+                return value;
+              }
+            })
+            .map((task: any) => {
+              return (
+                <div style={{ marginBottom: "2rem" }}>
+                  <TaskCard
+                    groupId={selectedGroup.taskGroupId}
+                    taskId={task.taskId}
+                    title={task.taskName}
+                    description={task.taskDescription}
+                    color="#E6EE96"
+                    multipleDelete={multipleDelete}
+                    addMultipleDelete={() =>
+                      addCardsToAddOrDelete(task.taskId, true)
+                    }
+                    removeMultipleDelete={() =>
+                      addCardsToAddOrDelete(task.taskId, false)
+                    }
+                  />
+                </div>
+              );
+            })
         )}
       </div>
     </>

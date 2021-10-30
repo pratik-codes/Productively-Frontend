@@ -567,7 +567,7 @@ const FlashCardSection = () => {
                           setisOpenFlashCardGroup(FlashCardGroup._id);
                           console.log(FlashCardGroup);
                         }}
-                        type="Flashcards"
+                        type="flashcard"
                         multipleDelete={multipleDelete}
                         addMultipleDelete={() =>
                           addCardsToAddOrDelete(FlashCardGroup._id, true)

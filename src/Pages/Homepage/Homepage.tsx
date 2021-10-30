@@ -28,9 +28,10 @@ import {
 
 export interface homepageProps {
   activeView: string;
+  match: any;
 }
 
-const Homepage: React.FC<any> = ({ activeView, match }) => {
+const Homepage: React.FC<homepageProps> = ({ activeView, match }) => {
   const [pageOpen, setPageOpen] = useState("Homepage");
 
   const showNavbarRedux: showNavBarReduxState = useSelector(
@@ -49,10 +50,10 @@ const Homepage: React.FC<any> = ({ activeView, match }) => {
         style={{ height: `${showNavbarRedux.show === true ? "90%" : "99%"}` }}
         className="flex align-center justify-center mx-auto"
       >
-        <div className=" mx-4 my-2 bg-white w-full rounded-xl flex">
+        <div className="mx-4 my-2 bg-white w-full rounded-xl flex">
           <div
             className={`mx-auto sidebar ${
-              showSidebarRedux.show === true ? "w-2/12" : "w-24 m-3"
+              showSidebarRedux.show === true ? "w-2/12" : "w-20 m-3"
             } mx-2 item-center grid-cols-2 mb-7 mt-2 border-r border-gray-300`}
           >
             <Link to="/homepage">

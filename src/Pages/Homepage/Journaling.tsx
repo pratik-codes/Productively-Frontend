@@ -549,7 +549,7 @@ const Journaling = () => {
                         description={journalGroup.groupDescription}
                         color="#E6EE96"
                         Open={() => setJournalListIsOpen(journalGroup._id)}
-                        type="Journals"
+                        type="Journaling"
                         multipleDelete={multipleDelete}
                         addMultipleDelete={() =>
                           addCardsToAddOrDelete(journalGroup._id, true)

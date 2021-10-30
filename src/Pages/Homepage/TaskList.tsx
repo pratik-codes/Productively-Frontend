@@ -17,13 +17,14 @@ import { RootStore } from "../../Redux/Store";
 
 import { gsap, TimelineLite, Power3 } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Route, Switch, useParams } from "react-router";
 gsap.registerPlugin(ScrollTrigger);
 
-const TaskList = () => {
+const TaskList: React.FC<any> = ({ match }) => {
   let [isOpen, setIsOpen] = useState(false);
   const [addGroupTitle, setaddGroupTitle] = useState("");
   const [addGroupDescription, setaddGroupDescription] = useState("");
-  const [taskListIsOpen, setTaskListIsOpen] = useState("");
+  const [taskListIsOpen, setTaskListIsOpen] = useState(false);
   const [taskListData, setTaskListData] = useState<any>();
   const [multipleDelete, setMultipleDelete] = useState(false);
   const [cardsToDelete, setCardsToDelete] = useState<string[]>([]);
@@ -36,6 +37,8 @@ const TaskList = () => {
 
   const dispatch = useDispatch();
   const { addToast } = useToasts();
+
+  const params: any = useParams();
 
   function closeModal() {
     setIsOpen(false);
@@ -63,6 +66,10 @@ const TaskList = () => {
       0.15
     );
   }, [t1]);
+
+  const selectTaskgroup = (Id: string) => {
+    setTaskListIsOpen(true);
+  };
 
   const addTaskGroupHandler = async () => {
     if (addGroupDescription || addGroupTitle) {
@@ -114,39 +121,23 @@ const TaskList = () => {
   }, []);
 
   useEffect(() => {
-    if (taskListIsOpen !== "") {
-      const groupId = taskListIsOpen;
-
-      const groupdata = TaskListGroups.data.find(
-        (task) => task.taskGroupId === groupId
-      );
-
-      const stateData = {
-        GroupId: groupdata?.taskGroupId,
-        GroupName: groupdata?.taskGroupName,
-        GroupDescription: groupdata?.taskGroupDescription,
-        Pending: groupdata?.tasks.Pending,
-        done: groupdata?.tasks.done,
-        Back: () => setTaskListIsOpen(""),
-      };
-      setTaskListData(stateData);
+    if (params.groupId) {
+      setTaskListIsOpen(true);
+    } else {
+      setTaskListIsOpen(false);
     }
-  }, [taskListIsOpen]);
+    console.log(taskListIsOpen);
+  }, [params]);
 
   return (
     <div className="h-full overflow-y-auto">
-      {taskListIsOpen !== "" && (
-        <TaskListView
-          GroupId={taskListData?.GroupId}
-          GroupName={taskListData?.GroupName}
-          GroupDescription={taskListData?.GroupDescription}
-          Pending={taskListData?.Pending}
-          Done={taskListData?.done}
-          // Back={() => setTaskListIsOpen("")}
-          Back={setTaskListIsOpen}
+      <Switch>
+        <Route
+          path="/tasklist/:groupId"
+          component={() => <TaskListView groupId={params.groupId} />}
         />
-      )}
-      {taskListIsOpen === "" && (
+      </Switch>
+      {taskListIsOpen === false && (
         <div>
           <div className="flex justify-between w-6/6 pt-10 mx-5 2xl:mx-10 xl:mx-10 l:mx-10 md:mx-10 mt-5 2xl:mt-10 xl:mt-10 l:mt-10 md:mt-10">
             <div className="flex">
@@ -555,8 +546,8 @@ const TaskList = () => {
                         title={taskGroup.taskGroupName}
                         description={taskGroup.taskGroupDescription}
                         color="#B095F6"
-                        Open={() => setTaskListIsOpen(taskGroup.taskGroupId)}
-                        type="Tasks"
+                        Open={() => selectTaskgroup(taskGroup.taskGroupId)}
+                        type="tasklist"
                         multipleDelete={multipleDelete}
                         addMultipleDelete={() =>
                           addCardsToAddOrDelete(taskGroup.taskGroupId, true)

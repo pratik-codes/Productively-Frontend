@@ -19,7 +19,6 @@ interface RemainderComponentProps {
   color: string;
   groupId: string | undefined;
   taskId: string;
-  back: any;
   multipleDelete: boolean;
   addMultipleDelete: any;
   removeMultipleDelete: any;
@@ -31,7 +30,6 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
   title,
   description,
   color,
-  back,
   multipleDelete,
   addMultipleDelete,
   removeMultipleDelete,
@@ -82,7 +80,6 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
       });
       setTaskTitle("");
       setTaskDescription("");
-      back("");
     } else {
       console.log("aborting add");
 
@@ -100,7 +97,6 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
       autoDismiss: true,
     });
     await dispatch(getTaskList());
-    back("");
   };
 
   const deleteTaskHandler = async () => {
@@ -110,7 +106,6 @@ const TaskCard: React.FC<RemainderComponentProps> = ({
       autoDismiss: true,
     });
     dispatch(getTaskList());
-    back("");
   };
 
   useEffect(() => {

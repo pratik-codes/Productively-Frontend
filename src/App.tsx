@@ -19,6 +19,8 @@ import {
 } from "./Redux/Actions/userActions";
 import { RootStore } from "./Redux/Store";
 import { showNavBarReduxState } from "./Interfaces/Interfaces";
+import TaskList from "./Pages/Homepage/TaskList";
+import TaskListView from "./Components/TaskList/TaskListView";
 
 const App = () => {
   const [login, setLogin] = useState(true);
@@ -158,7 +160,7 @@ const App = () => {
 
         <Switch>
           {/* non protectedRoute */}
-          <Route exact path="/login" component={Login} />
+          <Route path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
 
@@ -175,8 +177,8 @@ const App = () => {
           />
           <ProtectedRoute
             loggedIn={login}
-            path="/:section/:groupId"
-            component={Homepage}
+            path="/tasklist/:groupId"
+            component={TaskListView}
           />
         </Switch>
       </ToastProvider>

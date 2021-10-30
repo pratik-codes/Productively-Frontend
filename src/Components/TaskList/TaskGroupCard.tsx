@@ -21,6 +21,7 @@ import {
   editJournalGroup,
   getJournalGroupList,
 } from "../../Redux/Actions/JournalActions";
+import { Link } from "react-router-dom";
 
 interface RemainderComponentProps {
   id: string;
@@ -84,7 +85,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
   }, []);
 
   const editTaskGroupDetailsHandler = async () => {
-    if (type === "Tasks") {
+    if (type === "tasklist") {
       if (!taskGroupTitle || !taskGroupDescription) {
         addToast("Title, description cant be empty.", {
           appearance: "error",
@@ -99,7 +100,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
         dispatch(getTaskList());
       }
     }
-    if (type === "Flashcards") {
+    if (type === "flashcard") {
       if (!taskGroupTitle || !taskGroupDescription) {
         addToast("Title, description cant be empty.", {
           appearance: "error",
@@ -116,7 +117,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
         dispatch(getFlashcardGroupList());
       }
     }
-    if (type === "Journals") {
+    if (type === "Journaling") {
       console.log("inside journals function");
       if (!taskGroupTitle || !taskGroupDescription) {
         addToast("Title, description cant be empty.", {
@@ -137,7 +138,7 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
   };
 
   const deleteTaskGroupHandler = async () => {
-    if (type === "Tasks") {
+    if (type === "tasklist") {
       await dispatch(deleteTaskGroup(id));
       addToast("taskgroup deleted successfully.", {
         appearance: "error",
@@ -200,25 +201,27 @@ const TaskGroupCard: React.FC<RemainderComponentProps> = ({
         <br></br>
         <div className="flex justify-between">
           <div className="my-auto mt-4">
-            <button
-              onClick={Open}
-              className="bg-black text-white font-bold py-1 px-4 rounded ml-4 hover:bg-gray-700 transition duration-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <Link to={`/${type}/${id}`}>
+              <button
+                onClick={Open}
+                className="bg-black text-white font-bold py-1 px-4 rounded ml-4 hover:bg-gray-700 transition duration-500"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </button>
+            </Link>
           </div>
           <div className="flex justify-between">
             <div className="flex">

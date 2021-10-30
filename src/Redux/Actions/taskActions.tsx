@@ -30,6 +30,9 @@ import {
   USER_TASK_GROUP_DETAILS_EDIT_FAIL,
   USER_TASK_GROUP_DETAILS_EDIT_REQUEST,
   USER_TASK_GROUP_DETAILS_EDIT_SUCCESS,
+  USER_TASK_GROUP_DETAILS_FAIL,
+  USER_TASK_GROUP_DETAILS_REQUEST,
+  USER_TASK_GROUP_DETAILS_SUCCESS,
   USER_TASK_REQUEST,
   USER_TASK_SUCCESS,
 } from "../Constants/Tasks.constants";
@@ -65,6 +68,44 @@ export const getTaskList = () => async (dispatch: Dispatch) => {
     });
   }
 };
+
+export const getTaskGroupTaskList =
+  (taskGroupId: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({
+        type: USER_TASK_GROUP_DETAILS_REQUEST,
+      });
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      // hitting REMAINDER api
+      const { data } = await Axios.get(
+        `${baseURL}taskgroup/${taskGroupId}`,
+        config
+      );
+      // only make success if the response is success
+      if (data.statusCode === 200) {
+        dispatch({
+          type: USER_TASK_GROUP_DETAILS_SUCCESS,
+          payload: data.data,
+        });
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_TASK_GROUP_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const addTaskGroup =
   (groupName: string, groupDescription: string) =>
