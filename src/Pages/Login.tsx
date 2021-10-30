@@ -110,6 +110,15 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <div className="absolute bottom-0 2xl:bottom-0 xl:bottom-0 l:bottom-0 md:bottom-0 right-0 mx-3 my-3">
+        <p className="invisible 2xl:visible xl:visible l:visible md:visible mr-3 inline-flex justify-center px-2 py-1 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-2xl">
+          Test user:
+          <br />
+          Email: testuser@example.com
+          <br />
+          Password: testuser
+        </p>
+      </div>
     </div>
   );
 };
