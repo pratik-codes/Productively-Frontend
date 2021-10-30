@@ -20,7 +20,7 @@ const ForgotPassword = () => {
         </div>
 
         {/* right section */}
-        <div className="w-7/12 mx-auto mb-5">
+        <div className="w-12/12 2xl:w-7/12 xl:w-7/12 l:w-7/12 md:w-7/12 mx-auto mb-5">
           {resetMailSend === false && (
             <SendResetEmailForm
               setUserEmailId={(email: string) => setUserEmail(email)}

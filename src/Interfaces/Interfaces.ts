@@ -20,6 +20,11 @@ export interface LoginReduxState {
   };
 }
 
+export interface showNavBarReduxState {
+  loading: boolean;
+  show: boolean;
+}
+
 export interface userObjectBackendResponse {
   _id: string;
   name: string;

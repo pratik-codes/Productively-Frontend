@@ -5,6 +5,7 @@ interface SideBarCardProps {
   icon: any;
   activeTab: string;
   margin: number;
+  showTitle: boolean;
 }
 
 const SidebarCard: React.FC<SideBarCardProps> = ({
@@ -12,6 +13,7 @@ const SidebarCard: React.FC<SideBarCardProps> = ({
   icon,
   activeTab,
   margin,
+  showTitle,
 }) => {
   return (
     <div
@@ -20,21 +22,23 @@ const SidebarCard: React.FC<SideBarCardProps> = ({
         marginTop: `${margin}rem`,
         marginBottom: `${margin}rem`,
       }}
-      className="flex mx-5  bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500"
+      className="flex mx-5 justify-center bg-gray-200 rounded-md h-11 w-9/12 cursor-pointer hover:bg-gray-300 transition duration-500 mx-auto "
     >
-      <div className="flex items-center w-4/10">
+      <div className="flex justify-center items-center w-4/10">
         <div
           style={{ marginTop: `${margin !== 2 ? 0.8 : -0.5}rem` }}
-          className="flex justify-center align-middle mx-2 2xl:mx-4 xl:mx-4 l:mx-4 md:mx-4 w-10 h-10  md:h-5 md:h-5  text-gray-700"
+          className="flex justify-center align-middle mx-2 2xl:mx-4 xl:mx-4 l:mx-4 md:mx-4 w-10 h-10  md:h-5 md:h-5 mx-auto text-gray-700"
         >
           {icon}
         </div>
       </div>
-      <div className="w-8/12 flex items-center justify-start align-middle">
-        <h3 className=" font-sans text-sm 2xl:text-md xl:text-md l:text-md md:text-md  font-bold text-gray-700">
-          {title}
-        </h3>
-      </div>
+      {showTitle === true && (
+        <div className="w-8/12 flex items-center justify-start align-middle">
+          <h3 className=" font-sans text-sm 2xl:text-md xl:text-md l:text-md md:text-md  font-bold text-gray-700">
+            {title}
+          </h3>
+        </div>
+      )}
     </div>
   );
 };

@@ -28,7 +28,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="flex justify-center w-full h-14 mt-2 align-center ">
+    <div className="flex justify-center w-full h-14 mt-2 align-center">
       {/* Mobile NavBar */}
       <div className="mobile NavContainer 2xl:hidden xl:hidden l:hidden md:flex sm:flex justify-between sm:w-6/6 h-13">
         <div className="flex mr-2">
@@ -59,7 +59,7 @@ export default function NavBar() {
             <img className="h-7" src={Productively} alt="logo" />
           </div>
           <div className="grid-cols-8">
-            <Link to="/">
+            <Link to="/homepage">
               <button className="focus:outline-none px-2 py-2.5">
                 <h2 className="font-bold md:text-sm sm:text-sm">
                   PRODUCTIVELY
